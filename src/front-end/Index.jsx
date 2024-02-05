@@ -20,7 +20,9 @@ import group1 from "../assets/Group 4.png";
 import group2 from "../assets/Frame 11585.png";
 import group3 from "../assets/Frame 12148 (1).png";
 import BlogCommon from "./common/blogcommon/BlogCommon";
+import ServiceBtn from "./common/ServiceBtn";
 import './common.css';
+import { SERVICES } from "../constants";
 
 export const Index = (props) => {
   const headerMenu = useSelector((state) => state.headerMenuReducer);
@@ -79,28 +81,37 @@ export const Index = (props) => {
                   />
                   <img
                     src="/assets/img/provider-card-sample.png"
-                    className="absolute w-[40rem] bottom-0 -left-[15rem]" */}
-                  {/* /> */}
+                    className="absolute w-[40rem] bottom-0 -left-[15rem]"
+                  /> */}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="nav">
-                <div className="nav-data px-4">
-                    <h4 className="flex items-center">Popular : </h4>
-                    <div className="divbtn1" style={{display:'flex', gap:"20px"}}>
-                    <button className='btn'>Handyman Services</button>
-                    <button className='btn'>Home Cleaning</button>
-                    </div>
-                   <div className="divbtn2 pt-2" style={{display:'flex', gap:"20px"}}>
-                   <button className='btn'>Electricity</button>
-                    <button className='btn'>Computers</button>
-                   </div>
-                    
-                </div>
-              </div>
+      <section className="py-32">
+        <div className="container">
+
+        </div>
+      </section>
+      <div
+        className="h-[100vh] bg-cover flex flex-col justify-center items-center"
+        style={{ backgroundImage: "url('/assets/img/service-bg.png')" }}
+      >
+        <h1 className="text-white text-3xl sm:text-4xl text-center tracking-widest leading-snug uppercase max-w-[1050px] m-5">
+          Our technology is build for
+          every daily life business owner to go
+          further and faster
+        </h1>
+        <div className="flex flex-wrap max-w-[1100px] m-3 p-4">
+          {SERVICES.map((service) =>
+            <ServiceBtn value={service} key={service} />
+          )}
+        </div>
+        <div className="flex mt-5 w-[320px]">
+          <ServiceBtn value="See how it works" />
+        </div>
+      </div>
       <section className="py-32 bg-gray-50" id={"popular-services"}>
         <div className="container">
           <PopularServices services={headerMenu} />
@@ -108,7 +119,7 @@ export const Index = (props) => {
       </section>
 
       <section className="my-5">
-        <img src={talentimg} alt="img" style={{margin:'auto'}}  />
+        <img src={talentimg} alt="img" style={{ margin: 'auto' }} />
         <div
           className="container"
           style={{ marginTop: "15rem ", marginBottom: "15rem" }}
@@ -173,7 +184,7 @@ export const Index = (props) => {
               src="/assets/img/mobile-app.png"
               className="img-fluid w-[54rem] "
             />
-            <div className="text-white" style={{marginTop:'20px'}}>
+            <div className="text-white" style={{ marginTop: '20px' }}>
               <h1 className="text-white text-5xl font-bold">
                 Download the Farenow App
               </h1>
@@ -260,7 +271,7 @@ export const Index = (props) => {
         </div>
       </div>
     */}
-    <BlogCommon/>
+      <BlogCommon />
       <section className="our-partners-sec pad-y bg-gray-50 mt-10">
         <div className="container">
           <div className="row">
@@ -295,43 +306,43 @@ export const Index = (props) => {
         </div>
       </section>
 
-      <div style={{backgroundColor:'rgba(0, 94, 203, 0.2)',height:'680px',display:'flex',justifyContent:'center',alignItems:'center'}}>
-      <section className="five-star-sec py-20 bg-[#005ECB] relative" style={{width:'1224px',borderRadius:'10px',height:'550px'}}>
-        <img
-          src="/assets/img/pro-back1.png"
-          className="absolute left-0 top-0"
-        />
-        <img
-          src="/assets/img/pro-back2.png"
-          className="absolute right-0 bottom-0"
-        />
-        <div className="container d-flex flex-wrap justify-between items-center px-8 amig ">
-          <div className="md:basis-1/2">
-            <h1 className="text-white text-[4rem] font-medium my-8">
-              Are You a Five Star Professional?
-            </h1>
-            <p className="text-xl text-gray-100 mb-16">
-              From cleaners to handymen to smart home installers, Farenow is
-              always looking for service professionals who are experts in their
-              trade and provide great service to their customers. The best home
-              service professionals use Farenow for the great pay and flexible
-              scheduling.
-            </p>
-            <Link
-              to="/provider/registration"
-              className="fare-btn fare-btn-outline-primary fare-btn-lg my-8"
-            >
-              Become a Farenow Pro
-            </Link>
-          </div>
+      <div style={{ backgroundColor: 'rgba(0, 94, 203, 0.2)', height: '680px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <section className="five-star-sec py-20 bg-[#005ECB] relative" style={{ width: '1224px', borderRadius: '10px', height: '550px' }}>
           <img
-            src="/assets/img/pro-img.png"
-            className="float-right img-fluid relative "
+            src="/assets/img/pro-back1.png"
+            className="absolute left-0 top-0"
           />
-        </div>
-      </section> 
+          <img
+            src="/assets/img/pro-back2.png"
+            className="absolute right-0 bottom-0"
+          />
+          <div className="container d-flex flex-wrap justify-between items-center px-8 amig ">
+            <div className="md:basis-1/2">
+              <h1 className="text-white text-[4rem] font-medium my-8">
+                Are You a Five Star Professional?
+              </h1>
+              <p className="text-xl text-gray-100 mb-16">
+                From cleaners to handymen to smart home installers, Farenow is
+                always looking for service professionals who are experts in their
+                trade and provide great service to their customers. The best home
+                service professionals use Farenow for the great pay and flexible
+                scheduling.
+              </p>
+              <Link
+                to="/provider/registration"
+                className="fare-btn fare-btn-outline-primary fare-btn-lg my-8"
+              >
+                Become a Farenow Pro
+              </Link>
+            </div>
+            <img
+              src="/assets/img/pro-img.png"
+              className="float-right img-fluid relative "
+            />
+          </div>
+        </section>
       </div>
-      
+
 
 
 

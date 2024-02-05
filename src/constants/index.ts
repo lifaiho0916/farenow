@@ -22,3 +22,16 @@ export const APP_STORE = {
   provider: "https://apps.apple.com/il/app/farenow-provider/id1638701698",
   user: "https://apps.apple.com/il/app/farenow/id1638701755",
 };
+export const SERVICES = [
+  'Accounting/finance',
+  'Central Air Condition',
+  'Cleaning Services',
+  'Electrical Services',
+  'Events',
+  'Graphics & Design',
+  'Lifestyle',
+  'Handyman Services',
+  'Message',
+  'Pest Control',
+  'Programing & Tech'
+]
