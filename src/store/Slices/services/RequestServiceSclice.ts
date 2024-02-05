@@ -98,14 +98,16 @@ export const postRequestService = (payload, formData) => async (dispatch) => {
       Authorization: `${localStorage.userToken}`,
     };
   }
-  console.log(headers);
   try {
     dispatch(requestService({ error: false, loading: true }));
-
+    let url = `${process.env.REACT_APP_API_BASE_URL}/api/user/services/service-request`;
+    if (payload.payMethod === "Flutterwave") {
+      url = `${process.env.REACT_APP_API_BASE_URL}/api/flutterwave/services/service-request`;
+    }
     const response = await axios({
       method: "post",
       headers: headers,
-      url: `${process.env.REACT_APP_API_BASE_URL}/api/user/services/service-request`,
+      url: url,
       data: payload,
     });
     const data = response.data;
@@ -220,3 +222,4 @@ export const getServiceRequest = (id) => async (dispatch) => {
 export const getInitialRequestService = () => async (dispatch) => {
   dispatch(requestService(""));
 };
+

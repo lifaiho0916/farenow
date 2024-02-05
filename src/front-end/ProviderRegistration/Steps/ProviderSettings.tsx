@@ -360,7 +360,7 @@
 //     </div>
 //   );
 // }
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import RadioBoxButton from "../../../components/button.radio";
@@ -369,6 +369,7 @@ import { RootState } from "../../../store";
 import { clsx } from "clsx";
 import CheckBoxButton from "../../../components/button.checkbox";
 import LocationInput from "../../../components/input.location";
+import { useLocation } from "react-router-dom";
 
 export const ProviderSettingSection: React.FC<
   React.PropsWithChildren<{ title: string; subTitle: string }>
@@ -383,8 +384,6 @@ export const ProviderSettingSection: React.FC<
   );
 };
 type RoleType = "Individual" | "Business";
-
-
 
 //chnage
 type ServicesType = "Quotationbased" | "Hourlybased";
@@ -413,6 +412,18 @@ export interface IProviderSettingsProps {
 
 export default function ProviderSettings(props: IProviderSettingsProps) {
   const [, _refresh] = useState({});
+
+  const allCountry = useSelector((state: any) => state?.allCountryReducer);
+  const [currency_symbol, setCurrencySymbol] = useState("₦");
+
+  useEffect(() => {
+    for (let index = 0; index < allCountry.countries.length; index++) {
+      const element = allCountry.countries[index];
+      if (element.id == localStorage.getItem("country")) {
+        setCurrencySymbol(element?.currency_symbol);
+      }
+    }
+  }, [allCountry]);
 
   const refresh = () => {
     _refresh({});
@@ -445,8 +456,9 @@ export default function ProviderSettings(props: IProviderSettingsProps) {
             required: true,
           })}
           label="First Name"
-          placeholder="Enter your first name" 
-          error={errors.first_name && "First Name is required"} style={{fontWeight:'500',color:'black',}}
+          placeholder="Enter your first name"
+          error={errors.first_name && "First Name is required"}
+          style={{ fontWeight: "500", color: "black" }}
         />
         <CommonInput
           {...register("last_name", {
@@ -455,12 +467,13 @@ export default function ProviderSettings(props: IProviderSettingsProps) {
           label="Last Name"
           placeholder="Enter your last name"
           error={errors.last_name && "Last Name is required"}
-          style={{fontWeight:'500',color:'gray'}}
+          style={{ fontWeight: "500", color: "gray" }}
         />
       </div>
     </ProviderSettingSection>
   );
   const spendArray = [1, 100, 500, 1000];
+
   const SpendSection = (
     <ProviderSettingSection
       title="How much do you spend each month on online marketing"
@@ -469,10 +482,10 @@ export default function ProviderSettings(props: IProviderSettingsProps) {
       <div className="flex flex-col gap-4">
         {spendArray.map((minSpend, index) => {
           const text =
-            `$${minSpend} ` +
+            `${currency_symbol}${minSpend} ` +
             (index == spendArray.length - 1
               ? `and above`
-              : `- $${spendArray[index + 1]}`);
+              : `- ${currency_symbol}${spendArray[index + 1]}`);
           return (
             <RadioBoxButton
               text={text}
@@ -528,43 +541,41 @@ export default function ProviderSettings(props: IProviderSettingsProps) {
       </div>
     </ProviderSettingSection>
   );
-//
-const servicesNames: Record<ServicesType, string> = {
-        Quotationbased: "Quotation based",
-        Hourlybased: "Hourly based",
-};
-const ServicesSection = (
-  <ProviderSettingSection
-    title="Choose your service"
-    subTitle="Let’s help you find customers."
-  >
-    <div className="flex flex-col gap-4">
-      {["Quotationbased", "Hourlybased"].map((role: ServicesType, index) => {
-        return (
-          <RadioBoxButton
-            text={servicesNames[role]}
-            shadow={false}
-            checked={role == getValues().typeS}
-            onChange={() => {
-              setValue("typeS", role);
-            }}
-            className="py-4 bg-primary-light border-none rounded-3xl"
-          />
-        );
-      })}
-      <CommonInput
-        {...register("type", {
-          required: true,
+  //
+  const servicesNames: Record<ServicesType, string> = {
+    Quotationbased: "Quotation based",
+    Hourlybased: "Hourly based",
+  };
+  const ServicesSection = (
+    <ProviderSettingSection
+      title="Choose your service"
+      subTitle="Let’s help you find customers."
+    >
+      <div className="flex flex-col gap-4">
+        {["Quotationbased", "Hourlybased"].map((role: ServicesType, index) => {
+          return (
+            <RadioBoxButton
+              text={servicesNames[role]}
+              shadow={false}
+              checked={role == getValues().typeS}
+              onChange={() => {
+                setValue("typeS", role);
+              }}
+              className="py-4 bg-primary-light border-none rounded-3xl"
+            />
+          );
         })}
-        type="hidden"
-        error={errors.type && "Select one of the values."}
-      />
-    </div>
-  </ProviderSettingSection>
-);
-//end
-
-
+        <CommonInput
+          {...register("type", {
+            required: true,
+          })}
+          type="hidden"
+          error={errors.type && "Select one of the values."}
+        />
+      </div>
+    </ProviderSettingSection>
+  );
+  //end
 
   const [activeService, setActiveService] = useState<IMenu>();
   const selectedServices =
@@ -742,7 +753,10 @@ const ServicesSection = (
   const handleForm = (value) => {};
   return (
     <div className="px-8 flex flex-col gap-4 relative">
-      <div className="text-xs px-4 py-2 bg-gray-100 text-primary rounded-pill absolute -top-[1rem] -right-[1rem] " style={{fontWeight:'600'}}>
+      <div
+        className="text-xs px-4 py-2 bg-gray-100 text-primary rounded-pill absolute -top-[1rem] -right-[1rem] "
+        style={{ fontWeight: "600" }}
+      >
         Step {step + 1} of {slides.length}
       </div>
       <div>
@@ -769,3 +783,4 @@ const ServicesSection = (
     </div>
   );
 }
+

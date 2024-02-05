@@ -23,8 +23,9 @@ import notificationSlice from "./Slices/notification";
 import commonSlice from "./Slices/common";
 import QuestionAnswersSlice from "./Slices/services/QuestionAnswersSlice";
 import blogSlice from "./Slices/blog/blogSlice";
-import countryslice from './Slices/countryslice/countryslice'
-
+import countryslice from "./Slices/countryslice/countryslice";
+import hoursSlice from "./Slices/hours/hoursSlice";
+import allCountrySlice from "./Slices/countryslice/allCountrySlice";
 
 const reducers = combineReducers({
   commonReducer: commonSlice,
@@ -51,8 +52,10 @@ const reducers = combineReducers({
   registrationReducer: registrationSlice,
   notificationReducer: notificationSlice,
   blogReducer: blogSlice,
-  countryReducer:countryslice
-
+  countryReducer: countryslice,
+  hourReducer: hoursSlice,
+  allCountryReducer: allCountrySlice,
 });
 
 export default reducers;
+

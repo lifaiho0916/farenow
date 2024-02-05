@@ -28,6 +28,7 @@ import { handleBackendEvents } from "./helper/backend-events";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { QueryClient, QueryClientProvider } from "react-query";
 // import { useJsApiLoader } from "@react-google-maps/api";
+import ReactPixel from "react-facebook-pixel";
 
 const stripePromise = loadStripe(process.env.React_APP_STRIPE_PUBLIC_KEY);
 const paypalClientID = process.env.REACT_APP_PAYPAL_CLIENT_ID;
@@ -48,28 +49,36 @@ if (typeof window.io != "undefined") {
   window.Echo = new Echo(liveOption);
 }
 
-(function (d, s, id) {
-  var js,
-    fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {
-    return;
-  }
-  js = d.createElement(s);
-  js.id = id;
-  js.src = "https://connect.facebook.net/en_US/sdk.js";
-  fjs.parentNode.insertBefore(js, fjs);
-})(document, "script", "facebook-jssdk");
+// (function (d, s, id) {
+//   var js,
+//     fjs = d.getElementsByTagName(s)[0];
+//   if (d.getElementById(id)) {
+//     return;
+//   }
+//   js = d.createElement(s);
+//   js.id = id;
+//   js.src = "https://connect.facebook.net/en_US/sdk.js";
+//   fjs.parentNode.insertBefore(js, fjs);
+// })(document, "script", "facebook-jssdk");
 
-window.fbAsyncInit = function () {
-  window.FB.init({
-    appId: React_APP_FACEBOOK_APP_AD,
-    cookie: true,
-    xfbml: true,
-    version: "v14.0",
-  });
+// window.fbAsyncInit = function () {
+//   window.FB.init({
+//     appId: React_APP_FACEBOOK_APP_AD,
+//     cookie: true,
+//     xfbml: true,
+//     version: "v14.0",
+//   });
 
-  window.FB.AppEvents.logPageView();
+//   window.FB.AppEvents.logPageView();
+// };
+
+const advancedMatching = { em: "some@email.com" }; // optional, more info: https://developers.facebook.com/docs/facebook-pixel/advanced/advanced-matching
+const options = {
+  autoConfig: true, // set pixel's autoConfig. More info: https://developers.facebook.com/docs/facebook-pixel/advanced/
+  debug: false, // enable logs
 };
+ReactPixel.init(React_APP_FACEBOOK_APP_AD, advancedMatching, options);
+// ReactPixel.pageView();
 
 const stripeElementsAppearance = {
   theme: "night",
@@ -90,9 +99,9 @@ const stripeElementsAppearance = {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false
-    }
-  }
+      refetchOnWindowFocus: false,
+    },
+  },
 });
 
 function App() {
@@ -240,3 +249,4 @@ function App() {
 }
 
 export default App;
+

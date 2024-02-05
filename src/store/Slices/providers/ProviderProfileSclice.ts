@@ -27,6 +27,8 @@ export const getProviderProfile = (id) => async (dispatch) => {
     });
     //handle success
     let profileData = response.data;
+    console.log(profileData);
+
     profileData.loading = false;
     profileData.data.feedbacks = [];
 
@@ -55,7 +57,7 @@ export const getProviderProfile = (id) => async (dispatch) => {
   }
 };
 
-export const getProviderProfileByName = (name) => async (dispatch) => {
+export const getProviderProfileByName = (id) => async (dispatch) => {
   dispatch(getProvider({ error: false, loading: true }));
   try {
     const response = await axios({
@@ -63,7 +65,7 @@ export const getProviderProfileByName = (name) => async (dispatch) => {
       // headers: {
       //     Authorization: `Bearer ${localStorage.userToken}`
       // },
-      url: process.env.REACT_APP_API_BASE_URL + `/api/user/provider/username/${name}`,
+      url: process.env.REACT_APP_API_BASE_URL + `/api/user/provider/${id}`,
     });
     //handle success
     let profileData = response.data;
@@ -94,3 +96,4 @@ export const getProviderProfileByName = (name) => async (dispatch) => {
     dispatch(getProvider(error.response.data));
   }
 };
+

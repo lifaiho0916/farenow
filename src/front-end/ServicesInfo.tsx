@@ -1,7 +1,7 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation, Redirect, useParams } from 'react-router-dom';
-import { RootState } from 'store';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useLocation, Redirect, useParams } from "react-router-dom";
+import { RootState } from "store";
 import Loading from "front-end/common/Loading";
 import clsx from "clsx";
 import LocationInput from "components/input.location";
@@ -9,19 +9,24 @@ import {
   getServiceQuestion,
   ServiceState,
 } from "../store/Slices/services/ServiceSclice";
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet";
 import ServiceWizard from "./Services/services.wizard";
 import { HOST } from "../constants";
 import axios from "axios";
 
-export interface IServicesInfoProps {
-}
+export interface IServicesInfoProps {}
 
 export default function ServicesInfo(props: IServicesInfoProps) {
   // console.log("stname", stName);
   // let { service, subService,stName } = useParams<{ service: string, subService: string }>();
-  let { service, subService, stName } = useParams<{ service: string, subService: string, stName: string }>();
-  const services = useSelector<RootState, IMenu[]>(state => state.headerMenuReducer);
+  let { service, subService, stName } = useParams<{
+    service: string;
+    subService: string;
+    stName: string;
+  }>();
+  const services = useSelector<RootState, IMenu[]>(
+    (state) => state.headerMenuReducer
+  );
   // console.log('services ===>', services)
   // console.log('subServices ====>', subService)
   // console.log("service ====>",service)
@@ -31,12 +36,16 @@ export default function ServicesInfo(props: IServicesInfoProps) {
   subService = subService.toLowerCase();
   // console.log('subServiceslnk ====>', subService)
 
-
-  const matchingService = services.find(s => s.name.toLowerCase().replace(" ", "-") == service);
+  const matchingService = services.find(
+    (s) => s.name.toLowerCase().replace(" ", "-") == service
+  );
   // console.log('matchService =====>', matchingService)
-  const matchingSubService = matchingService?.sub_services.find(s => s.name.replace(/[' ']/g, '-').replace('/','-').toLowerCase()== subService);
+  const matchingSubService = matchingService?.sub_services.find(
+    (s) =>
+      s.name.replace(/[' ']/g, "-").replace("/", "-").toLowerCase() ==
+      subService
+  );
   // console.log(`matchingSubService`, matchingSubService);
-
 
   // service = service.toLowerCase();
   // subService = subService.toLowerCase();
@@ -48,11 +57,13 @@ export default function ServicesInfo(props: IServicesInfoProps) {
   // console.log(`matchingSubService =======>`, matchingSubService);
 
   const _location = useLocation();
-  console.log('my location obj ',_location)
+  console.log("my location obj ", _location);
   const searchParams = new URLSearchParams(_location.search);
   const subServiceId = matchingSubService?.id;
   const serviceId = matchingService?.id;
-  const [placeId, setPlaceId] = React.useState(searchParams.get("place_id") || "");
+  const [placeId, setPlaceId] = React.useState(
+    searchParams.get("place_id") || ""
+  );
   const zipCode = searchParams.get("zip_code") || "";
   // alert(placeId);
 
@@ -65,12 +76,12 @@ export default function ServicesInfo(props: IServicesInfoProps) {
   // console.log("++++++++++++++++++++++++++",serviceData?.data.service_contents);
 
   const [locationData, setLocationData] = React.useState<ILocation>();
-  const [stateName, setStateName] = React.useState('');
+  const [stateName, setStateName] = React.useState("");
 
-  const getPlaceId = async(stName) => {
+  const getPlaceId = async (stName) => {
     let city_name = stName; // State Name
-    let country_code = 'US'; // Country Code
-    let key =  process.env.React_APP_GOOGLE_API; // Google Api Key
+    let country_code = "US"; // Country Code
+    let key = process.env.React_APP_GOOGLE_API; // Google Api Key
 
     let query = `https://maps.googleapis.com/maps/api/geocode/json?address=${city_name}&components=country:${country_code}&location_type=GEOMETRIC_CENTER&key=${key}&sensor=false`;
     await axios({
@@ -79,16 +90,16 @@ export default function ServicesInfo(props: IServicesInfoProps) {
     })
       .then((response) => {
         let data = response.data;
-        console.log('success', data['results'][0]['place_id']);
-        setPlaceId(data['results'][0]['place_id']);
+        console.log("success", data["results"][0]["place_id"]);
+        setPlaceId(data["results"][0]["place_id"]);
       })
       .catch((error) => {
         let data = error.response.data;
-        console.log('error', data);
+        console.log("error", data);
       });
-  }
+  };
 
-  if(stName) getPlaceId(stName)
+  if (stName) getPlaceId(stName);
 
   const getProviders = () => {
     let url = `/service-providers?subService=${subServiceId}`;
@@ -98,7 +109,7 @@ export default function ServicesInfo(props: IServicesInfoProps) {
   };
 
   React.useEffect(() => {
-    console.log("dispatch ready")
+    console.log("dispatch ready");
     dispatch(getServiceQuestion(subServiceId));
     window.scrollTo({
       top: 0,
@@ -117,7 +128,11 @@ export default function ServicesInfo(props: IServicesInfoProps) {
           onChange={(value) => {
             console.log(`value ====>`, value);
             setLocationData({ placeId: value.value });
-            setStateName(value['address_components'][0]['long_name'].toLowerCase().replace(' ', '-'));
+            setStateName(
+              value["address_components"][0]["long_name"]
+                .toLowerCase()
+                .replace(" ", "-")
+            );
           }}
           defaultValue={zipCode}
         />
@@ -125,7 +140,10 @@ export default function ServicesInfo(props: IServicesInfoProps) {
           className="fare-btn fare-btn-primary fare-btn-lg"
           disabled={!locationData}
           onClick={() => {
-            console.log('path x',   `/${service}/${subService}/${stateName}?${_location.search}`)
+            console.log(
+              "path x",
+              `/${service}/${subService}/${stateName}?${_location.search}`
+            );
             history.push(
               `/${service}/${subService}/${stateName}?${_location.search}`
             );
@@ -144,24 +162,20 @@ export default function ServicesInfo(props: IServicesInfoProps) {
         <title>Farenow - {serviceData?.data?.name}</title>
         <meta name="description" content={serviceData?.data.terms} />
         <meta property="og:title" content={serviceData?.data.name} />
-        
+
         {serviceData?.data?.service_contents.map((content) => (
           <meta property="og:description" content={content.description} />
         ))}
         {serviceData?.data?.service_contents.map((content) => (
-          
           <meta property="og:image" content={content.image} />
         ))}
       </Helmet>
     );
-    
   }
 
   const loading = !services || services.length <= 0;
-  if(loading)
-    return (
-      <Loading loading backdrop={false} className={'h-[40rem]'} />
-    );
+  if (loading)
+    return <Loading loading backdrop={false} className={"h-[40rem]"} />;
   if (matchingSubService?.id)
     return (
       <>
@@ -172,30 +186,39 @@ export default function ServicesInfo(props: IServicesInfoProps) {
           )}
           {!serviceData?.loading && !placeId && locationSection}
           {placeId && serviceData?.data && (
-            <ServiceWizard service={serviceData.data} onComplete={getProviders} />
-          )}<br/>
+            <ServiceWizard
+              service={serviceData.data}
+              onComplete={getProviders}
+            />
+          )}
+          <br />
           <div className="row">
             <div className="col-2"></div>
             <div className="col-6">
               <div className="font-bold text-3xl text-dark tracking-[-2px] leading-tight">
-                <span>{serviceData?.data?.name}</span>
+                <h1>{serviceData?.data?.name}</h1>
               </div>
             </div>
           </div>
           {serviceData?.data?.service_contents.map((content, index) => (
             <div className="row">
               <div className="col-2"></div>
-              {index % 2 === 0 && <div className="col-4" style={{display: 'flex', alignItems: 'center'}}>
-                <div className="text-xl md:text-base text-dark mt-6 px-8">
-                  <span>{content.description}</span>
+              {index % 2 === 0 && (
+                <div
+                  className="col-4"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  <div className="text-xl md:text-base text-dark mt-6 px-8">
+                    <span>{content.description}</span>
+                  </div>
                 </div>
-              </div> }
-              <div className="col-4" style={{display: 'flex', alignItems: 'center'}}>
+              )}
+              <div
+                className="col-4"
+                style={{ display: "flex", alignItems: "center" }}
+              >
                 <img
-                  src={
-                    (content.image) && HOST + content.image ||
-                    ""
-                  }
+                  src={(content.image && HOST + content.image) || ""}
                   loading="lazy"
                   className="img-fluid"
                   alt=""
@@ -205,15 +228,21 @@ export default function ServicesInfo(props: IServicesInfoProps) {
                   }}
                 />
               </div>
-              {index % 2 === 1 && <div className="col-4" style={{display: 'flex', alignItems: 'center'}}>
-                <div className="text-xl md:text-base text-dark mt-6 px-8">
-                  <span>{content.description}</span>
+              {index % 2 === 1 && (
+                <div
+                  className="col-4"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  <div className="text-xl md:text-base text-dark mt-6 px-8">
+                    <span>{content.description}</span>
+                  </div>
                 </div>
-              </div> }
+              )}
             </div>
           ))}
         </div>
       </>
     );
-  return <Redirect to={'/404'} />
+  return <Redirect to={"/404"} />;
 }
+

@@ -13,8 +13,9 @@ interface IServiceRequestHourly {
     end: string;
   }[];
   card_id: string;
-  payMethod: "Card" | "Paypal";
+  payMethod: "Card" | "Paypal" | "Flutterwave";
   plan_id: number;
   order_paypal: any;
   checkoutPlan: boolean;
+  transaction_id: number;
 }

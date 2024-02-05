@@ -5,7 +5,7 @@
     <link rel="icon" href="%PUBLIC_URL%/assets/img/app-icon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta name="description" content="A description of the page">
+    <!-- <meta name="description" content="A description of the page"> -->
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/assets/img/app-icon.svg" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -114,11 +114,19 @@
     }
   </script>
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-75E7G33Z3H"></script>
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=G-75E7G33Z3H"
+  ></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-75E7G33Z3H');
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-75E7G33Z3H");
   </script>
+
+  <!-- End Facebook Pixel Code -->
 </html>
+

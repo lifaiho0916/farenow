@@ -4,12 +4,15 @@ import Loading from "./common/Loading";
 import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
 import { constant } from "lodash";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+import { Helmet } from "react-helmet";
 
 export const Page = (props) => {
   const [state, setState] = useState({});
+  const [metaData, setMetaData] = useState([]);
   let myPages = {
-    "articles":"Articles",
-    "about-us":"About",
+    articles: "Articles",
+    "about-us": "About",
     "privacy-policy": "Policy",
     "terms-conditions": "Terms And Condition",
     "contact-us": "Contact",
@@ -17,11 +20,9 @@ export const Page = (props) => {
   const params = useParams();
 
   const { name } = params;
-  console.log("my name is ", name);
 
   const pages = useSelector((state) => state?.footerReducer?.pages);
   const page = pages?.data?.find((page) => page.name === myPages[name]);
-  console.log("pages =====>", pages);
 
   useEffect(() => {
     if (name && page?.content) {
@@ -36,15 +37,39 @@ export const Page = (props) => {
     }
   }, [name, page?.title]);
 
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_BASE_URL}/api/seos`)
+      .then((res) => setMetaData(res.data));
+  }, []);
+  const metaInfo = metaData?.data?.find(
+    (meta) => meta.page_name === myPages[name]
+  );
+
+  let meta;
+  if (metaInfo) {
+    meta = (
+      <Helmet>
+        <title>Farenow - {metaInfo?.page_name}</title>
+        <meta name="description" content={`${metaInfo?.og_description}`} />
+        <meta property="og:title" content={metaInfo?.og_title} />
+        <meta property="og:image" content={metaInfo?.og_image} />
+      </Helmet>
+    );
+  }
+
   return (
-    <div className="container py-16">
-      <Loading loading={pages.loading}></Loading>
-      <div className="fare-card">
-        {/* <h1>{state?.title}</h1> */}
-        <hr className="my-3" />
-        <div className="text-sm px-6">
-          {!!state?.content && <Content {...{ content: state?.content }} />}
-          {pages.error && <div className="order-num">Not Found Data</div>}
+    <div>
+      {meta}
+      <div className="container py-16">
+        <Loading loading={pages.loading}></Loading>
+        <div className="fare-card">
+          {/* <h1>{state?.title}</h1> */}
+          <hr className="my-3" />
+          <div className="text-sm px-6">
+            {!!state?.content && <Content {...{ content: state?.content }} />}
+            {pages.error && <div className="order-num">Not Found Data</div>}
+          </div>
         </div>
       </div>
     </div>

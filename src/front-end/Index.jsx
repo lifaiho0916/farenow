@@ -54,7 +54,7 @@ export const Index = (props) => {
                     <span className="text-primary-main"> reliable</span> way to
                     take care of your home.
                   </div>
-                  <div className="text-xl md:text-base text-dark mt-6 px-8">
+                  <div className="text-xl md:text-base text-dark mt-6">
                     We make it easy for you to create the best experience for
                     your home.
                     <br /> Book for a handyman, get a professional service or
@@ -88,13 +88,13 @@ export const Index = (props) => {
         </div>
       </div>
       <div className="nav">
-                <div className="nav-data">
-                    <h4>Popular : </h4>
+                <div className="nav-data px-4">
+                    <h4 className="flex items-center">Popular : </h4>
                     <div className="divbtn1" style={{display:'flex', gap:"20px"}}>
                     <button className='btn'>Handyman Services</button>
                     <button className='btn'>Home Cleaning</button>
                     </div>
-                   <div className="divbtn2" style={{display:'flex', gap:"20px"}}>
+                   <div className="divbtn2 pt-2" style={{display:'flex', gap:"20px"}}>
                    <button className='btn'>Electricity</button>
                     <button className='btn'>Computers</button>
                    </div>
@@ -177,7 +177,7 @@ export const Index = (props) => {
               <h1 className="text-white text-5xl font-bold">
                 Download the Farenow App
               </h1>
-              <p className="text-base py-16">
+              <p className="text-base py-16 pr-[85px]">
                 Book and manage appointments, message your
                 pback-layerrofessional, view professional profiles and ratings,
                 see real-time location of your professional and so much more.

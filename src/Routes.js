@@ -38,9 +38,10 @@ import ServicesInfo from "./front-end/ServicesInfo";
 // import { SouthIndex } from "./front-end/SouthIndex";
 // import { RawandaIndex } from "./front-end/RawandaIndex";
 import Pages from "./front-end/FarePages";
-import {GanaIndex} from './front-end/GanaIndex';
-import {RawandaIndex} from './front-end/RawandaIndex'
-import {SouthIndex} from './front-end/SouthIndex'
+import { GanaIndex } from "./front-end/GanaIndex";
+import { RawandaIndex } from "./front-end/RawandaIndex";
+import { SouthIndex } from "./front-end/SouthIndex";
+import Help from "./front-end/Help";
 const publicRoutes = [
   {
     name: "Home",
@@ -56,7 +57,7 @@ const publicRoutes = [
   },
   {
     name: "Rwanda",
-    path: "/ke",
+    path: "/kenya",
     component: RawandaIndex,
     hash: "",
   },
@@ -66,8 +67,6 @@ const publicRoutes = [
     component: SouthIndex,
     hash: "",
   },
-
-
 
   {
     name: "Provider Signup",
@@ -107,7 +106,7 @@ const publicRoutes = [
   // },
   {
     name: "Provider profile",
-    path: "/provider/profile/:name",
+    path: "/provider/profile/:id",
     component: ProviderProfile,
     hash: "",
   },
@@ -115,6 +114,12 @@ const publicRoutes = [
     name: "Product Details",
     path: "/product-detail/:id",
     component: ProductDetail,
+    hash: "",
+  },
+  {
+    name: "Home",
+    path: "/help",
+    component: Help,
     hash: "",
   },
   {
@@ -166,7 +171,7 @@ const publicRoutes = [
   // },
   {
     name: "Service Info",
-    path: "/services/:service/:subService",
+    path: "/:service/:subService",
     component: ServicesInfo,
   },
 

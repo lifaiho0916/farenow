@@ -33,10 +33,11 @@
   
   }
   .footer-country{
-    width: 100% !important;
-    margin-right: 0px !important;
+    width: 90% !important;
+    margin-right: 16px !important;
     padding: 6px !important;
-    margin-top: -4px !important;
+    margin-top: 2px !important;
+    margin-bottom: -4px !important;
 }
 }
 @media only screen and (max-width:599px) and (min-width:401px) {

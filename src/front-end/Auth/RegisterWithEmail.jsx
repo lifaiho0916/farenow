@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import axios from "axios";
-import { HOST } from "../../constants";
+import { HOST, React_APP_FACEBOOK_APP_AD } from "../../constants";
 import OTPVerifyInput from "./OTPVerifyInput";
 import CommonInput from "../../components/input.common";
+import ReactPixel from "react-facebook-pixel";
 
 const RegisterWithEmail = (props) => {
   const { history } = props;
@@ -201,6 +202,9 @@ const RegisterWithEmail = (props) => {
     })
       .then(function (response) {
         const data = response.data.data;
+        ReactPixel.trackCustom("signUp", {
+          email: data.email,
+        });
         localStorage.setItem("userToken", data.auth_token);
         localStorage.setItem("user_data", JSON.stringify(data.user));
         history.push("/dashboard");

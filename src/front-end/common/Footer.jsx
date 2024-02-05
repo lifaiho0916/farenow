@@ -18,10 +18,11 @@ import { changeCountry } from "../../store/Slices/countryslice/countryslice";
 import { TfiWorld } from "react-icons/tfi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import "./header/footer.css";
+import { HomeHeader } from "./header/header.home";
 let myPages = {
-  Articles :{
-    name:"Articles",
-    url: "articles"
+  Articles: {
+    name: "Articles",
+    url: "articles",
   },
   Policy: {
     name: "Privacy Policy",
@@ -31,15 +32,14 @@ let myPages = {
     name: "Terms of Use",
     url: "terms-conditions",
   },
-  About : {
+  About: {
     name: "About Us",
-    url: "about-us"
+    url: "about-us",
   },
-  Contact :{
-    name:"Contact Us",
-    url: "contact-us"
+  Contact: {
+    name: "Contact Us",
+    url: "contact-us",
   },
- 
 };
 const validateEmail = (email) => {
   return String(email)
@@ -59,6 +59,9 @@ const Footer = (props) => {
   const location = useLocation();
   const dispatch = useDispatch();
 
+  const [countries, setCountries] = useState([]);
+  const [country, setCountry] = useState("");
+
   const ref = useRef(null);
   const emailRef = useRef(null);
 
@@ -67,9 +70,25 @@ const Footer = (props) => {
   const getLinks = useSelector((state) => state?.footerReducer?.pageLinks);
   const pages = useSelector((state) => state?.footerReducer?.pages);
   const headerMenu = useSelector((state) => state?.headerMenuReducer);
+  const allCountry = useSelector((state) => state?.allCountryReducer);
 
   const [DownloadModal, openDownload, closeDownload] = useModal("root");
   const downloadType = useRef("APP_STORE");
+
+  const handleChange = (e) => {
+    setCountry(e.target.value);
+    localStorage.setItem("country", e.target.value);
+  };
+
+  useEffect(() => {
+    const defaultCountry = allCountry?.countries?.find(
+      (country) => country.is_default == true
+    );
+    if (defaultCountry) {
+      setCountry(defaultCountry.id);
+      localStorage.setItem("country", defaultCountry.id);
+    }
+  }, [allCountry.countries]);
 
   useEffect(() => {
     dispatch(getPages());
@@ -151,7 +170,12 @@ const Footer = (props) => {
           !!(index % 2 == 0) && (
             <tr className="show-all" key={index}>
               <td>
-                <a href={link?.url} className="link" target="_blank">
+                <a
+                  href={link?.url}
+                  className="link"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   {link?.name || link?.page}
                 </a>
               </td>
@@ -161,6 +185,7 @@ const Footer = (props) => {
                     href={otherLinks[index + 1]?.url}
                     className="link"
                     target="_blank"
+                    rel="noreferrer"
                   >
                     {otherLinks[index + 1]?.name || otherLinks[index + 1]?.page}
                   </a>
@@ -177,7 +202,12 @@ const Footer = (props) => {
           !!(index % 2 == 0) && (
             <tr className="show-all" key={index}>
               <td>
-                <a href={link?.url} className="link" target="_blank">
+                <a
+                  href={link?.url}
+                  className="link"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   {link?.name || link?.page}
                 </a>
               </td>
@@ -187,6 +217,7 @@ const Footer = (props) => {
                     href={blogLinks[index + 1]?.url}
                     className="link"
                     target="_blank"
+                    rel="noreferrer"
                   >
                     {blogLinks[index + 1]?.name || blogLinks[index + 1]?.page}
                   </a>
@@ -388,7 +419,12 @@ const Footer = (props) => {
                       countLink = countLink + 1;
                       return (
                         <li className="item" key={link?.id}>
-                          <a href={link?.url} className="link" target="_blank">
+                          <a
+                            href={link?.url}
+                            className="link"
+                            target="_blank"
+                            rel="noreferrer"
+                          >
                             {link?.name || link?.page}
                           </a>
                         </li>
@@ -427,8 +463,7 @@ const Footer = (props) => {
               <div className="d-flex align-items-center md:justify-center">
                 <ul className="footer-link">
                   <div className="mb-4 font-bold text-xl">Support</div>
-                
-              
+
                   {pages?.data?.map((page) => (
                     <li
                       key={page?.id}
@@ -441,13 +476,10 @@ const Footer = (props) => {
                       }}
                       className="item"
                     >
-                      <Link
-                        className="link"
-                        to={`${myPages[page?.name]?.url}`}
-                      >
+                      <Link className="link" to={`${myPages[page?.name]?.url}`}>
                         {myPages[page?.name]?.name}
                       </Link>
-                      
+
                       {/* <a href="#">{page?.name}</a> */}
                     </li>
                   ))}
@@ -456,22 +488,20 @@ const Footer = (props) => {
             </div>
           </div>
         </div>
-        <div className=" d-flex align-items-center gap-2 icon footer-country ">
-        
-              <i style={{ fontSize: "2rem", fontWeight: "800" }}>
+        <div className=" d-flex align-items-center gap-2 icon footer-country">
+          <i style={{ fontSize: "2rem", fontWeight: "800" }}>
             <span>
               <TfiWorld />
             </span>
           </i>
-          <FormControl fullWidth size="small" className="mobc" >
-            
-              <div className="dropdown-footer" >
+          <FormControl fullWidth size="small" className="mobc">
+            <div className="dropdown">
               <Select
-                defaultValue={"nigeria"}
-                onChange={(e) => dispatch(changeCountry(e.target.value))} 
-                style={{fontSize: "2rem", fontWeight: "500"}}
-                className="footer-arrow"
-               sx={{
+                value={country}
+                onChange={handleChange}
+                style={{ fontSize: "2rem", fontWeight: "500" }}
+                className="header-arrow"
+                sx={{
                   boxShadow: "none",
                   ".MuiOutlinedInput-notchedOutline": { border: 0 },
                   "&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
@@ -488,39 +518,98 @@ const Footer = (props) => {
                     sx: {
                       "& .MuiMenuItem-root.Mui-selected": {
                         backgroundColor: "#94bceb",
-                        borderRadius:'10px',
-
+                        borderRadius: "10px",
                       },
                       "& .MuiMenuItem-root:hover": {
                         backgroundColor: "#94bceb",
-                        borderRadius:'10px'
-
+                        borderRadius: "10px",
                       },
                       "& .MuiMenuItem-root.Mui-selected:hover": {
                         backgroundColor: "#94bceb",
-                        borderRadius:'10px'
-
-                      }
-                    }
-                  }
+                        borderRadius: "10px",
+                      },
+                    },
+                  },
                 }}
+              >
+                {allCountry?.countries?.map((country) => {
+                  return (
+                    <MenuItem
+                      key={country.id}
+                      value={country?.id}
+                      style={{ fontSize: "16px", display: "flex" }}
+                      component={Link}
+                      to={`${
+                        country.is_default ? "/" : country.iso2.toLowerCase()
+                      }`}
+                      sx={{
+                        display: "block",
+                      }}
+                    >
+                      <h1>
+                        {country.emoji} {country.name}
+                      </h1>
+                    </MenuItem>
+                    // </div>
+                  );
+                })}
+                {/* <img
+                  src={nigeriaflag}
+                  style={{ width: "20px", marginLeft: "5px" }}
+                />
+                <MenuItem
+                  value={"nigeria"}
+                  style={{ fontSize: "16px" }}
+                  component={Link}
+                  to="/"
                 >
-                
-              <img src={nigeriaflag} style={{width:'30px',marginLeft:'15px'}}/><MenuItem  value={"nigeria"} style={{fontSize:'16px',width:'180px'}}>Nigeria</MenuItem>
-               <img src={ghanaflag} style={{width:'30px',marginLeft:'15px'}}/><MenuItem value={"gana"} style={{fontSize:'16px'}} >Ghana</MenuItem>
-              <img src={rwandaflag} style={{width:'30px',marginLeft:'15px'}}/> <MenuItem value ={"rawanda"} style={{fontSize:'16px'}}>Kenya</MenuItem>
-               <img src={southflag} style={{width:'30px',marginLeft:'15px'}}/><MenuItem value={"southafrica"} style={{fontSize:'16px'}}>South Africa</MenuItem>
-                
+                  Nigeria
+                </MenuItem>
+                <img
+                  src={ghanaflag}
+                  style={{ width: "20px", marginLeft: "5px" }}
+                />
+                <MenuItem
+                  value={"gana"}
+                  style={{ fontSize: "16px" }}
+                  component={Link}
+                  to="/gh"
+                >
+                  Ghana
+                </MenuItem>
+                <img
+                  src={rwandaflag}
+                  style={{ width: "20px", marginLeft: "5px" }}
+                />{" "}
+                <MenuItem
+                  value={"rawanda"}
+                  style={{ fontSize: "16px" }}
+                  component={Link}
+                  to="/kenya"
+                >
+                  Kenya
+                </MenuItem>
+                <img
+                  src={southflag}
+                  style={{ width: "20px", marginLeft: "5px" }}
+                />
+                <MenuItem
+                  value={"southafrica"}
+                  style={{ fontSize: "16px" }}
+                  component={Link}
+                  to="/za"
+                >
+                  South Africa
+                </MenuItem> */}
               </Select>
-              </div>
+            </div>
+          </FormControl>
 
-            </FormControl>
-       
           {/* <MdKeyboardArrowDown /> */}
         </div>
       </footer>
 
-      <footer className="footer-sec2 bg-primary-dark m-0">
+      <footer className="footer-sec2 bg-primary-dark mt-10">
         <div className="container">
           <div className="row">
             <div className="col-md-12 flex gap-6 justify-content-between flex-col md:items-start md:flex-row items-center">
@@ -560,13 +649,12 @@ const Footer = (props) => {
                   {state?.links?.map((link) => {
                     if (link.type != null) {
                       if (link.type == "FACEBOOK") {
-
                         return (
                           <li
                             className="item mr-4 bg-[#7AB8FF66]"
                             key={link.id}
                           >
-                            <a href={link.url} target="_blank">
+                            <a href={link.url} target="_blank" rel="noreferrer">
                               <img
                                 src="/assets/img/facebook.png"
                                 className="img-fluid"
@@ -583,7 +671,7 @@ const Footer = (props) => {
                             className="item mr-4 bg-[#7AB8FF66]"
                             key={link.id}
                           >
-                            <a href={link.url} target="_blank">
+                            <a href={link.url} target="_blank" rel="noreferrer">
                               <img
                                 src="/assets/img/instagram.png"
                                 className="img-fluid"
@@ -599,7 +687,7 @@ const Footer = (props) => {
                             className="item mr-4 bg-[#7AB8FF66]"
                             key={link.id}
                           >
-                            <a href={link.url} target="_blank">
+                            <a href={link.url} target="_blank" rel="noreferrer">
                               <img
                                 src="/assets/img/twitter.png"
                                 className="img-fluid"
@@ -612,7 +700,7 @@ const Footer = (props) => {
                       if (link.type == "WHATS_APP") {
                         return (
                           <li className="item twitter mr-4" key={link.id}>
-                            <a href={link.url} target="_blank">
+                            <a href={link.url} target="_blank" rel="noreferrer">
                               <img
                                 src="/assets/img/twitter.png"
                                 className="img-fluid"
@@ -721,4 +809,3 @@ const Footer = (props) => {
 };
 
 export default withRouter(Footer);
-

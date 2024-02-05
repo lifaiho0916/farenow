@@ -3,12 +3,8 @@ import { useForm } from "react-hook-form";
 import RadioBoxButton from "../../components/button.radio";
 import PaymentCreditCardForm from "../../components/Payment/card.form";
 import PaymentCreditCard from "../../components/Payment/card.credit";
-import { methods } from "underscore";
-import CreditCard from "react-credit-cards";
 import {
-  CardElement,
   CardNumberElement,
-  PaymentElement,
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
@@ -19,9 +15,9 @@ import {
   IPaymentSliceState,
 } from "../../store/Slices/payments/paymentSlice";
 import { RootState } from "../../store";
-import { PayPalButtons } from "@paypal/react-paypal-js";
 import { toast } from "react-toastify";
 import BookSubscriptionPlan from "./book.plan";
+import flutter from "../../../src/assets/flutter.png";
 export interface IBookPaymentMethodProps
   extends IBookSliderProps,
     IServiceRequestHourly {
@@ -29,7 +25,7 @@ export interface IBookPaymentMethodProps
   onNext: (value: {
     plan_id?: number;
     card_id?: string;
-    payMethod: "Card" | "Paypal";
+    payMethod: "Card" | "Paypal" | "Flutterwave";
   }) => void;
 }
 
@@ -50,9 +46,13 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
   const paymentStates = useSelector<RootState, IPaymentSliceState>(
     (state) => state.paymentReducer
   );
+
+  const hourState: any = useSelector<RootState>(
+    (state) => state.hourReducer.hour
+  );
   const paymentCards = paymentStates.list?.data?.data ?? [];
 
-  const [payMethod, setPayMethod] = React.useState<"Card" | "Paypal">();
+  const [payMethod, setPayMethod] = React.useState<"Card" | "Paypal" | "Flutterwave">();
   const [selectedCard, setSelectedCard] = React.useState(-1);
   const [stage, setStage] = React.useState<PaymentStagesType>(() =>
     checkoutPlan ? "SelectPlan" : "SelectMethod"
@@ -95,10 +95,22 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
         }}
       />
     );
+
   return (
     <div className="d-flex flex-column items-center gap-8">
-      <span className="font-medium text-3xl">Payment Method</span>
+      {/* <span className="font-medium text-3xl">Payment Method</span> */}
       <div className="d-flex gap-8">
+        <RadioBoxButton
+          checked={payMethod === "Flutterwave"}
+          onChange={(e) => setPayMethod("Flutterwave")}
+          text={
+            <span className="d-flex items-center justify-between w-[30rem]">
+              Debit/Credit Card <img src="/assets/img/payment-card.png" />
+            </span>
+          }
+        />
+      </div>
+      {/* <div className="d-flex gap-8">
         <RadioBoxButton
           checked={payMethod == "Card"}
           onChange={() => {
@@ -124,7 +136,7 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
             }
           />
         )}
-      </div>
+      </div> */}
       {showAddCardForm && <PaymentCreditCardForm {...{ register, setValue }} />}
       {stage == "SelectCard" && (
         <div className="grid grid-cols-2 gap-8 p-8 rounded-[32px] border w-[80rem] items-center">
@@ -177,6 +189,9 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
                 return;
               } else if (payMethod == "Card") {
                 setStage("SelectCard");
+              } else if (payMethod === "Flutterwave") {
+                onNext && onNext({ payMethod, plan_id: planId });
+                return;
               }
             } else if (stage == "AddCard") {
               //setCreditCards([...creditCards, getValues()]);
@@ -201,3 +216,4 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
     </div>
   );
 }
+

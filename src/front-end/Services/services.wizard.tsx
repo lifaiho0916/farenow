@@ -5,6 +5,7 @@ import { clsx } from "clsx";
 import Loading from "./../common/Loading";
 import LocationInput from "components/input.location";
 import RadioBoxButton from "components/button.radio";
+import ReactPixel from "react-facebook-pixel";
 
 export interface IServiceWizardProps {
   service: IService;
@@ -113,6 +114,9 @@ export default function ServiceWizard(props: IServiceWizardProps) {
         ? activeOptions[i]
         : activeOptions[i][0];
     }
+    ReactPixel.trackCustom("search", {
+      questionAnswer: questionAnswer,
+    });
     dispatch(setQuestionAnswers(questionAnswer));
     props.onComplete();
   };
@@ -158,3 +162,4 @@ export default function ServiceWizard(props: IServiceWizardProps) {
     </div>
   );
 }
+

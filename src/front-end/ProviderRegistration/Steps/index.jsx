@@ -9,6 +9,7 @@ import { Link, Navigate } from "react-router-dom";
 import CommonInput from "../../../components/input.common";
 import Select from "react-select";
 import OTPVerifyInput from "../../Auth/OTPVerifyInput";
+import ReactPixel from "react-facebook-pixel";
 
 const Basic = ({
   step,
@@ -875,6 +876,9 @@ const ProfileDetail = ({
     form.append("state", data.state);
     form.append("bio", data.bio);
     handleProfileDetails(form);
+    ReactPixel.trackCustom("BecomeProvider", {
+      data: data,
+    });
   };
   return (
     <div className="step-6-user">

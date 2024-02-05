@@ -43,7 +43,7 @@ export const BaseHeader = (props) => {
   const [Modal, openChat, closeChat, isChatOpen] = useModal("root", {
     focusTrapOptions: { clickOutsideDeactivates: false },
   });
-
+  const countryId = localStorage.getItem("country");
   useEffect(() => {
     if (localStorage.getItem("userToken")) {
       setState((state) => ({
@@ -55,7 +55,9 @@ export const BaseHeader = (props) => {
 
     axios({
       method: "get",
-      url: process.env.REACT_APP_API_BASE_URL + "/api/user/get-menu",
+      url:
+        process.env.REACT_APP_API_BASE_URL +
+        `/api/user/get-menu?country_id=${countryId}`,
     })
       .then(function (response) {
         setState((state) => ({
@@ -69,7 +71,7 @@ export const BaseHeader = (props) => {
         //handle error
         // console.log(error.response);
       });
-  }, []);
+  }, [countryId]);
 
   useEffect(() => {
     if (localStorage.getItem("userToken")) {
@@ -92,20 +94,34 @@ export const BaseHeader = (props) => {
   }, [notification?.fcmMessageId]);
 
   const handleLogout = () => {
-    window.FB.getLoginStatus(function (response) {
-      if (response.status === "connected") {
-        window.FB.logout(function (response) {});
+
+    if (window.FB) {
+      window.FB.getLoginStatus(function (response) {
+        if (response.status === "connected") {
+          window.FB.logout(function (response) {
+          });
+        }
+      });
+    }
+  
+    if (window.gapi && window.gapi.auth2) {
+      const auth2 = window.gapi.auth2.getAuthInstance();
+      if (auth2) {
+        auth2.signOut().then(function () {
+        });
       }
-    });
-    window?.google?.accounts?.id?.disableAutoSelect();
+    }
+  
     localStorage.clear();
+  
     setState((state) => ({
       ...state,
       is_loggedin: false,
     }));
     history.push("/");
   };
-
+  
+  
   const mySearch = ({ target: { value } }) => {
     if (value) {
       setState((prev) => ({
@@ -162,8 +178,7 @@ export const BaseHeader = (props) => {
           if (location?.pathname == "/") {
             e.preventDefault();
           }
-        }
-        }
+        }}
       >
         <img
           src="/assets/img/brand-primary.svg"
@@ -427,3 +442,4 @@ export const BaseHeader = (props) => {
     </header>
   );
 };
+

@@ -17,6 +17,7 @@ import {
   ProfileDetail,
   // Company,
 } from "./Steps";
+import ReactPixel from "react-facebook-pixel";
 
 const Registration = (props) => {
   // dispatch actions
@@ -367,7 +368,6 @@ const Registration = (props) => {
 
   return (
     <>
-    
       <div className="login-sec d-flex align-items-center bg-gray-50">
         <div className="container">
           <div className="login-box h-auto mx-auto">
@@ -390,10 +390,7 @@ const Registration = (props) => {
                 otpData={otpData}
                 handleVerifyEmail={handleVerifyEmail}
                 verifyOpt={verifyOpt}
-
-                
               />
-                    
             )}
             {step == 3 && !localStorage.getItem("providerToken") && (
               <ProviderSettings
@@ -449,50 +446,55 @@ const Registration = (props) => {
                 />
               )}
             {step == 5 && (
-              <div className=" w-[54rem] m-auto" >
+              <div className=" w-[54rem] m-auto">
                 <RegisterSucceed
                   title="Provider Account Setup Successfully"
                   subTitle="You have successfully setup your provider account. Download the Farenow provider app and Login to continue."
                 />
               </div>
             )}
-            {
-              step==1 &&   <div className="form-term my-4 text-center" style={{fontSize:'18px'}}>
-              {(!!terms?.name || !!privacy?.name) &&
-                "By clicking next you agree to"}
-              {!!terms?.name && (
-                <>
-                  {" "}
-                  <Link to={`/page/${terms?.name}`}>Terms of Service</Link>
-                </>
-              )}
-              {!!terms?.name && !!privacy?.name && " and "}
-              {!!privacy?.name && (
-                <>
-                  <Link to={`/page/${privacy?.name}`}>Privacy Policy</Link>.{" "}
-                </>
-              )}
-            </div>
-            }
-            {
-              step==2 &&   <div className="form-term my-4 text-center " style={{fontSize:'18px'}}>
-              {(!!terms?.name || !!privacy?.name) &&
-                "By clicking next you agree to"}
-              {!!terms?.name && (
-                <>
-                  {" "}
-                  <Link to={`/page/${terms?.name}`}>Terms of Service</Link>
-                </>
-              )}
-              {!!terms?.name && !!privacy?.name && " and "}
-              {!!privacy?.name && (
-                <>
-                  <Link to={`/page/${privacy?.name}`}>Privacy Policy</Link>.{" "}
-                </>
-              )}
-            </div>
-            }
-          
+            {step == 1 && (
+              <div
+                className="form-term my-4 text-center"
+                style={{ fontSize: "18px" }}
+              >
+                {(!!terms?.name || !!privacy?.name) &&
+                  "By clicking next you agree to"}
+                {!!terms?.name && (
+                  <>
+                    {" "}
+                    <Link to={`/page/${terms?.name}`}>Terms of Service</Link>
+                  </>
+                )}
+                {!!terms?.name && !!privacy?.name && " and "}
+                {!!privacy?.name && (
+                  <>
+                    <Link to={`/page/${privacy?.name}`}>Privacy Policy</Link>.{" "}
+                  </>
+                )}
+              </div>
+            )}
+            {step == 2 && (
+              <div
+                className="form-term my-4 text-center "
+                style={{ fontSize: "18px" }}
+              >
+                {(!!terms?.name || !!privacy?.name) &&
+                  "By clicking next you agree to"}
+                {!!terms?.name && (
+                  <>
+                    {" "}
+                    <Link to={`/page/${terms?.name}`}>Terms of Service</Link>
+                  </>
+                )}
+                {!!terms?.name && !!privacy?.name && " and "}
+                {!!privacy?.name && (
+                  <>
+                    <Link to={`/page/${privacy?.name}`}>Privacy Policy</Link>.{" "}
+                  </>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProviderProfile, getProviderProfileByName } from "../store/Slices/providers/ProviderProfileSclice";
+import {
+  getProviderProfile,
+  getProviderProfileByName,
+} from "../store/Slices/providers/ProviderProfileSclice";
 import { Link } from "react-router-dom";
 import Rating from "../components/Rating";
 import Loading from "./common/Loading";
@@ -27,8 +30,7 @@ const modalConfig = {
   },
 };
 export const ProviderProfile = (props) => {
-  const { name } = props.match.params;
-
+  const { id } = props.match.params;
   const [Modal, openBook, closeBook, isBookOpen] = useModal(
     "root",
     modalConfig
@@ -45,8 +47,8 @@ export const ProviderProfile = (props) => {
   );
 
   useEffect(() => {
-    dispatch(getProviderProfileByName(name));
-  }, [name]);
+    dispatch(getProviderProfileByName(id));
+  }, [id]);
 
   const { error: err = false, message = "", data } = providerProfile ?? {};
   const { provider } = data ?? {};
@@ -218,3 +220,4 @@ export const ProviderProfile = (props) => {
     </>
   );
 };
+

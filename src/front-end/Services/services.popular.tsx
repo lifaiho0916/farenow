@@ -72,14 +72,14 @@ export default function PopularServices(props: IPopularServicesProps) {
       <div className="bg-primary-light p-3 px-4 d-flex space-x-4 rounded-[2.4rem]">
         {services.map((service, index) => (
           <button
-          className={clsx([
-            "rounded-[1.6rem] px-4 py-2 text-base text-gray-600",
-            { "bg-primary-main text-white": activeServiceIndex == index },
-          ])}
-          key={service.id}
-          onClick={() => {
-            setActiveServiceIndex(index);
-          }}
+            className={clsx([
+              "rounded-[1.6rem] px-4 py-2 text-base text-gray-600",
+              { "bg-primary-main text-white": activeServiceIndex == index },
+            ])}
+            key={service.id}
+            onClick={() => {
+              setActiveServiceIndex(index);
+            }}
           >
             {service.name}
           </button>
@@ -92,27 +92,35 @@ export default function PopularServices(props: IPopularServicesProps) {
               .at(activeServiceIndex)
               ?.sub_services?.map((subService, index) => {
                 const item = services?.at(activeServiceIndex);
-                {console.log("++++++++++",subService)}
+                {
+                  console.log(
+                    "subservices++++++++",
+                    services.at(activeServiceIndex)?.sub_services
+                  );
+                  console.log('_+_+_+_+_+_+_+_+_+_',item)
+                }
                 return (
                   item && (
                     <div className="p-3" key={item.id}>
                       <div
                         key={`${index}_${activeServiceIndex}`}
                         className="service-box h-[30rem] w-100 m-0"
-                      >
+                        >
                         <Link
                           //to={`/services/search?subService=${subService.id}`}
-                      
-                          to={`/services/${item.name.toLowerCase().replace(" ", "-")}/${subService.name.toLowerCase().replace(/[' ']/g, '-').replace('/','-')}`}
 
+                          to={`/${item.name
+                            .replace(" ", "-")
+                            .toLowerCase()}/${subService.name
+                            .replace(/[' ']/g, "-")
+                            .replace("/", "-")
+                            .toLowerCase()}`}
                         >
-
                           <img
                             src={
                               (subService.image && HOST + subService.image) ||
                               ""
                             }
-                        
                             loading="lazy"
                             className="img-fluid"
                             alt=""
@@ -121,7 +129,7 @@ export default function PopularServices(props: IPopularServicesProps) {
                               e.currentTarget.src = "/assets/img/service1.jpg";
                             }}
                           />
-                          {console.log('_________',HOST)}
+                          {console.log("_________ subservice image url", subService.image)}
                           <div className="absolute text-xl bottom-0 p-4 flex items-center justify-center text-center text-white w-100 leading-tight sub-service-name">
                             {subService.name}
                           </div>

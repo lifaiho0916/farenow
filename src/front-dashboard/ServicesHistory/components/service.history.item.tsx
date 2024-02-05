@@ -127,7 +127,7 @@ export default function ServiceHistoryItem(props: IServiceHistoryItemProps) {
             }}
           />
           <Link
-            to={`/provider/profile/${provider?.first_name.toLowerCase()+'-'+provider?.last_name.toLowerCase()}`}
+            to={`/provider/profile/${provider?.id}`}
             className="fare-btn fare-btn-default"
           >
             View Profile
@@ -167,3 +167,4 @@ export default function ServiceHistoryItem(props: IServiceHistoryItemProps) {
     </div>
   );
 }
+

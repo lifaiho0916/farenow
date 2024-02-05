@@ -35,42 +35,55 @@ export const RawandaIndex = (props) => {
 
   return (
     <>
-    <div className="bg-white">
-      <div
-        className="banner"
-        style={{
-          backgroundImage: `url(${bgImg})`,
-          backgroundColor:'#0068E1',
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="container px-12">
-          <div className="row">
-            <div className="col-12">
-              <div className="banner-sec flex flex-col items-center justify-between lg:flex-row">
-                <div className="banner-text mb-5 mb-md-0 w-100">
-                  <div className="font-bold text-5xl text-light tracking-[-2px] leading-tight">
-                    The <span className="text-primary-main" style={{color:'#FF9E45'}}>easy</span> &
-                    <span className="text-primary-main" style={{color:'#FF9E45'}}> reliable</span> way to
-                    take care of your home.
+      <div className="bg-white">
+        <div
+          className="banner"
+          style={{
+            backgroundImage: `url(${bgImg})`,
+            backgroundColor: "#0068E1",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <div className="container px-12">
+            <div className="row">
+              <div className="col-12">
+                <div className="banner-sec flex flex-col items-center justify-between lg:flex-row">
+                  <div className="banner-text mb-5 mb-md-0 w-100">
+                    <div className="font-bold text-5xl text-light tracking-[-2px] leading-tight">
+                      The{" "}
+                      <span
+                        className="text-primary-main"
+                        style={{ color: "#FF9E45" }}
+                      >
+                        easy
+                      </span>{" "}
+                      &
+                      <span
+                        className="text-primary-main"
+                        style={{ color: "#FF9E45" }}
+                      >
+                        {" "}
+                        reliable
+                      </span>{" "}
+                      way to take care of your home.
+                    </div>
+                    <div className="text-xl md:text-base text-light mt-6 px-8">
+                      We make it easy for you to create the best experience for
+                      your home.
+                      <br /> Book for a handyman, get a professional service or
+                      shop from a wide variety of products and get them
+                      delivered to your doorstep.
+                    </div>
+                    <div className="my-5">
+                      <HomeSearchBar size="large" />
+                    </div>
                   </div>
-                  <div className="text-xl md:text-base text-light mt-6 px-8">
-                    We make it easy for you to create the best experience for
-                    your home.
-                    <br /> Book for a handyman, get a professional service or
-                    shop from a wide variety of products and get them delivered
-                    to your doorstep.
-                  </div>
-                  <div className="my-5">
-                    <HomeSearchBar size="large" />
-                  </div>
-                </div>
 
-                <div className="d-flex  align-items-center justify-content-center relative right-[-2rem]">
-                  <img src={rawanda} className="w-[60rem]" />
-                  {/* <img
+                  <div className="d-flex  align-items-center justify-content-center relative right-[-2rem]">
+                    <img src={rawanda} className="w-[60rem]" />
+                    {/* <img
                     src="/assets/img/banner-img.png"
                     className="w-[42rem] absolute"
                     alt=""
@@ -82,51 +95,50 @@ export const RawandaIndex = (props) => {
                   <img
                     src="/assets/img/provider-card-sample.png"
                     className="absolute w-[40rem] bottom-0 -left-[15rem]" */}
-                  {/* /> */}
+                    {/* /> */}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="nav">
-                <div className="nav-data">
-                    <h4>Popular : </h4>
-                    <div className="divbtn1" style={{display:'flex', gap:"20px"}}>
-                    <button className='btn'>Handyman Services</button>
-                    <button className='btn'>Home Cleaning</button>
-                    </div>
-                   <div className="divbtn2" style={{display:'flex', gap:"20px"}}>
-                   <button className='btn'>Electricity</button>
-                    <button className='btn'>Computers</button>
-                   </div>
-                    
-                </div>
-              </div>
-      <section className="py-32 bg-gray-50" id={"popular-services"}>
-        <div className="container">
-          <PopularServices services={headerMenu} />
-        </div>
-      </section>
-
-      <section className="my-5" >
-        <img src={rawandatalent} alt="img" style={{margin:'auto'}} />
-        <div
-          className="container"
-          style={{ marginTop: "15rem ", marginBottom: "15rem" }}
-        >
-          <div className="row">
-            <div className="col-lg-12 my-auto">
-              <img src={rawandagrp} alt="img" className="img-fluid " />
+        <div className="nav">
+          <div className="nav-data">
+            <h4>Popular : </h4>
+            <div className="divbtn1" style={{ display: "flex", gap: "20px" }}>
+              <button className="btn">Handyman Services</button>
+              <button className="btn">Home Cleaning</button>
             </div>
-            {/* <div className="col-lg-6">
+            <div className="divbtn2" style={{ display: "flex", gap: "20px" }}>
+              <button className="btn">Electricity</button>
+              <button className="btn">Computers</button>
+            </div>
+          </div>
+        </div>
+        <section className="py-32 bg-gray-50" id={"popular-services"}>
+          <div className="container">
+            <PopularServices services={headerMenu} />
+          </div>
+        </section>
+
+        <section className="my-5">
+          <img src={rawandatalent} alt="img" style={{ margin: "auto" }} />
+          <div
+            className="container"
+            style={{ marginTop: "15rem ", marginBottom: "15rem" }}
+          >
+            <div className="row">
+              <div className="col-lg-12 my-auto">
+                <img src={rawandagrp} alt="img" className="img-fluid " />
+              </div>
+              {/* <div className="col-lg-6">
               <img src={group2} alt="img" className="img-fluid" />
             </div> */}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* <section className="background-checked pad-y">
+        {/* <section className="background-checked pad-y">
         <div className="container px-12">
           <div className="row">
             <div className="col-12">
@@ -167,66 +179,67 @@ export const RawandaIndex = (props) => {
           </div>
         </div>
       </section> */}
-      <index />
-      <section className="download-apps pad-y bg-primary-dark">
-        <div className="container">
-          <div className="d-flex flex-wrap space-x-32 align-items-center flex-lg-nowrap">
-            <img
-              src="/assets/img/mobile-app.png"
-              className="img-fluid w-[54rem]"
-            />
-            <div className="text-white">
-              <h1 className="text-white text-5xl font-bold">
-                Download the Farenow App
-              </h1>
-              <p className="text-base py-16">
-                Book and manage appointments, message your
-                pback-layerrofessional, view professional profiles and ratings,
-                see real-time location of your professional and so much more.
-              </p>
-              <div>
-                <button
-                  className="fare-btn bg-gray-50 hover:bg-primary-light border-primary border-b-2 text-primary-main text-[14px] mr-8 mb-8 w-[240px] px-12"
-                  onClick={() => {
-                    openDownloadDialog("APP_STORE");
-                  }}
-                >
-                  <img
-                    src="/assets/img/app-store-logo.svg"
-                    className="float-left mx-2"
-                  />
-                  Download on the <br />{" "}
-                  <span className="font-bold text-sm">App Store</span>
-                </button>
-                <button
-                  className="fare-btn bg-gray-50 hover:bg-primary-light border-primary border-b-2 text-primary-main text-[14px] w-[240px] px-12"
-                  onClick={() => {
-                    openDownloadDialog("GOOGLE_PLAY");
-                  }}
-                >
-                  <img
-                    src="/assets/img/google-play-logo.svg"
-                    className="float-left mx-2"
-                  />
-                  Available on the <br />{" "}
-                  <span className="font-bold text-sm">Google Play</span>
-                </button>
+        <index />
+        <section className="download-apps pad-y bg-primary-dark">
+          <div className="container">
+            <div className="d-flex flex-wrap space-x-32 align-items-center flex-lg-nowrap">
+              <img
+                src="/assets/img/mobile-app.png"
+                className="img-fluid w-[54rem]"
+              />
+              <div className="text-white">
+                <h1 className="text-white text-5xl font-bold">
+                  Download the Farenow App
+                </h1>
+                <p className="text-base py-16">
+                  Book and manage appointments, message your
+                  pback-layerrofessional, view professional profiles and
+                  ratings, see real-time location of your professional and so
+                  much more.
+                </p>
+                <div>
+                  <button
+                    className="fare-btn bg-gray-50 hover:bg-primary-light border-primary border-b-2 text-primary-main text-[14px] mr-8 mb-8 w-[240px] px-12"
+                    onClick={() => {
+                      openDownloadDialog("APP_STORE");
+                    }}
+                  >
+                    <img
+                      src="/assets/img/app-store-logo.svg"
+                      className="float-left mx-2"
+                    />
+                    Download on the <br />{" "}
+                    <span className="font-bold text-sm">App Store</span>
+                  </button>
+                  <button
+                    className="fare-btn bg-gray-50 hover:bg-primary-light border-primary border-b-2 text-primary-main text-[14px] w-[240px] px-12"
+                    onClick={() => {
+                      openDownloadDialog("GOOGLE_PLAY");
+                    }}
+                  >
+                    <img
+                      src="/assets/img/google-play-logo.svg"
+                      className="float-left mx-2"
+                    />
+                    Available on the <br />{" "}
+                    <span className="font-bold text-sm">Google Play</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* <BlogList /> */}
+        {/* <BlogList /> */}
 
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
-            <hr />
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <hr />
+            </div>
           </div>
         </div>
-      </div>
-      {/* 
+        {/* 
       <section className="shop-for-home pad-y">
         <div className="container">
           <div className="row">
@@ -263,86 +276,110 @@ export const RawandaIndex = (props) => {
         </div>
       </div>
     */}
-   <BlogCommon/>
-      <section className="our-partners-sec pad-y bg-gray-50 mt-10">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="mb-16 text-center">
-                <div className="text-4xl text-primary-main font-medium">
-                  Our Partners
-                </div>
-                <div className="text-base text-dark">
-                  Farenow works with partners who want to provide their
-                  customers, tenants, or employees <br /> easy access to quality
-                  home services at affordable prices.
-                </div>
-              </div>
-            </div>
-            <div className="col-md-12">
-              <div className="d-flex flex-wrap space-x-12 space-y-12 justify-center align-items-end">
-                {[1, 2, 3, 4].map((partnerIdx) => (
-                  <div
-                    key={partnerIdx}
-                    className="px-12 py-8 bg-white rounded-[16px] shadow-[0_8px_16px_0_#00000014]"
-                  >
-                    <img
-                      src={`/assets/img/partner-${partnerIdx}.png`}
-                      className="h-[4rem]"
-                    />
+        <BlogCommon />
+        <section className="our-partners-sec pad-y bg-gray-50 mt-10">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12">
+                <div className="mb-16 text-center">
+                  <div className="text-4xl text-primary-main font-medium">
+                    Our Partners
                   </div>
-                ))}
+                  <div className="text-base text-dark">
+                    Farenow works with partners who want to provide their
+                    customers, tenants, or employees <br /> easy access to
+                    quality home services at affordable prices.
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12">
+                <div className="d-flex flex-wrap space-x-12 space-y-12 justify-center align-items-end">
+                  {[1, 2, 3, 4].map((partnerIdx) => (
+                    <div
+                      key={partnerIdx}
+                      className="px-12 py-8 bg-white rounded-[16px] shadow-[0_8px_16px_0_#00000014]"
+                    >
+                      <img
+                        src={`/assets/img/partner-${partnerIdx}.png`}
+                        className="h-[4rem]"
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
+        </section>
+        <div
+          style={{
+            backgroundColor: "rgba(0, 94, 203, 0.2)",
+            height: "680px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <section
+            className="five-star-sec py-20 bg-[#3B5998] relative"
+            style={{ width: "1224px", borderRadius: "10px", height: "550px" }}
+          >
+            <img
+              src="/assets/img/pro-back1.png"
+              className="absolute left-0 top-0"
+            />
+            <img
+              src="/assets/img/pro-back2.png"
+              className="absolute right-0 bottom-0"
+            />
+            <div className="container d-flex flex-wrap justify-between items-center px-8">
+              <div className="md:basis-1/2" style={{ marginLeft: "30px" }}>
+                <h1 className="text-white text-[4rem] font-medium my-8">
+                  Are You a Five Star Professional?
+                </h1>
+                <p className="text-xl text-gray-100 mb-16">
+                  From cleaners to handymen to smart home installers, Farenow is
+                  always looking for service professionals who are experts in
+                  their trade and provide great service to their customers.
+                  <p
+                    style={{
+                      marginLeft: "10px",
+                      fontSize: "18px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    {" "}
+                    Connect to clients easily within your location
+                  </p>
+                  <p
+                    style={{
+                      marginLeft: "10px",
+                      fontSize: "18px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    {" "}
+                    Get matched with the perfect talent by our system
+                  </p>
+                </p>
+                <Link
+                  to="/provider/registration"
+                  className="fare-btn fare-btn-outline-primary fare-btn-lg my-8"
+                >
+                  Become a Farenow Pro
+                </Link>
+              </div>
+              <img
+                src="/assets/img/pro-img.png"
+                className="float-right w-[400px] relative"
+              />
+            </div>
+          </section>
         </div>
-      </section>
-<div style={{backgroundColor:'rgba(0, 94, 203, 0.2)',height:'680px',display:'flex',justifyContent:'center',alignItems:'center'}}>
 
-<section className="five-star-sec py-20 bg-[#3B5998] relative" style={{width:'1224px',borderRadius:'10px',height:'550px'}}>
-        <img
-          src="/assets/img/pro-back1.png"
-          className="absolute left-0 top-0"
-        />
-        <img
-          src="/assets/img/pro-back2.png"
-          className="absolute right-0 bottom-0"
-        />
-        <div className="container d-flex flex-wrap justify-between items-center px-8">
-          <div className="md:basis-1/2" style={{marginLeft:'30px'}}>
-            <h1 className="text-white text-[4rem] font-medium my-8">
-              Are You a Five Star Professional?
-            </h1>
-            <p className="text-xl text-gray-100 mb-16">
-              From cleaners to handymen to smart home installers, Farenow is
-              always looking for service professionals who are experts in their
-              trade and provide great service to their customers.
-              <p style={{marginLeft:'10px',fontSize:'18px',marginTop:'10px'}}> Connect to clients easily within your location</p>
-              <p style={{marginLeft:'10px',fontSize:'18px',marginTop:'10px'}}> Get matched with the perfect talent by our system</p>
-            </p>
-            <Link
-              to="/provider/registration"
-              className="fare-btn fare-btn-outline-primary fare-btn-lg my-8"
-            >
-              Become a Farenow Pro
-            </Link>
-          </div>
-          <img
-            src="/assets/img/pro-img.png"
-            className="float-right w-[400px] relative"
-          />
-        </div>
-      </section> 
-</div>
-      
-
-
-
-      <DownloadModal>
-        <DownloadDialog type={downloadType.current} />
-      </DownloadModal>
-    </div>
+        <DownloadModal>
+          <DownloadDialog type={downloadType.current} />
+        </DownloadModal>
+      </div>
     </>
   );
 };
-

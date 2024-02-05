@@ -100,7 +100,6 @@ const ProviderCard: React.FC<IProviderCardProps> = ({
     else if (provider?.provider_type == "Individual") return "#hourly";
     else if (provider?.provider_type == "Business") return "#quotation";
   };
-
   return (
     <>
       {list?.map((provider, index) => {
@@ -166,7 +165,7 @@ const ProviderCard: React.FC<IProviderCardProps> = ({
               </div>
               <Link
                 type="button"
-                to={`/provider/profile/${provider.first_name.toLowerCase()+'-'+provider?.last_name.toLowerCase()}`}
+                to={`/provider/profile/${provider.id}`}
                 className="fare-btn fare-btn-default"
               >
                 View Profile
@@ -237,3 +236,4 @@ const ContinueBtn = (props: IContinueBtnProps) => {
   );
 };
 export default memo(ProviderCard);
+

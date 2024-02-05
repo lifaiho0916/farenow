@@ -34,6 +34,7 @@ interface IProviderProfile {
   id: number;
   provider_id: number;
   hourly_rate: string | number;
+  country: string;
   city: string;
   business_name: string | null;
   total_earn: string | number;
@@ -67,3 +68,4 @@ interface IBlockedSlot {
   from_time: string;
   to_time: string;
 }
+

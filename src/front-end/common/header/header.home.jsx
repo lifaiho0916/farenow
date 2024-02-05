@@ -1,25 +1,29 @@
 import { BaseHeader } from "./header.base";
 import { TfiWorld } from "react-icons/tfi";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { changeCountry } from "../../../store/Slices/countryslice/countryslice";
 import "./headerhome.css";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import ghanaflag from "../../../styles/images/ghanaflag.png";
-import nigeriaflag from "../../../styles/images/nigeriaflag.png";
-import rwandaflag from "../../../styles/images/rawandaflag.png";
-import southflag from "../../../styles/images/southflag.png";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-export const HomeHeader = () => {
-  const dispatch = useDispatch();
-  const { selectcountry } = useSelector((state) => state.countryReducer);
-  console.log(selectcountry);
-  const location = useLocation();
-  console.log(location);
+export const HomeHeader = (props) => {
+  const [country, setCountry] = useState("");
+
+  const handleChange = (e) => {
+    setCountry(e.target.value);
+    localStorage.setItem("country", e.target.value);
+  };
+
+  useEffect(() => {
+    const defaultCountry = props.countries.find(
+      (country) => country.is_default === true
+    );
+    if (defaultCountry) {
+      setCountry(defaultCountry.id);
+      localStorage.setItem("country", defaultCountry.id);
+    }
+  }, [props.countries]);
   return (
     <BaseHeader>
       {
@@ -41,10 +45,10 @@ export const HomeHeader = () => {
           </Link>
 
           <div
-            className=" d-flex align-items-center gap-2 icon "
+            className="d-flex align-items-center gap-2 icon "
             style={{ marginLeft: "10px" }}
           >
-            <i style={{ fontSize: "2rem", fontWeight: "800" }}>
+            <i style={{ fontSize: "2rem", fontWeight: "800", height: "35px" }} className="d-flex align-items-center">
               <span>
                 <TfiWorld />
               </span>
@@ -53,9 +57,12 @@ export const HomeHeader = () => {
             <FormControl fullWidth size="small" className="mobc">
               <div className="dropdown">
                 <Select
-                  defaultValue={"nigeria"}
-                  onChange={(e) => dispatch(changeCountry(e.target.value))}
-                  style={{ fontSize: "2rem", fontWeight: "500" }}
+                  value={country}
+                  onChange={handleChange}
+                  style={{
+                    fontSize: "2rem",
+                    fontWeight: "500",
+                  }}
                   className="header-arrow"
                   sx={{
                     boxShadow: "none",
@@ -88,42 +95,24 @@ export const HomeHeader = () => {
                     },
                   }}
                 >
-                  <img
-                    src={nigeriaflag}
-                    style={{ width: "20px", marginLeft: "5px" }}
-                  />
-                  <MenuItem
-                    value={"nigeria"}
-                    style={{ fontSize: "16px" }}
-                    component={Link}
-                    to="/"
-                  >
-                    Nigeria
-                  </MenuItem>
-                  <img
-                    src={ghanaflag}
-                    style={{ width: "20px", marginLeft: "5px" }}
-                  />
-                  <MenuItem value={"gana"} style={{ fontSize: "16px" }}  component={Link}
-                    to="/gh">
-                    Ghana
-                  </MenuItem>
-                  <img
-                    src={rwandaflag}
-                    style={{ width: "20px", marginLeft: "5px" }}
-                  />{" "}
-                  <MenuItem value={"rawanda"} style={{ fontSize: "16px" }}  component={Link}
-                    to="/ke">
-                    Kenya
-                  </MenuItem>
-                  <img
-                    src={southflag}
-                    style={{ width: "20px", marginLeft: "5px" }}
-                  />
-                  <MenuItem value={"southafrica"} style={{ fontSize: "16px" }}  component={Link}
-                    to="/za">
-                    South Africa
-                  </MenuItem>
+                  {props.countries.map((country) => {
+                    return (
+                      <MenuItem
+                        key={country.id}
+                        value={country?.id}
+                        style={{ fontSize: "16px", display: "flex" }}
+                        component={Link}
+                        to={`${
+                          country.is_default ? "/" : country.iso2.toLowerCase()
+                        }`}
+                        sx={{
+                          display: "block",
+                        }}
+                      >
+                        <h1>{country.emoji} {country.name}</h1>
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
               </div>
             </FormControl>

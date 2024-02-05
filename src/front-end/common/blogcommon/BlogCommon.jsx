@@ -39,14 +39,14 @@ const BlogCommon = () => {
 
     <h1 style={{textAlign:'center', fontSize:'32px',color:'#151415', padding:'30px'}} >Blog Posts</h1>
     <div className='flex gap-20 w-[80%] mx-auto my-20 py-10 rounded-[20px]  border bg-white navbar-blogs '>
-        <div className="d-flex gap-20 w-[70%] ml-20 items-center nav-bloglinks">
+        <div className="d-flex gap-20 ml-10 items-center nav-bloglinks">
       <Link>News</Link>
       <Link>Trends</Link>
       <Link>Inspirational</Link>
       <Link>LifeStyle</Link>
       <Link>Resources</Link>
         </div>
-        <div className=" d-flex gap-5 w-[30%] mr-10 bg-gray-100 items-center py-2 rounded-[10px] ">
+        <div className=" d-flex gap-2 w-[50%] mr-10 bg-gray-100 items-center py-2 rounded-[10px] ">
             <i className=' ml-3' style={{color:'gray'}}>
             <BiSearch/>
             </i>

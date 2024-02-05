@@ -101,7 +101,7 @@ export const blogSlice = createSlice({
     });
     builder.addCase(fetchPopularBlogs.fulfilled, (state, action) => {
       state.popularBlogs = action.payload;
-    })
+    });
   },
 });
 
@@ -119,12 +119,15 @@ export const fetchTopCategoryBlogs = createAsyncThunk(
 );
 
 export const fetchRecentBlogs = createAsyncThunk("recentBlogs", async () => {
-  const res = await axios.get(`${HOST}/api/blog`);
+  const res = await axios.get(
+    `${HOST}/api/blog?country_id=${localStorage.getItem("country")}`
+  );
   return (res.data["data"] || []).slice(0, 4);
 });
 
 export const fetchPopularBlogs = createAsyncThunk("popularBlogs", async () => {
   const res = await axios.get(`${HOST}/api/blog?popular=true`);
-  return (res.data["data"] || []);
+  return res.data["data"] || [];
 });
 export default blogSlice.reducer;
+

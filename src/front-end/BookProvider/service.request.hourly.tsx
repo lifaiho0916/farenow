@@ -23,13 +23,18 @@ import {
 import BookCheckoutPlan from "./book.subscription";
 import BookSubscriptionPlan from "./book.plan";
 import { getProviderProfile } from "../../store/Slices/providers/ProviderProfileSclice";
+import { setHour } from "store/Slices/hours/hoursSlice";
 export interface IBookServiceHourlyProps {
   close: () => void;
   provider: IProvider;
 }
 
 export default function BookServiceHourly(props: IBookServiceHourlyProps) {
+  const dispatch = useDispatch();
   const quotationValues = React.useRef<IServiceRequestHourly>();
+  if (quotationValues?.current?.hours) {
+    dispatch(setHour(quotationValues?.current?.hours));
+  }
   const [sIndex, setSIndex] = React.useState(0);
   const [submitted, setSubmitted] = React.useState(false);
   const { close, provider } = props;
@@ -45,7 +50,6 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
     }
   }, [provider.id]);
 
-  const dispatch = useDispatch();
   const questionAnswers = useSelector<RootState>((state) =>
     getQuestionAnswers(state.questionAnswers)
   );
@@ -64,8 +68,8 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
     if (sIndex <= 0) return;
     setSIndex(sIndex - 1);
   };
-  const onSubmit = async () => {
-    console.log(quotationValues.current);
+
+  const onSubmit = async (payload: IServiceRequestHourly) => {
     try {
       const result = await dispatch(
         postRequestService(
@@ -75,6 +79,7 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
             questions: questionAnswers,
             is_hourly: true,
             provider_id: provider?.id,
+            transaction_id: payload.transaction_id,
           },
           false
         )
@@ -88,7 +93,7 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
   const onNext = async (values: Partial<IServiceRequestHourly>) => {
     quotationValues.current = { ...quotationValues.current, ...values };
     if (sIndex >= slides.length - 1) {
-      await onSubmit();
+      await onSubmit(null);
       return;
     }
     setSIndex(sIndex + 1);
@@ -155,7 +160,6 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
     />,
   ];
   slides = slides.slice(slideStartIndex);
-
   return (
     <div className="fare-card w-[108rem] max-h-[100vh] overflow-auto">
       <div className="d-flex flex-column items-center ">
@@ -188,3 +192,4 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
     </div>
   );
 }
+

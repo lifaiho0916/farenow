@@ -11,15 +11,22 @@ import { BlogState } from "store/Slices/blog/blogSlice";
 import BlogAside from "./aside";
 import { useQuery } from "react-query";
 import Paginate from "components/Paginate";
-import Skeleton from 'react-loading-skeleton'
+import Skeleton from "react-loading-skeleton";
 
 export interface IBlogListProps {}
 
-const fetchBlogs = async (params: { categoryId: string, search: string, page: number}) => {
-  const res = await axios.get(`${HOST}/api/blog`, {
-    params,
-  });
-  return res.data as {data: Blog[], meta: any};
+const fetchBlogs = async (params: {
+  categoryId: string;
+  search: string;
+  page: number;
+}) => {
+  const res = await axios.get(
+    `${HOST}/api/blog?countru_id=${localStorage.getItem("country")}`,
+    {
+      params,
+    }
+  );
+  return res.data as { data: Blog[]; meta: any };
 };
 
 export default function BlogList(props: IBlogListProps) {
@@ -33,11 +40,13 @@ export default function BlogList(props: IBlogListProps) {
   let categoryId = urlParams.get("categoryId") ?? "";
   let search = urlParams.get("search") ?? "";
   let page = Number(urlParams.get("page")) || 1;
-  
-  const blogsQuery = useQuery(['blogs', categoryId, search, page], () => fetchBlogs({ categoryId, search, page }));
-  const { data: blogs = [], meta: { current_page = 1, last_page = 1 } = {} } = blogsQuery.data || {};
 
-  
+  const blogsQuery = useQuery(["blogs", categoryId, search, page], () =>
+    fetchBlogs({ categoryId, search, page })
+  );
+  const { data: blogs = [], meta: { current_page = 1, last_page = 1 } = {} } =
+    blogsQuery.data || {};
+
   const sliderSettings = {
     dots: true,
     speed: 500,
@@ -60,7 +69,7 @@ export default function BlogList(props: IBlogListProps) {
   });
   const onPageChange = ({ id, params }) => {
     history.push(`/blog${params}`);
-  }
+  };
 
   console.log(`topCategoryBlogs ======>`, topCategoryBlogs);
 
@@ -72,7 +81,7 @@ export default function BlogList(props: IBlogListProps) {
             <span className="absolute text-primary-main mx-5 my-4 z-10">
               Trends
             </span>
-        <Slider {...sliderSettings}>
+            <Slider {...sliderSettings}>
               {topCategoryBlogs.map((b) => (
                 <div className="p-1 relative">
                   <BlogThumbnail
@@ -85,13 +94,12 @@ export default function BlogList(props: IBlogListProps) {
                 </div>
               ))}
             </Slider>
-           
           </div>
         )}
         {/*  */}
         <div className="grid lg:grid-cols-3 gap-32">
           <div className="col-span-2 space-y-16">
-            {blogsQuery.isLoading && <Skeleton count={5} height="24rem"/>}
+            {blogsQuery.isLoading && <Skeleton count={5} height="24rem" />}
             {blogs.map((b) => (
               <BlogThumbnail size="base" blog={b} />
             ))}
@@ -123,3 +131,4 @@ export default function BlogList(props: IBlogListProps) {
     </>
   );
 }
+

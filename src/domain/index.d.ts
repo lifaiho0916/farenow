@@ -39,3 +39,4 @@ interface IFAQ {
 interface ILocation {
   placeId: string;
 }
+

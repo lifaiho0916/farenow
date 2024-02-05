@@ -16,7 +16,6 @@ export const ServicesDetail = (props) => {
     reason?: string;
     response?: any;
   }>({});
-
   const { id } = useParams<{ id: string }>();
 
   const isLoaded = useContext(MapLoadedApiContext);
@@ -63,7 +62,7 @@ export const ServicesDetail = (props) => {
     <>
       <SubHeader title="Service Details" />
       <Loading loading={serviceRequestDetailResp?.loading} />
-      {(
+      {
         <div className="dashborad-box order-history order-summary pad-y">
           <div className="container">
             <div className="w-[90rem] mx-auto p-0 fare-card">
@@ -120,7 +119,11 @@ export const ServicesDetail = (props) => {
                         </div>
                       </div>
                       <Link
-                        to={`/provider/profile/${data?.provider?.first_name.toLowerCase()+'-'+data?.provider?.last_name.toLowerCase()}`}
+                        to={`/provider/profile/${
+                          data?.provider?.first_name.toLowerCase() +
+                          "-" +
+                          data?.provider?.last_name.toLowerCase()
+                        }`}
                         className="fare-btn fare-btn-primary"
                       >
                         View Profile
@@ -166,7 +169,8 @@ export const ServicesDetail = (props) => {
             </div>
           </div>
         </div>
-      )}
+      }
     </>
   );
 };
+
