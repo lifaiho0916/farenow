@@ -1,0 +1,325 @@
+.banner-sec {
+  //border-bottom: 1px solid #d0d0d0;
+  padding: 5rem 0rem;
+}
+.banner-text {
+  max-width: 66rem;
+
+  .title {
+    font-style: normal;
+    font-weight: 900;
+    font-size: 5.2rem;
+    line-height: 6.3rem;
+    color: $primary;
+  }
+
+  .subtitle {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3.4rem;
+    line-height: 4.1rem;
+    color: $secondary;
+  }
+
+  .des {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 25px;
+    color: #d0d0d0;
+    margin-top: 4rem;
+    margin-bottom: 6rem;
+  }
+}
+
+.banner-image {
+  width: 100%;
+  max-width: 39.4rem;
+  position: relative;
+  img {
+    border-radius: 1.7rem;
+  }
+  &::before {
+    content: "";
+    display: block;
+    width: 33.4rem;
+    height: 33.4rem;
+    background: $primary;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: -1;
+    margin-top: 4rem;
+    // margin-left: 6rem;
+  }
+
+  &::after {
+    content: "";
+    display: block;
+    width: 33.4rem;
+    height: 33.4rem;
+    background: $primary;
+    opacity: 0.2;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    z-index: -1;
+  }
+}
+
+.nav{
+  background-color: #005ECB;
+
+
+
+  .nav-data{
+    display: flex;
+    justify-content: space-between;
+    padding: 22px 0px 22px 0px;
+    color: #fff;
+    gap: 25px;
+    margin-left: 20px;
+    @media only screen and (max-width: 1000px) and (min-width: 400px){
+        display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      h4{
+     
+        font-size: 20px;
+        display: flex;
+        justify-content: flex-start;
+      }
+    
+
+      .divbtn1{
+        display: flex;
+        justify-content: flex-start;
+
+        .btn{
+          background-color: transparent;
+          font-size: 16px;
+          color: #fff;
+          width: 180px;
+          border: 1px solid white;
+          border-radius: 20px;
+          
+        }
+      }
+      .divbtn2{
+        display: flex;
+        justify-content: flex-start;
+
+        .btn{
+          background-color: transparent;
+          font-size: 16px;
+          color: #fff;
+          width: 180px;
+          border: 1px solid white;
+          border-radius: 20px;
+          
+        }
+      }
+      
+    }
+    @media only screen and (max-width:399px) {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      width: 100%;
+      margin-left: 3px;
+      h4{
+     
+        font-size: 20px;
+        display: flex;
+        justify-content: flex-start;
+      }
+    }
+    h1{
+      font-size: 20px;
+      font-weight: 400;
+      font-family: sans-serif;
+    }
+    .btn{
+      background-color: transparent;
+      font-size: 16px;
+      width: 180px;
+      color: #fff;
+      border: 1px solid white;
+      border-radius: 20px;
+      
+    }
+  }
+}
+.south{
+  background-color: #FF9E45;
+
+
+
+  .nav-data{
+    display: flex;
+    justify-content: space-between;
+    padding: 22px 0px 22px 0px;
+    color: #fff;
+    gap: 25px;
+    margin-left: 20px;
+    @media only screen and (max-width: 1000px) and (min-width: 400px){
+        display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      h4{
+     
+        font-size: 20px;
+        display: flex;
+        justify-content: flex-start;
+      }
+    
+
+      .divbtn1{
+        display: flex;
+        justify-content: flex-start;
+
+        .btn{
+          background-color: transparent;
+          font-size: 16px;
+          color: #fff;
+          width: 180px;
+          border: 1px solid white;
+          border-radius: 20px;
+          
+        }
+      }
+      .divbtn2{
+        display: flex;
+        justify-content: flex-start;
+
+        .btn{
+          background-color: transparent;
+          font-size: 16px;
+          color: #fff;
+          width: 180px;
+          border: 1px solid white;
+          border-radius: 20px;
+          
+        }
+      }
+      
+    }
+    @media only screen and (max-width:399px) {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      width: 100%;
+      margin-left: 3px;
+      h4{
+     
+        font-size: 20px;
+        display: flex;
+        justify-content: flex-start;
+      }
+    }
+    h1{
+      font-size: 20px;
+      font-weight: 400;
+      font-family: sans-serif;
+    }
+    .btn{
+      background-color: transparent;
+      font-size: 16px;
+      width: 180px;
+      color: #fff;
+      border: 1px solid white;
+      border-radius: 20px;
+      
+    }
+  }
+}
+
+
+// .south{
+//   background-color: #FF9E45;
+//   .nav-data{
+//     display: flex;
+//     justify-content: space-between;
+//     padding: 22px;
+//     color: #fff;
+//     gap: 25px;
+//     margin-left: 50px;
+//     @media only screen and (max-width: 1000px) and (min-width: 400px){
+//       display: flex;
+//     flex-direction: column;
+//     gap: 10px;
+//     width: 100%;
+//     h4{
+   
+//       font-size: 20px;
+//       display: flex;
+//       justify-content: flex-start;
+//     }
+  
+
+//     .divbtn1{
+//       display: flex;
+//       justify-content: flex-start;
+
+//       .btn{
+//         background-color: transparent;
+//         font-size: 16px;
+//         color: #fff;
+//         width: 180px;
+//         border: 1px solid white;
+//         border-radius: 20px;
+        
+//       }
+//     }
+//     .divbtn2{
+//       display: flex;
+//       justify-content: flex-start;
+
+//       .btn{
+//         background-color: transparent;
+//         font-size: 16px;
+//         color: #fff;
+//         width: 180px;
+//         border: 1px solid white;
+//         border-radius: 20px;
+        
+//       }
+//     }
+    
+//   }
+//     @media only screen and (max-width:399px) {
+//       display: flex;
+//       flex-direction: column;
+//       gap: 5px;
+//       width: 100%;
+//       margin-left: 3px;
+//       h4{
+     
+//         font-size: 20px;
+//         display: flex;
+//         justify-content: flex-start;
+//       }
+//     }
+
+//     .btn{
+//       background-color: transparent;
+//       font-size: 16px;
+//       width: 180px;
+//       color: #fff;
+//       border: 1px solid white;
+//       border-radius: 20px;
+      
+//     }
+
+//   }
+// }
+.container .setimgmobile{
+  @media only screen and (max-width:988px){
+    margin-top: 60px;
+  }
+}
+

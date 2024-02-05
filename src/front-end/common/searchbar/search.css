@@ -1,0 +1,10 @@
+
+@media only screen and (max-width:420px){
+   .searchmobile{
+      width: 100% !important;
+   }
+   .small-search{
+      width: 30rem !important;
+   }
+   
+  }
