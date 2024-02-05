@@ -113,7 +113,7 @@ export default function HomeSearchBar(props: IHomeSearchBarProps) {
   const textSizeClsName = size == "normal" ? "text-[1.6rem]" : "text-sm";
   return (
     <>
-      <div className="rounded-[24px] bg-primary-light d-flex p-2 items-center border-blue-200 border-x border-y searchmobile" >
+      <div className="rounded-[15px] bg-primary-light d-flex p-2 items-center border-blue-200 border-x border-y searchmobile" >
         <img
           src="/assets/img/search-normal.svg"
           className="ml-4 mb-1 w-[2.5rem]  h-[2.5rem]"

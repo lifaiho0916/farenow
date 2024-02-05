@@ -30,17 +30,17 @@ export const HomeHeader = (props) => {
         <div className="header-links d-flex gap-20 align-items-center ">
           <Link
             to={"#popular-services"}
-            className="text-base text-dark mx-4 font-medium"
+            className="text-base text-white mx-4 font-medium"
           >
             Services
           </Link>
           <Link
             to={"/provider/registration"}
-            className="text-base text-dark mx-4 font-medium"
+            className="text-base text-white mx-4 font-medium"
           >
             Become a provider
           </Link>
-          <Link to={"/blog"} className="text-base text-dark mx-0 font-medium">
+          <Link to={"/blog"} className="text-base text-white mx-0 font-medium">
             Blogs
           </Link>
 
@@ -48,7 +48,7 @@ export const HomeHeader = (props) => {
             className="d-flex align-items-center gap-2 icon "
             style={{ marginLeft: "10px" }}
           >
-            <i style={{ fontSize: "2rem", fontWeight: "800", height: "35px" }} className="d-flex align-items-center">
+            <i style={{ fontSize: "2rem", fontWeight: "800", height: "35px" }} className="d-flex align-items-center text-white">
               <span>
                 <TfiWorld />
               </span>
@@ -62,19 +62,23 @@ export const HomeHeader = (props) => {
                   style={{
                     fontSize: "2rem",
                     fontWeight: "500",
+                    color: 'white'
                   }}
                   className="header-arrow"
                   sx={{
                     boxShadow: "none",
                     ".MuiOutlinedInput-notchedOutline": { border: 0 },
                     "&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                      {
-                        border: 0,
-                      },
+                    {
+                      border: 0,
+                    },
                     "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                      {
-                        border: 0,
-                      },
+                    {
+                      border: 0,
+                    },
+                    '.MuiSvgIcon-root ': {
+                      fill: "white !important",
+                    }
                   }}
                   MenuProps={{
                     PaperProps: {
@@ -102,9 +106,8 @@ export const HomeHeader = (props) => {
                         value={country?.id}
                         style={{ fontSize: "16px", display: "flex" }}
                         component={Link}
-                        to={`${
-                          country.is_default ? "/" : country.iso2.toLowerCase()
-                        }`}
+                        to={`${country.is_default ? "/" : country.iso2.toLowerCase()
+                          }`}
                         sx={{
                           display: "block",
                         }}
@@ -117,9 +120,9 @@ export const HomeHeader = (props) => {
               </div>
             </FormControl>
           </div>
-        </div>
+        </div >
       }
-    </BaseHeader>
+    </BaseHeader >
   );
 };
 

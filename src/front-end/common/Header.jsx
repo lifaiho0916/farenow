@@ -17,6 +17,8 @@ import { BaseHeader } from "./header/header.base";
 import { HomeHeader } from "./header/header.home";
 import SearchBarHeader from "./header/header.searchbar";
 import { setAllCountry } from "../../store/Slices/countryslice/allCountrySlice";
+import HeaderHomePart from "./header/parts/Home";
+
 
 const Header = (props) => {
   const location = useLocation();
@@ -41,7 +43,21 @@ const Header = (props) => {
       <SearchBarHeader />
     );
   return (
-    <div className="shadow-[0_4px_8px_0_#0000000A] relative z-20">{header}</div>
+    <div
+      className="banner bg-gradient-to-tr from-[#00060E] from-70% via-[#00060E] via-90% to-[#0068E1] to-95%"
+      style={{
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <div className="relative z-20">
+        {header}
+      </div>
+      {location.pathname === "/" ?
+        <HeaderHomePart />
+        : null}
+    </div>
   );
 };
 

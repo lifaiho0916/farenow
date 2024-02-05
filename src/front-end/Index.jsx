@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { HOST } from "../constants";
 import ServiceType from "../constants/ServiceType";
 import PopularServices from "./Services/services.popular";
-import HomeSearchBar from "./common/searchbar/searchbar.home";
 import DownloadDialog from "./common/download.dialog";
 import { useModal } from "react-hooks-use-modal";
 import { useRef } from "react";
@@ -13,12 +12,10 @@ import BlogPage from "../front-end/Blog";
 import BlogList from "./Blog/list";
 import BlogHeader from "./Blog/header";
 import ServicesBanner from "./Services/ServicesBanner";
-import heroimg from "../assets/Hero Image.png";
-import bgImg from "../assets/bck.png";
 import talentimg from "../assets/find talent.png";
 import group1 from "../assets/Group 4.png";
 import group2 from "../assets/Frame 11585.png";
-import group3 from "../assets/Frame 12148 (1).png";
+import appliactionMockupImg from "../assets/application_mockup_vol.png"
 import BlogCommon from "./common/blogcommon/BlogCommon";
 import ServiceBtn from "./common/ServiceBtn";
 import './common.css';
@@ -26,7 +23,6 @@ import { SERVICES } from "../constants";
 
 export const Index = (props) => {
   const headerMenu = useSelector((state) => state.headerMenuReducer);
-  console.log("======>", headerMenu);
 
   const [DownloadModal, openDownload, closeDownload] = useModal("root");
   const downloadType = useRef("APP_STORE");
@@ -37,68 +33,37 @@ export const Index = (props) => {
 
   return (
     <div className="bg-white">
-      <div
-        className="banner"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(${bgImg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="container px-12">
-          <div className="row">
-            <div className="col-12">
-              <div className="banner-sec flex flex-col items-center justify-between lg:flex-row">
-                <div className="banner-text mb-5 mb-md-0 w-100">
-                  <div className="font-bold text-5xl text-dark tracking-[-2px] leading-tight">
-                    The <span className="text-primary-main">easy</span> &
-                    <span className="text-primary-main"> reliable</span> way to
-                    take care of your home.
-                  </div>
-                  <div className="text-xl md:text-base text-dark mt-6">
-                    We make it easy for you to create the best experience for
-                    your home.
-                    <br /> Book for a handyman, get a professional service or
-                    shop from a wide variety of products and get them delivered
-                    to your doorstep.
-                  </div>
-                  <div className="my-5">
-                    <HomeSearchBar size="large" />
-                  </div>
-                </div>
-
-                <div className="d-flex  align-items-center justify-content-center relative right-[-2rem]">
-                  <img src={heroimg} className="img-fluid" />
-                  {/* <img
-                    src="/assets/img/banner-img.png"
-                    className="w-[42rem] absolute"
-                    alt=""
-                  />
-                  <img
-                    src="/assets/img/banner-sub-img.png"
-                    className="w-[16rem] absolute left-[-8rem]"
-                  />
-                  <img
-                    src="/assets/img/provider-card-sample.png"
-                    className="absolute w-[40rem] bottom-0 -left-[15rem]"
-                  /> */}
-                </div>
-              </div>
+      <section className="py-5">
+        <div className="container flex flex-col items-center justify-between lg:flex-row">
+          <div className="flex justify-center items-center mb-5">
+            <div className="container">
+              <h3 className="text-2xl leading-normal tracking-widest uppercase  text-black">
+                Easy to Use technology
+              </h3>
+              <h1 className="text-5xl leading-normal tracking-wide uppercase font-bold text-black my-4 max-w-[700px]">
+                Get Everything For Your Business Needs
+              </h1>
+              <h6 className="text-black text-sx">
+                A Booking Platform for Your Daily Needs.
+              </h6>
+              <button className="uppercase bg-gradient-to-r from-[#002A5A] to-[#005BC5] px-5 py-4 rounded-[10px] text-white hover:opacity-75 mt-5">
+                <span className="text-sm leading-loose">Explore our Platform</span>
+              </button>
             </div>
           </div>
-        </div>
-      </div>
-      <section className="py-32">
-        <div className="container">
-
+          <div className="d-flex align-items-center justify-content-center relative right-0">
+            <img
+              src={appliactionMockupImg}
+              className="img-fluid"
+            />
+          </div>
         </div>
       </section>
       <div
-        className="h-[100vh] bg-cover flex flex-col justify-center items-center"
+        className="h-fit bg-cover flex flex-col justify-center items-center py-[100px]"
         style={{ backgroundImage: "url('/assets/img/service-bg.png')" }}
       >
-        <h1 className="text-white text-3xl sm:text-4xl text-center tracking-widest leading-snug uppercase max-w-[1050px] m-5">
+        <h1 className="text-white text-3xl sm:text-4xl text-center tracking-widest leading-snug uppercase max-w-[1050px] mb-5">
           Our technology is build for
           every daily life business owner to go
           further and faster

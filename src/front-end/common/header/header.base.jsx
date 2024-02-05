@@ -374,7 +374,7 @@ export const BaseHeader = (props) => {
                 : "fare-btn-outline-primary",
             ])}
           >
-            Login
+            Sign in
           </Link>
           <Link
             to="/register"
@@ -385,7 +385,7 @@ export const BaseHeader = (props) => {
                 : "fare-btn-outline-primary",
             ])}
           >
-            Sign up
+            Join Now
           </Link>
         </>
       )}
