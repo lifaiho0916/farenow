@@ -34,13 +34,13 @@ const HeaderHomePart = () => {
                         </div>
                         <div className='flex mb-10 items-center'>
                             <AvatarGroup>
-                                <Avatar alt="Remy Sharp" sx={{ width: 35, height: 35 }} src="https://gravatar.com/avatar/b66d203c75eacaccdc487ddeb60c7f95?s=400&d=robohash&r=x" />
-                                <Avatar alt="Travis Howard" sx={{ width: 35, height: 35 }} src="https://gravatar.com/avatar/7d67020f019a12618da49e4b0b119373?s=400&d=robohash&r=x" />
-                                <Avatar alt="Agnes Walker" sx={{ width: 35, height: 35 }} src="https://gravatar.com/avatar/36c8cf0118a0e8b59e0e0e8fe66eb777?s=400&d=robohash&r=x" />
-                                <Avatar alt="Trevor Henderson" sx={{ width: 35, height: 35 }} src="https://gravatar.com/avatar/62cc8188df671200c8a65064bc964773?s=400&d=robohash&r=x" />
-                                <Avatar alt="Trevor Henderson" sx={{ width: 35, height: 35 }} src="https://gravatar.com/avatar/f10b82817692b9da1fa35bbb7a628d58?s=400&d=robohash&r=x" />
+                                <Avatar alt="Remy Sharp" sx={{ width: 35, height: 35 }} src="/assets/img/boss1.jpg" />
+                                <Avatar alt="Travis Howard" sx={{ width: 35, height: 35 }} src="/assets/img/boss2.jpg"  />
+                                <Avatar alt="Agnes Walker" sx={{ width: 35, height: 35 }} src="/assets/img/boss3.jpg" />
+                                <Avatar alt="Trevor Henderson" sx={{ width: 35, height: 35 }} src="/assets/img/boss1.jpg" />
+                                <Avatar alt="Trevor Henderson" sx={{ width: 35, height: 35 }} src="/assets/img/boss1.jpg" />
                             </AvatarGroup>
-                            <h6 className="text-xl text-white uppercase ml-2">50k+ Happy Customers</h6>
+                            <h6 className="text-xl text-white uppercase ml-3">50k+ Happy Customers</h6>
                         </div>
                         <div>
                             <button
