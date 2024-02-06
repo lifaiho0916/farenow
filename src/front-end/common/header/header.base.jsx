@@ -14,6 +14,7 @@ import { pageLinks } from "../../../store/Slices/footer";
 import _ from "lodash";
 import { useModal } from "react-hooks-use-modal";
 import clsx from "clsx";
+import { setShow } from "../../../store/Slices/HeaderDrownDownSlice";
 
 export const BaseHeader = (props) => {
   const { notification, children } = props;
@@ -33,6 +34,7 @@ export const BaseHeader = (props) => {
   const location = useLocation();
   const history = useHistory();
   const routeLoginMatch = useRouteMatch("/login");
+  const { show } = useSelector((state) => state.headerDropDownReducer);
 
   const dispatch = useDispatch();
 
@@ -383,6 +385,54 @@ export const BaseHeader = (props) => {
   );
   return (
     <header className="header-sec">
+      <div
+        className={`absolute bg-black w-100 top-[0px] transition-height z-20 md:z-0 duration-500 h-fit ${show ? 'top-[0px]' : 'top-[-1000px]'}`}
+        onMouseEnter={() => dispatch(setShow(true))}
+        onMouseLeave={() => dispatch(setShow(false))}
+      >
+        <div className="container flex justify-around pt-[150px] pb-5 flex-col lg:flex-row">
+          <div>
+            <h3 className="text-lg text-[#aaaaaa]">BUILD A CLIENT EXPERIENCE</h3>
+            <ul style={{ listStyle: 'none' }} className="mt-5">
+              <li className="text-2xl text-white my-2">Overview</li>
+              <li className="text-2xl text-white my-2">Online Booking</li>
+              <li className="text-2xl text-white my-2">Client Management</li>
+              <li className="text-2xl text-white my-2">Client Notifications</li>
+              <li className="text-2xl text-white my-2">Forms & Waivers</li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-lg text-[#aaaaaa]">RUN YOUR BUSINESS</h3>
+            <ul style={{ listStyle: 'none' }} className="mt-5">
+              <li className="text-2xl text-white my-2">Scheduling & Calendar</li>
+              <li className="text-2xl text-white my-2">Payments</li>
+              <li className="text-2xl text-white my-2">Finances</li>
+              <li className="text-2xl text-white my-2">Reports & Analytics</li>
+              <li className="text-2xl text-white my-2">Inventory Management</li>
+              <li className="text-2xl text-white my-2">Payroll</li>
+              <li className="text-2xl text-white my-2">Instant Payouts</li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-lg text-[#aaaaaa]">GROW YOUR BUSINESS</h3>
+            <ul style={{ listStyle: 'none' }} className="mt-5">
+              <li className="text-2xl text-white my-2">Team & Staff</li>
+              <li className="text-2xl text-white my-2">Marketing</li>
+              <li className="text-2xl text-white my-2">All-In-One No-Show Protection</li>
+              <li className="text-2xl text-white my-2">Loans</li>
+              <li className="text-2xl text-white my-2">Waitlist</li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-lg text-[#aaaaaa]">BUILD YOUR BRAND</h3>
+            <ul style={{ listStyle: 'none' }} className="mt-5">
+              <li className="text-2xl text-white my-2">Card Reader & Point Of Sale</li>
+              <li className="text-2xl text-white my-2">Reserve With Google</li>
+              <li className="text-2xl text-white my-2">Client Reviews</li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <div className="container">
         <div className="row">
           <div className="lg:hidden w-100 px-8">

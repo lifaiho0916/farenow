@@ -26,6 +26,7 @@ import blogSlice from "./Slices/blog/blogSlice";
 import countryslice from "./Slices/countryslice/countryslice";
 import hoursSlice from "./Slices/hours/hoursSlice";
 import allCountrySlice from "./Slices/countryslice/allCountrySlice";
+import HeaderDrownDownSlice from "./Slices/HeaderDrownDownSlice";
 
 const reducers = combineReducers({
   commonReducer: commonSlice,
@@ -55,6 +56,7 @@ const reducers = combineReducers({
   countryReducer: countryslice,
   hourReducer: hoursSlice,
   allCountryReducer: allCountrySlice,
+  headerDropDownReducer: HeaderDrownDownSlice
 });
 
 export default reducers;

@@ -51,7 +51,7 @@ export const Index = (props) => {
           every daily life business owner to go
           further and faster
         </h1>
-        <div className="flex flex-wrap max-w-[1100px] m-3 p-4">
+        <div className="flex flex-wrap max-w-[1100px] m-5 p-4">
           {SERVICES.map((service) =>
             <ServiceBtn value={service} key={service} />
           )}

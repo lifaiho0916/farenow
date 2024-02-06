@@ -1,14 +1,20 @@
 import { BaseHeader } from "./header.base";
 import { TfiWorld } from "react-icons/tfi";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import "./headerhome.css";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useEffect, useState } from "react";
+import { setShow } from "../../../store/Slices/HeaderDrownDownSlice";
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 export const HomeHeader = (props) => {
   const [country, setCountry] = useState("");
+  const dispatch = useDispatch();
+  const { show } = useSelector(state => state.headerDropDownReducer)
 
   const handleChange = (e) => {
     setCountry(e.target.value);
@@ -29,24 +35,35 @@ export const HomeHeader = (props) => {
       {
         <div className="header-links d-flex gap-20 align-items-center ">
           <Link
-            to={"#popular-services"}
-            className="text-base text-white mx-4 font-medium"
+            className="text-base text-white mx-4 font-medium flex items-center"
+            onMouseEnter={() => dispatch(setShow(true))}
           >
             Services
+            {show ?
+              <ArrowDropUpIcon className="ml-2" sx={{ fontSize: 20 }} />
+              :
+              <ArrowDropDownIcon className="ml-2" sx={{ fontSize: 20 }} />
+            }
           </Link>
           <Link
             to={"/provider/registration"}
             className="text-base text-white mx-4 font-medium"
+            onMouseEnter={() => dispatch(setShow(false))}
           >
             Become a provider
           </Link>
-          <Link to={"/blog"} className="text-base text-white mx-0 font-medium">
+          <Link
+            to={"/blog"}
+            className="text-base text-white mx-0 font-medium"
+            onMouseEnter={() => dispatch(setShow(false))}
+          >
             Blogs
           </Link>
 
           <div
             className="d-flex align-items-center gap-2 icon "
             style={{ marginLeft: "10px" }}
+            onMouseEnter={() => dispatch(setShow(false))}
           >
             <i style={{ fontSize: "2rem", fontWeight: "800", height: "35px" }} className="d-flex align-items-center text-white">
               <span>
