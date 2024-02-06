@@ -34,10 +34,7 @@ import Page404 from "./front-end/404";
 import ServicesInfo from "./front-end/ServicesInfo";
 // import { AboutUs } from "./front-end/AboutUs";
 // import Footer from "./front-end/common/Footer";
-// import { GanaIndex } from "./front-end/GanaIndex";
-// import { SouthIndex } from "./front-end/SouthIndex";
-// import { RawandaIndex } from "./front-end/RawandaIndex";
-import Pages from "./front-end/FarePages";
+import { Index } from "./front-end/Index.jsx";
 import { GanaIndex } from "./front-end/GanaIndex";
 import { RawandaIndex } from "./front-end/RawandaIndex";
 import { SouthIndex } from "./front-end/SouthIndex";
@@ -46,7 +43,7 @@ const publicRoutes = [
   {
     name: "Home",
     path: "/",
-    component: Pages,
+    component: Index,
     hash: "",
   },
   {

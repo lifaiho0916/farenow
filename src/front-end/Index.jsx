@@ -1,35 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { HOST } from "../constants";
-import ServiceType from "../constants/ServiceType";
 import PopularServices from "./Services/services.popular";
-import DownloadDialog from "./common/download.dialog";
-import { useModal } from "react-hooks-use-modal";
-import { useRef } from "react";
-import { Page } from "./Page";
-import BlogPage from "../front-end/Blog";
-import BlogList from "./Blog/list";
-import BlogHeader from "./Blog/header";
-import ServicesBanner from "./Services/ServicesBanner";
 import talentimg from "../assets/find talent.png";
 import group1 from "../assets/Group 4.png";
 import group2 from "../assets/Frame 11585.png";
 import appliactionMockupImg from "../assets/application_mockup_vol.png"
 import BlogCommon from "./common/blogcommon/BlogCommon";
 import ServiceBtn from "./common/ServiceBtn";
-import './common.css';
 import { SERVICES } from "../constants";
+import './common.css';
 
 export const Index = (props) => {
   const headerMenu = useSelector((state) => state.headerMenuReducer);
-
-  const [DownloadModal, openDownload, closeDownload] = useModal("root");
-  const downloadType = useRef("APP_STORE");
-  const openDownloadDialog = (type) => {
-    downloadType.current = type;
-    openDownload();
-  };
 
   return (
     <div className="bg-white">
@@ -158,34 +141,6 @@ export const Index = (props) => {
                 pback-layerrofessional, view professional profiles and ratings,
                 see real-time location of your professional and so much more.
               </p>
-              <div>
-                <button
-                  className="fare-btn bg-gray-50 hover:bg-primary-light border-primary border-b-2 text-primary-main text-[14px] mr-8 mb-8 w-[240px] px-12"
-                  onClick={() => {
-                    openDownloadDialog("APP_STORE");
-                  }}
-                >
-                  <img
-                    src="/assets/img/app-store-logo.svg"
-                    className="float-left mx-2"
-                  />
-                  Download on the <br />{" "}
-                  <span className="font-bold text-sm">App Store</span>
-                </button>
-                <button
-                  className="fare-btn bg-gray-50 hover:bg-primary-light border-primary border-b-2 text-primary-main text-[14px] w-[240px] px-12"
-                  onClick={() => {
-                    openDownloadDialog("GOOGLE_PLAY");
-                  }}
-                >
-                  <img
-                    src="/assets/img/google-play-logo.svg"
-                    className="float-left mx-2"
-                  />
-                  Available on the <br />{" "}
-                  <span className="font-bold text-sm">Google Play</span>
-                </button>
-              </div>
             </div>
           </div>
         </div>
@@ -307,13 +262,6 @@ export const Index = (props) => {
           </div>
         </section>
       </div>
-
-
-
-
-      <DownloadModal>
-        <DownloadDialog type={downloadType.current} />
-      </DownloadModal>
     </div>
   );
 };

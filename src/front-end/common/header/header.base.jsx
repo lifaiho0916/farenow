@@ -1,13 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import {
   Link,
-  NavLink,
   useHistory,
   useLocation,
   useRouteMatch,
 } from "react-router-dom";
 import axios from "axios";
-// import ServiceType from "../../constants/ServiceType";
 import { Chat } from "../../Chat/Chat";
 import { useSelector, useDispatch } from "react-redux";
 import { getNotifications } from "../../../store/Slices/notification";
@@ -16,7 +14,6 @@ import { pageLinks } from "../../../store/Slices/footer";
 import _ from "lodash";
 import { useModal } from "react-hooks-use-modal";
 import clsx from "clsx";
-import { Index } from "../../Index";
 
 export const BaseHeader = (props) => {
   const { notification, children } = props;
@@ -103,7 +100,7 @@ export const BaseHeader = (props) => {
         }
       });
     }
-  
+
     if (window.gapi && window.gapi.auth2) {
       const auth2 = window.gapi.auth2.getAuthInstance();
       if (auth2) {
@@ -111,17 +108,17 @@ export const BaseHeader = (props) => {
         });
       }
     }
-  
+
     localStorage.clear();
-  
+
     setState((state) => ({
       ...state,
       is_loggedin: false,
     }));
     history.push("/");
   };
-  
-  
+
+
   const mySearch = ({ target: { value } }) => {
     if (value) {
       setState((prev) => ({
@@ -165,9 +162,6 @@ export const BaseHeader = (props) => {
 
   const headerLogo = (
     <div className="header-logo">
-      {/**
-       * Brand Logo
-       */}
       <Link
         to={(location) => ({
           ...location,
@@ -181,13 +175,10 @@ export const BaseHeader = (props) => {
         }}
       >
         <img
-          src="/assets/img/brand-primary.svg"
+          src="/assets/img/brand-secondary.svg"
           alt=""
+          width={200}
           className="img-fluid"
-          // style={{
-          //     height: "15vh",
-          //     width: "auto",
-          // }}
         />
       </Link>
     </div>
@@ -305,7 +296,6 @@ export const BaseHeader = (props) => {
       </div>
       <div className="dropdown">
         <div
-          // className="btn btn-secondary dropdown-toggle"
           className="link"
           id="dropdownMenuLink"
           data-toggle="dropdown"
