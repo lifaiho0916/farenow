@@ -8,8 +8,8 @@ import { useLocation, useHistory } from "react-router-dom";
 import Header from "./front-end/common/Header";
 import Footer from "./front-end/common/Footer";
 
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { getCartList } from "./store/Slices/cart/cartsSlice";
 import Echo from "laravel-echo";
 import io from "socket.io-client";
@@ -29,6 +29,14 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { QueryClient, QueryClientProvider } from "react-query";
 // import { useJsApiLoader } from "@react-google-maps/api";
 import ReactPixel from "react-facebook-pixel";
+import { setAllCountry } from "./store/Slices/countryslice/allCountrySlice";
+import {
+  changeCountry,
+  changeCountryId,
+  changePlaceId,
+  changeZipCode,
+} from "./store/Slices/countryslice/countryslice";
+import { setPartners } from "./store/Slices/partners/partnersSlice";
 
 const stripePromise = loadStripe(process.env.React_APP_STRIPE_PUBLIC_KEY);
 const paypalClientID = process.env.REACT_APP_PAYPAL_CLIENT_ID;
@@ -49,28 +57,28 @@ if (typeof window.io != "undefined") {
   window.Echo = new Echo(liveOption);
 }
 
-// (function (d, s, id) {
-//   var js,
-//     fjs = d.getElementsByTagName(s)[0];
-//   if (d.getElementById(id)) {
-//     return;
-//   }
-//   js = d.createElement(s);
-//   js.id = id;
-//   js.src = "https://connect.facebook.net/en_US/sdk.js";
-//   fjs.parentNode.insertBefore(js, fjs);
-// })(document, "script", "facebook-jssdk");
+window.fbAsyncInit = function () {
+  window.FB.init({
+    appId: process.env.REACT_APP_FACEBOOK_APP_ID,
+    cookie: true,
+    xfbml: true,
+    version: "v17.0",
+  });
 
-// window.fbAsyncInit = function () {
-//   window.FB.init({
-//     appId: React_APP_FACEBOOK_APP_AD,
-//     cookie: true,
-//     xfbml: true,
-//     version: "v14.0",
-//   });
+  window.FB.AppEvents.logPageView();
+};
 
-//   window.FB.AppEvents.logPageView();
-// };
+(function (d, s, id) {
+  var js,
+    fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {
+    return;
+  }
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://connect.facebook.net/en_US/sdk.js";
+  fjs.parentNode.insertBefore(js, fjs);
+})(document, "script", "facebook-jssdk");
 
 const advancedMatching = { em: "some@email.com" }; // optional, more info: https://developers.facebook.com/docs/facebook-pixel/advanced/advanced-matching
 const options = {
@@ -109,7 +117,9 @@ function App() {
   const [state, setState] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
-  const { hash } = useLocation();
+  const [country, setCountry] = useState(null);
+
+  const { hash, pathname } = useLocation();
   const history = useHistory();
 
   const messaging = getMessaging();
@@ -130,7 +140,108 @@ function App() {
   };
 
   const dispatch = useDispatch();
-  const location = useLocation();
+
+  const [allcountries, setAllCountries] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_BASE_URL}/api/countries`)
+      .then((response) => {
+        setAllCountries(response.data);
+        dispatch(setAllCountry(response.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [dispatch]);
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_BASE_URL}/api/get-partner`)
+      .then((response) => {
+        dispatch(setPartners(response.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [dispatch]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios.post(
+          `https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.REACT_APP_GOOGLE_MAP_API}`
+        );
+        if (data.location) {
+          const response = await axios.post(
+            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${data.location.lat},${data.location.lng}&key=${process.env.REACT_APP_GOOGLE_MAP_API}`
+          );
+          const results = response?.data?.results;
+          if (results.length > 0) {
+            const addressComponents = results[0].address_components;
+            for (const component of addressComponents) {
+              if (component.types.includes("postal_code")) {
+                dispatch(changeZipCode(component.long_name));
+              }
+            }
+            dispatch(changePlaceId(results[0].place_id));
+          }
+          const countryCode =
+            response.data.results[
+              results.length - 1
+            ].address_components[0].short_name.toLowerCase();
+          dispatch(changeCountry(countryCode));
+          setCountry(countryCode);
+        }
+      } catch (e) {
+        setCountry("ng");
+        dispatch(changeCountry("ng"));
+      }
+    })();
+  }, []);
+  useEffect(() => {
+    if (allcountries && country) {
+      for (let index = 0; index < allcountries.length; index++) {
+        const element = allcountries[index];
+        if (
+          pathname === "/"
+          // pathname === "/ng" ||
+          // pathname === "/ke" ||
+          // pathname === "/gh" ||
+          // pathname === "/za"
+        ) {
+          if (element.iso2.toLowerCase() === country) {
+            localStorage.setItem("country", element.id);
+            dispatch(changeCountryId(element.id));
+            if (pathname !== "/" && country === "ng") {
+              history.push(`/`);
+            } else if (pathname !== "/" && country !== "ng") {
+              history.push(`/${country}`);
+            } else if (pathname === "/" && country !== "ng") {
+              history.push(`/${country}`);
+            }
+            break;
+          } else {
+            // set for Nigeria
+            if (element.is_default) {
+              localStorage.setItem("country", element.id);
+              dispatch(changeCountryId(element.id));
+              history.push(`/${element.iso2.toLowerCase()}`);
+            }
+          }
+        } else {
+          if (element.iso2.toLowerCase() === pathname.split("/")[1]) {
+            localStorage.setItem("country", element.id);
+            dispatch(changeCountryId(element.id));
+          } else {
+            if (element.is_default) {
+              localStorage.setItem("country", element.id);
+              dispatch(changeCountryId(element.id));
+            }
+          }
+        }
+      }
+    }
+  }, [allcountries, country]);
 
   useEffect(() => {
     (async () => {
@@ -249,4 +360,3 @@ function App() {
 }
 
 export default App;
-

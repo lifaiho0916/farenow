@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import ProviderSettings, {
   ProviderSettingSection,
@@ -40,6 +40,12 @@ const Registration = (props) => {
   } = props;
   const [step, setStep] = useState(1);
   console.log("main step is ", step);
+  useEffect(() => {
+    // setStep(1);
+    if (!localStorage.getItem("providerToken") && step == 3) {
+      setStep(1);
+    }
+  }, [step]);
   // @remove-this: 2
   const [basic, setBasic] = useState({
     error: {
@@ -105,7 +111,6 @@ const Registration = (props) => {
         error.current = toast.error(verifyOpt.message, {
           toastId: error.current,
         });
-        console.log("verifyOpt.message  1", verifyOpt.message);
       }
       if (typeof verifyOpt?.message == "object") {
         setOtpData({ ...otpData, error: verifyOpt.message });
@@ -116,11 +121,9 @@ const Registration = (props) => {
       toast.dismiss(loading.current);
       localStorage.setItem("providerToken", verifyOpt?.data?.auth_token);
       setStep(3);
-      console.log("verifyOpt.message  3", verifyOpt.message);
     }
-  }, [verifyOpt]);
+  }, [verifyOpt, otpData]);
 
-  console.log("verifyOpt ", verifyOpt?.data);
   useEffect(() => {
     if (basicInfoRes?.loading == false && basicInfoRes?.message == "success") {
       handleStep(4);
@@ -144,7 +147,6 @@ const Registration = (props) => {
     ) {
       handleStep(4);
     }
-    console.log("eeeee ======>", serviceDetail);
     if (serviceDetail.loading == false && serviceDetail.error) {
       Swal.fire({
         icon: "error",
@@ -365,7 +367,6 @@ const Registration = (props) => {
       last_name: data?.last_name ? data?.last_name : "",
     });
   };
-
   return (
     <>
       <div className="login-sec d-flex align-items-center bg-gray-50">
@@ -392,7 +393,7 @@ const Registration = (props) => {
                 verifyOpt={verifyOpt}
               />
             )}
-            {step == 3 && !localStorage.getItem("providerToken") && (
+            {step == 3 && localStorage.getItem("providerToken") && (
               <ProviderSettings
                 onComplete={(settings) => {
                   handleBasicInfo(settings);
@@ -439,6 +440,7 @@ const Registration = (props) => {
                 <ProfileDetail
                   handleStep={(step) => handleStep(step)}
                   step={step}
+                  setStep={setStep}
                   profile={profile}
                   providerType={providerType}
                   handleProfile={(data) => handleProfile(data)}

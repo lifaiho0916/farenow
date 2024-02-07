@@ -1,4 +1,4 @@
-import { createSlice, Action } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { HOST } from "./../../../constants";
 const FooterSlice = createSlice({
@@ -26,14 +26,12 @@ const FooterSlice = createSlice({
 export default FooterSlice.reducer;
 export const { pageLinks, pages } = FooterSlice.actions;
 
-export const getPages = () => async (dispatch) => {
+export const getPages = (countryId) => async (dispatch) => {
   try {
     dispatch(pages({ error: false, loading: true }));
     await axios({
       method: "get",
-      url: `${HOST}/api/user/page?country_id=${localStorage.getItem(
-        "country"
-      )}`,
+      url: `${HOST}/api/user/page?country_id=${countryId}`,
     })
       .then((response) => {
         //handle success
@@ -53,3 +51,4 @@ export const getPages = () => async (dispatch) => {
     );
   }
 };
+

@@ -10,6 +10,7 @@ import { Helmet } from "react-helmet";
 export const Page = (props) => {
   const [state, setState] = useState({});
   const [metaData, setMetaData] = useState([]);
+  const [page, setPage] = useState({});
   let myPages = {
     articles: "Articles",
     "about-us": "About",
@@ -22,8 +23,19 @@ export const Page = (props) => {
   const { name } = params;
 
   const pages = useSelector((state) => state?.footerReducer?.pages);
-  const page = pages?.data?.find((page) => page.name === myPages[name]);
-
+  let allPages = [];
+  for (let index = 0; index < pages?.data?.length; index++) {
+    const element = pages.data[index];
+    const newElement = {
+      ...element,
+      slug: element?.name.toLowerCase().replace(/\s+/g, "-"),
+    };
+    allPages.push(newElement);
+  }
+  useEffect(() => {
+    const page = allPages?.find((page) => page.slug === name);
+    setPage(page);
+  }, [pages.data]);
   useEffect(() => {
     if (name && page?.content) {
       const converter = new QuillDeltaToHtmlConverter(
@@ -51,7 +63,10 @@ export const Page = (props) => {
     meta = (
       <Helmet>
         <title>Farenow - {metaInfo?.page_name}</title>
-        <meta name="description" content={`${metaInfo?.og_description}`} />
+        <meta
+          property="og:description"
+          content={`${metaInfo?.og_description}`}
+        />
         <meta property="og:title" content={metaInfo?.og_title} />
         <meta property="og:image" content={metaInfo?.og_image} />
       </Helmet>
@@ -88,4 +103,3 @@ const Content = ({ content }) => {
     </>
   );
 };
-

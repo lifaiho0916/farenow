@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { HOST } from "../constants";
 import ServiceType from "../constants/ServiceType";
 import PopularServices from "./Services/services.popular";
@@ -21,10 +21,24 @@ import group1 from "../assets/Group 4.png";
 import group2 from "../assets/Frame 11585.png";
 import group3 from "../assets/Frame 12148 (1).png";
 import BlogCommon from "./common/blogcommon/BlogCommon";
+import axios from "axios";
+import Skeleton from "react-loading-skeleton";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import heroImage from "../assets/Hero-Image.png";
+import StateListFooter from "./common/StateListFooter";
+import PopularProjects from "./common/PopularProjects";
 
 export const RawandaIndex = (props) => {
   const headerMenu = useSelector((state) => state.headerMenuReducer);
-  console.log("======>", headerMenu);
+  const allCountry = useSelector((state) => state.allCountryReducer.countries);
+  const partners = useSelector((state) => state.partnersReducer.partners);
+  const [defaultUI, setDefaultUI] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const [apiLoaded, setApiLoaded] = useState(true);
+  const [carouselPause, setCarouselPause] = useState(false);
+  const [partnersItem, setPartnersItem] = useState([]);
 
   const [DownloadModal, openDownload, closeDownload] = useModal("root");
   const downloadType = useRef("APP_STORE");
@@ -33,25 +47,175 @@ export const RawandaIndex = (props) => {
     openDownload();
   };
 
+  useEffect(() => {
+    const countryISO = location.pathname.split("/")[1];
+    const country = allCountry?.find(
+      (c) => c.iso2.toLowerCase() === countryISO
+    );
+    const fetchData = async () => {
+      setLoading(true);
+      if (
+        country?.iso2.toLowerCase() !== "za" ||
+        country?.iso2.toLowerCase() !== "gh" ||
+        country?.iso2.toLowerCase() !== "ke"
+      ) {
+        try {
+          const response = await axios
+            .get(`${HOST}/api/sliders?country_id=${country?.id}`)
+            .then((res) => {
+              if (res.data.data.length !== 0) {
+                setDefaultUI(res.data.data);
+                setApiLoaded(false);
+              } else {
+                // setDefaultUI([defaultNigeriaUI]);
+              }
+            });
+        } catch (error) {
+          console.error("An error occurred:", error);
+        } finally {
+          setTimeout(() => {
+            setLoading(false);
+          }, 1000);
+        }
+      }
+    };
+    fetchData();
+  }, [location.pathname, allCountry]);
+
+  useEffect(() => {
+    if (partners.partners) {
+      setPartnersItem(partners.partners);
+    }
+  }, [partners]);
+
+  const responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 1,
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 1,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 600 },
+      items: 1,
+    },
+    mobile: {
+      breakpoint: { max: 599, min: 0 },
+      items: 1,
+    },
+  };
+  const partnerResponsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 4,
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 4,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 600 },
+      items: 4,
+    },
+    mobile: {
+      breakpoint: { max: 599, min: 0 },
+      items: 4,
+    },
+  };
+  
+  const projects = [
+    {
+      id: 1,
+      src: "https://assets.taskrabbit.com/v3/assets/web/homepage/components/popular_projects/desktop_33-ff031721fe1fd6feeb779c3f4bc64e6384106167f4bead18f1fabeec31c7a3ba.jpg",
+      title: "Furniture Assembly",
+      amount: "Avg. Project: $52 – $122",
+    },
+    {
+      id: 2,
+      src: "https://assets.taskrabbit.com/v3/assets/web/homepage/components/popular_projects/desktop_405-73a06ac4080d93824936820f5b00e83d48e58a1695c69270961ad2e8819a2eb4.jpg",
+      title: "Furniture Assembly",
+      amount: "Avg. Project: $52 – $122",
+    },
+    {
+      id: 3,
+      src: "https://assets.taskrabbit.com/v3/assets/web/homepage/components/popular_projects/desktop_6-56d6fa4bb3945b4fb95911ff2b1389e8973f1f7646ba1bf413f561a954b3c6b9.jpg",
+      title: "Furniture Assembly",
+      amount: "Avg. Project: $52 – $122",
+    },
+    {
+      id: 4,
+      src: "https://assets.taskrabbit.com/v3/assets/web/homepage/components/popular_projects/desktop_59-97f36ec5d917ec6299b04ba7c94f4ad041a62945fa9c44cbbdc6af48a3cdc42b.jpg",
+      title: "Furniture Assembly",
+      amount: "Avg. Project: $52 – $122",
+    },
+    {
+      id: 5,
+      src: "https://assets.taskrabbit.com/v3/assets/web/homepage/components/popular_projects/desktop_69-ae088bb93a160d7c7479f9297e1a4b6cff75a01c3751b91232b04ebd4c703694.jpg",
+      title: "Furniture Assembly",
+      amount: "Avg. Project: $52 – $122",
+    },
+    {
+      id: 6,
+      src: "https://assets.taskrabbit.com/v3/assets/web/homepage/components/popular_projects/desktop_63-53a0834f2365d00e7517ed62ddcb344c6c27c9b076f76deb5b3707d2fe2b3f04.jpg",
+      title: "Furniture Assembly",
+      amount: "Avg. Project: $52 – $122",
+    },
+    {
+      id: 7,
+      src: "https://assets.taskrabbit.com/v3/assets/web/homepage/components/popular_projects/desktop_401-c3ed5c199aa212ee10bda1f06201e4d6676d91d958efb26c4f4722b1f4cd0a38.jpg",
+      title: "Furniture Assembly",
+      amount: "Avg. Project: $52 – $122",
+    },
+    {
+      id: 8,
+      src: "https://assets.taskrabbit.com/v3/assets/web/homepage/components/popular_projects/desktop_113-8a2b4da5105b4a314f753304f2962ed7e1a1db5027353b5bac153cf90d397c53.jpg",
+      title: "Furniture Assembly",
+      amount: "Avg. Project: $52 – $122",
+    },
+  ];
+
   return (
     <>
       <div className="bg-white">
-        <div
-          className="banner"
-          style={{
-            backgroundImage: `url(${bgImg})`,
-            backgroundColor: "#0068E1",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
+        <Carousel
+          swipeable={true}
+          draggable={true}
+          showDots={true}
+          responsive={responsive}
+          arrows={false}
+          infinite={true}
+          autoPlay={!carouselPause}
+          autoPlaySpeed={5000}
+          pauseOnHover
+          transitionDuration={500}
+          removeArrowOnDeviceType={["tablet", "mobile"]}
+          className=""
         >
-          <div className="container px-12">
-            <div className="row">
-              <div className="col-12">
-                <div className="banner-sec flex flex-col items-center justify-between lg:flex-row">
-                  <div className="banner-text mb-5 mb-md-0 w-100">
-                    <div className="font-bold text-5xl text-light tracking-[-2px] leading-tight">
+          {!loading &&
+            defaultUI?.map((item) => {
+              return (
+                <div
+                  className="banner"
+                  style={{
+                    backgroundImage: `url(${
+                      item?.bg_image ? HOST + item?.bg_image : bgImg
+                    })`,
+                    backgroundColor: "#0068E1",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                >
+                  <div className="container px-12">
+                    <div className="row">
+                      <div className="col-12">
+                        <div className="banner-sec flex flex-col items-center justify-between lg:flex-row">
+                          <div className="banner-text mb-5 mb-md-0 w-100">
+                            {/* <div className="font-bold text-5xl text-light tracking-[-2px] leading-tight">
                       The{" "}
                       <span
                         className="text-primary-main"
@@ -69,21 +233,35 @@ export const RawandaIndex = (props) => {
                       </span>{" "}
                       way to take care of your home.
                     </div>
-                    <div className="text-xl md:text-base text-light mt-6 px-8">
+                    <div className="text-xl md:text-base text-light mt-6">
                       We make it easy for you to create the best experience for
                       your home.
                       <br /> Book for a handyman, get a professional service or
                       shop from a wide variety of products and get them
                       delivered to your doorstep.
-                    </div>
-                    <div className="my-5">
-                      <HomeSearchBar size="large" />
-                    </div>
-                  </div>
+                    </div> */}
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html: item?.description,
+                              }}
+                            ></div>
+                            <div
+                              className="my-5"
+                              onFocus={() => setCarouselPause(true)}
+                              onBlur={() => setCarouselPause(false)}
+                            >
+                              <HomeSearchBar size="large" />
+                            </div>
+                          </div>
 
-                  <div className="d-flex  align-items-center justify-content-center relative right-[-2rem]">
-                    <img src={rawanda} className="w-[60rem]" />
-                    {/* <img
+                          <div className="d-flex  align-items-center justify-content-center relative right-[-2rem]">
+                            {/* <img src={rawanda} className="w-[60rem]" /> */}
+                            <img
+                              src={HOST + item?.front_image}
+                              alt="front"
+                              className="w-[60rem]"
+                            />
+                            {/* <img
                     src="/assets/img/banner-img.png"
                     className="w-[42rem] absolute"
                     alt=""
@@ -95,21 +273,99 @@ export const RawandaIndex = (props) => {
                   <img
                     src="/assets/img/provider-card-sample.png"
                     className="absolute w-[40rem] bottom-0 -left-[15rem]" */}
-                    {/* /> */}
+                            {/* /> */}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+        </Carousel>
+        {loading && (
+          <div
+            className="banner"
+            style={{
+              backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(${bgImg})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          >
+            <div className="container px-12">
+              <div className="row">
+                <div className="col-12">
+                  <div className="banner-sec flex flex-col items-center justify-between lg:flex-row">
+                    <div className="banner-text mb-5 mb-md-0 w-100">
+                      <Skeleton height={125} count={2} />
+                      <div className="my-5">
+                        <HomeSearchBar size="large" />
+                      </div>
+                    </div>
+
+                    <div className="d-flex  align-items-center justify-content-center relative right-[-2rem]">
+                      <Skeleton height={530} width={520} />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="nav">
-          <div className="nav-data">
-            <h4>Popular : </h4>
-            <div className="divbtn1" style={{ display: "flex", gap: "20px" }}>
+        )}
+        {!loading && defaultUI.length === 0 && (
+          <div
+            className="banner"
+            style={{
+              backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(${bgImg})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          >
+            <div className="container px-12">
+              <div className="row">
+                <div className="col-12">
+                  <div className="banner-sec flex flex-col items-center justify-between lg:flex-row">
+                    <div className="banner-text mb-5 mb-md-0 w-100">
+                      <>
+                        <div className="font-bold text-5xl text-dark tracking-[-2px] leading-tight">
+                          The <span className="text-primary-main">easy</span> &
+                          <span className="text-primary-main"> reliable</span>{" "}
+                          way to take care of your home.
+                        </div>
+                        <div className="text-xl md:text-base text-dark mt-6">
+                          We make it easy for you to create the best experience
+                          for your home.
+                          <br /> Book for a handyman, get a professional service
+                          or shop from a wide variety of products and get them
+                          delivered to your doorstep.
+                        </div>
+                      </>
+                      <div className="my-5">
+                        <HomeSearchBar size="large" />
+                      </div>
+                    </div>
+
+                    <div className="d-flex  align-items-center justify-content-center relative right-[-2rem]">
+                      <img src={heroImage} className="img-fluid" alt="" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        <div className="nav flex justify-center">
+          <div className="nav-data flex-row gap-4 px-4 overflow-auto">
+            <h4 className="flex justify-center items-center whitespace-nowrap">
+              Popular :{" "}
+            </h4>
+            <div className="divbtn1 !flex gap-4">
               <button className="btn">Handyman Services</button>
               <button className="btn">Home Cleaning</button>
             </div>
-            <div className="divbtn2" style={{ display: "flex", gap: "20px" }}>
+            <div className="divbtn2 !flex gap-4">
               <button className="btn">Electricity</button>
               <button className="btn">Computers</button>
             </div>
@@ -120,7 +376,11 @@ export const RawandaIndex = (props) => {
             <PopularServices services={headerMenu} />
           </div>
         </section>
-
+        <section className="pb-32 bg-gray-50">
+          <div className="container">
+            <PopularProjects projects={projects} />
+          </div>
+        </section>
         <section className="my-5">
           <img src={rawandatalent} alt="img" style={{ margin: "auto" }} />
           <div
@@ -179,7 +439,6 @@ export const RawandaIndex = (props) => {
           </div>
         </div>
       </section> */}
-        <index />
         <section className="download-apps pad-y bg-primary-dark">
           <div className="container">
             <div className="d-flex flex-wrap space-x-32 align-items-center flex-lg-nowrap">
@@ -283,29 +542,52 @@ export const RawandaIndex = (props) => {
               <div className="col-md-12">
                 <div className="mb-16 text-center">
                   <div className="text-4xl text-primary-main font-medium">
-                    Our Partners
+                    {partners?.info?.title
+                      ? partners?.info?.title
+                      : "Our Partners"}
                   </div>
                   <div className="text-base text-dark">
-                    Farenow works with partners who want to provide their
-                    customers, tenants, or employees <br /> easy access to
-                    quality home services at affordable prices.
+                    {/* Farenow works with partners who want to provide their
+                  customers, tenants, or employees <br /> easy access to quality
+                  home services at affordable prices. */}
+                    {partners?.info?.description
+                      ? partners?.info?.description
+                      : "Farenow works with partners who want to provide their customers, tenants, or employees  easy access to quality home services at affordable prices."}
                   </div>
                 </div>
               </div>
               <div className="col-md-12">
-                <div className="d-flex flex-wrap space-x-12 space-y-12 justify-center align-items-end">
-                  {[1, 2, 3, 4].map((partnerIdx) => (
-                    <div
-                      key={partnerIdx}
-                      className="px-12 py-8 bg-white rounded-[16px] shadow-[0_8px_16px_0_#00000014]"
-                    >
-                      <img
-                        src={`/assets/img/partner-${partnerIdx}.png`}
-                        className="h-[4rem]"
-                      />
-                    </div>
-                  ))}
-                </div>
+                <Carousel
+                  swipeable={true}
+                  draggable={true}
+                  showDots={true}
+                  responsive={partnerResponsive}
+                  arrows={false}
+                  infinite={true}
+                  autoPlay={true}
+                  autoPlaySpeed={5000}
+                  pauseOnHover
+                  transitionDuration={500}
+                  slidesToSlide={4}
+                  removeArrowOnDeviceType={["tablet", "mobile"]}
+                  className="d-flex flex-wrap space-x-12 space-y-12 justify-center align-items-end pb-5"
+                >
+                  {partnersItem?.map((partner, index) => {
+                    return (
+                      <div
+                        key={index}
+                        title={partner.name}
+                        className="px-12 py-8 mx-4 bg-white rounded-[16px] shadow-[0_8px_16px_0_#00000014]"
+                      >
+                        <img
+                          src={HOST + partner.image}
+                          className="h-[4rem]"
+                          alt="partner"
+                        />
+                      </div>
+                    );
+                  })}
+                </Carousel>
               </div>
             </div>
           </div>
@@ -379,6 +661,8 @@ export const RawandaIndex = (props) => {
         <DownloadModal>
           <DownloadDialog type={downloadType.current} />
         </DownloadModal>
+
+        <StateListFooter />
       </div>
     </>
   );

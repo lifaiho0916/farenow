@@ -5,7 +5,7 @@
     <link rel="icon" href="%PUBLIC_URL%/assets/img/app-icon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <!-- <meta name="description" content="A description of the page"> -->
+    <meta name="description" content="A description of the page" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/assets/img/app-icon.svg" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -75,6 +75,16 @@
     <noscript class="display-4"
       >You need to enable JavaScript to run this app.</noscript
     >
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-KZPMG6KG"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <div id="root"></div>
     <!--
       This HTML file is a template.
@@ -126,6 +136,31 @@
     gtag("js", new Date());
     gtag("config", "G-75E7G33Z3H");
   </script>
+  <!-- Twitter conversion tracking event code -->
+  <script type="text/javascript">
+    // Insert Twitter Event ID
+    twq("event", "tw-ogpk3-ogpk7", {
+      value: null, // use this to pass the value of the conversion (e.g. 5.00)
+      conversion_id: null, // use this to pass a unique ID for the conversion event for deduplication (e.g. order id '1a2b3c')
+      email_address: null, // use this to pass a user’s email address
+      phone_number: null, // phone number in E164 standard
+    });
+  </script>
+  <!-- End Twitter conversion tracking event code -->
+  <!-- Google Tag Manager -->
+  <script>
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != "dataLayer" ? "&l=" + l : "";
+      j.async = true;
+      j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-KZPMG6KG");
+  </script>
+  <!-- End Google Tag Manager -->
 
   <!-- End Facebook Pixel Code -->
 </html>

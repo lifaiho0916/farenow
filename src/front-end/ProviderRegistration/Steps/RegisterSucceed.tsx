@@ -8,6 +8,17 @@ export interface IRegisterSucceedProps {
 }
 
 export default function RegisterSucceed(props: IRegisterSucceedProps) {
+  React.useEffect(() => {
+    const handleScroll = () => {
+      window.scrollTo(0, 0);
+    };
+
+    handleScroll();
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const { title = "", subTitle = "" } = props;
   return (
     <div className="d-flex flex-column items-center gap-8 py-20 ">
@@ -54,3 +65,4 @@ export default function RegisterSucceed(props: IRegisterSucceedProps) {
     </div>
   );
 }
+

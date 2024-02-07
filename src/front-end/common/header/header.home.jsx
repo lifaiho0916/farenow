@@ -1,35 +1,38 @@
 import { BaseHeader } from "./header.base";
 import { TfiWorld } from "react-icons/tfi";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
 import "./headerhome.css";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useEffect, useState } from "react";
+import {
+  changeCountry,
+  changeCountryId,
+} from "../../../store/Slices/countryslice/countryslice";
+import { useSelector, useDispatch } from "react-redux";
 import { setShow } from "../../../store/Slices/HeaderDrownDownSlice";
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 export const HomeHeader = (props) => {
-  const [country, setCountry] = useState("");
+  const [countryId, setCountryId] = useState("");
+  let location = useLocation();
+  const country_id = useSelector((state) => state.countryReducer.countryId);
   const dispatch = useDispatch();
   const { show } = useSelector(state => state.headerDropDownReducer)
 
   const handleChange = (e) => {
-    setCountry(e.target.value);
+    setCountryId(e.target.value);
     localStorage.setItem("country", e.target.value);
+    dispatch(changeCountryId(e.target.value));
   };
-
   useEffect(() => {
-    const defaultCountry = props.countries.find(
-      (country) => country.is_default === true
-    );
-    if (defaultCountry) {
-      setCountry(defaultCountry.id);
-      localStorage.setItem("country", defaultCountry.id);
-    }
-  }, [props.countries]);
+    setCountryId(localStorage.getItem("country") || country_id);
+    // const country = props.countries.find(
+    //   (country) => (country.iso2 = countryIso)
+    // );
+  }, [props.countries, country_id]);
   return (
     <BaseHeader>
       {
@@ -63,25 +66,26 @@ export const HomeHeader = (props) => {
           <div
             className="d-flex align-items-center gap-2 icon "
             style={{ marginLeft: "10px" }}
-            onMouseEnter={() => dispatch(setShow(false))}
           >
-            <i style={{ fontSize: "2rem", fontWeight: "800", height: "35px" }} className="d-flex align-items-center text-white">
+            <i
+              style={{ fontSize: "2rem", fontWeight: "800", height: "35px", color: 'white' }}
+              className="d-flex align-items-center"
+            >
               <span>
                 <TfiWorld />
               </span>
             </i>
-
-            <FormControl fullWidth size="small" className="mobc">
-              <div className="dropdown">
+            <FormControl fullWidth size="small">
+              <div>
                 <Select
-                  value={country}
+                  value={countryId}
                   onChange={handleChange}
                   style={{
                     fontSize: "2rem",
                     fontWeight: "500",
                     color: 'white'
                   }}
-                  className="header-arrow"
+                  className="header-arrow !w-60"
                   sx={{
                     boxShadow: "none",
                     ".MuiOutlinedInput-notchedOutline": { border: 0 },
@@ -95,7 +99,8 @@ export const HomeHeader = (props) => {
                     },
                     '.MuiSvgIcon-root ': {
                       fill: "white !important",
-                    }
+                    },
+                    width: 180,
                   }}
                   MenuProps={{
                     PaperProps: {
@@ -123,13 +128,16 @@ export const HomeHeader = (props) => {
                         value={country?.id}
                         style={{ fontSize: "16px", display: "flex" }}
                         component={Link}
-                        to={`${country.is_default ? "/" : country.iso2.toLowerCase()
-                          }`}
+                        to={`${country.iso2.toLowerCase()}`}
                         sx={{
                           display: "block",
                         }}
                       >
-                        <h1>{country.emoji} {country.name}</h1>
+                        <div className="flex items-center">
+                          <h1>
+                            {country.emoji} {country.name}
+                          </h1>
+                        </div>
                       </MenuItem>
                     );
                   })}
@@ -137,9 +145,8 @@ export const HomeHeader = (props) => {
               </div>
             </FormControl>
           </div>
-        </div >
+        </div>
       }
-    </BaseHeader >
+    </BaseHeader>
   );
 };
-

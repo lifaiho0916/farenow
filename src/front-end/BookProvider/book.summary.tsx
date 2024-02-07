@@ -3,7 +3,6 @@ import axios from "axios";
 import { closePaymentModal, useFlutterwave } from "flutterwave-react-v3";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { RootState } from "../../store";
@@ -14,11 +13,6 @@ export interface IBookSummaryProps
     IServiceRequestHourly {
   provider: IProvider;
   transaction_id: any;
-}
-interface ExtendedRootState extends RootState {
-  countryReducer: {
-    selectcountry: string;
-  };
 }
 
 export default function BookSummary(props: IBookSummaryProps) {
@@ -42,29 +36,33 @@ export default function BookSummary(props: IBookSummaryProps) {
   const questionAnswers = useSelector<RootState>((state) =>
     getQuestionAnswers(state.questionAnswers)
   );
-  const plan = provider.plans?.find((p) => p.id === plan_id);
-  const amount =
-    (Number(provider.provider_profile?.hourly_rate) *
-      hours *
-      (100 - (plan?.off ?? 0))) /
-    100;
-
-  const userData = JSON.parse(localStorage.getItem("user_data"));
-
   const allCountry = useSelector((state: any) => state?.allCountryReducer);
-
+  const plan = provider.plans?.find((p) => p.id === plan_id);
+  const [amount, setAmount] = useState(0);
   const [currency, setCurrency] = useState("NGN");
   const [currency_symbol, setCurrencySymbol] = useState("₦");
-
   useEffect(() => {
-    for (let index = 0; index < allCountry.countries.length; index++) {
-      const element = allCountry.countries[index];
-      if (element.id == localStorage.getItem("country")) {
-        setCurrency(element?.currency);
-        setCurrencySymbol(element?.currency_symbol);
-      }
+    const country = allCountry?.countries?.find(
+      (country: any) => country?.id === provider?.country_id
+    );
+    setCurrency(country?.currency);
+    setCurrencySymbol(country?.currency_symbol);
+    const amount =
+      (Number(provider.provider_profile?.hourly_rate) *
+        hours *
+        (100 - (plan?.off ?? 0))) /
+      100;
+    setAmount(amount);
+    if (plan) {
+      const durationAmount =
+        Number(plan?.duration) *
+        Number(provider?.provider_profile?.hourly_rate);
+      const discountPrice = durationAmount * (Number(plan?.off) / 100);
+      setAmount(durationAmount - discountPrice);
     }
   }, [allCountry]);
+
+  const userData = JSON.parse(localStorage.getItem("user_data"));
 
   const handleFlutterPayment = useFlutterwave({
     public_key: process.env.REACT_APP_FLUTTERWAVE_KEY,
@@ -72,6 +70,11 @@ export default function BookSummary(props: IBookSummaryProps) {
     amount: amount,
     currency: currency,
     payment_options: "card,mobilemoney,ussd",
+    subaccounts: [
+      {
+        id: `${process.env.REACT_APP_FLUTTERWAVE_SUB_ACCOUNT_ID}`,
+      },
+    ],
     customer: {
       email: userData.email,
       phone_number: userData.phone,
@@ -121,36 +124,42 @@ export default function BookSummary(props: IBookSummaryProps) {
       <span className="font-medium text-3xl">Order Summary</span>
       <ul className="list-group w-[72rem] rounded-[1.2rem]">
         <li className="list-group-item d-flex justify-between">
-          Service:<span className="font-bold">{service.data?.name}</span>
+          <p>Service:</p>
+          <p className="font-bold">{service.data?.name}</p>
         </li>
         <li className="list-group-item d-flex justify-between">
-          Provider:
-          <span className="font-bold">
+          <p>Provider:</p>
+          <p className="font-bold">
             {provider?.first_name}&ensp;{provider?.last_name}
-          </span>
+          </p>
         </li>
         {questions?.map((q) => (
           <li className="list-group-item d-flex justify-between" key={q.id}>
-            {q.question}:
-            <span className="font-bold">
+            <p>{q.question}:</p>
+            <p className="font-bold">
               {q.options.find(
-                (op) => op.id === questionAnswers[`question_${q.id}`]
+                (op) =>
+                  op.id === questionAnswers[`question_${q.id}`][0] ||
+                  questionAnswers[`question_${q.id}`]
               )?.option || ""}
-            </span>
+            </p>
           </li>
         ))}
+        {!plan && (
+          <li className="list-group-item d-flex justify-between">
+            <p>Work Hours:</p>
+            <p className="font-bold">{hours}</p>
+          </li>
+        )}
         <li className="list-group-item d-flex justify-between">
-          Work Hours:<span className="font-bold">{hours}</span>
-        </li>
-        <li className="list-group-item d-flex justify-between">
-          Address:
-          <span className="font-bold">{address}</span>
+          <p>Address:</p>
+          <p className="font-bold">{address}</p>
         </li>
         <li className="list-group-item d-flex justify-between bg-primary-dark text-white">
-          Total ({currency})
-          <span className="font-bold">
+          <p>Total ({currency})</p>
+          <p className="font-bold">
             {currency_symbol}&nbsp;{amount?.toFixed(2)}
-          </span>
+          </p>
         </li>
       </ul>
       <div className="gap-8 d-flex">

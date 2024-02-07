@@ -1,13 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { withRouter, Link } from "react-router-dom";
 import axios from "axios";
 import { HOST, React_APP_FACEBOOK_APP_AD } from "../../constants";
 import OTPVerifyInput from "./OTPVerifyInput";
 import CommonInput from "../../components/input.common";
 import ReactPixel from "react-facebook-pixel";
+import LocationInput from "../../components/input.location";
+import { useSelector } from "react-redux";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 const RegisterWithEmail = (props) => {
   const { history } = props;
+  const [location, setLocation] = React.useState();
+  const [phone, setPhone] = useState();
+  const [passwordErr, setPasswordErr] = useState(false);
+  const divGoogle = useRef(null);
+  const country_id = useSelector((state) => state.countryReducer.countryId);
 
   const [state, setState] = useState({
     isLoading: false,
@@ -19,6 +28,9 @@ const RegisterWithEmail = (props) => {
       zip_code: "",
       password: "",
       password_confirmation: "",
+      country_id: country_id,
+      phone: "",
+      address: "",
     },
     errors: {},
     step: 1,
@@ -82,19 +94,121 @@ const RegisterWithEmail = (props) => {
     }
   }, [localStorage.userToken, localStorage.userToken]);
 
+  useEffect(() => {
+    if (phone?.length < 10 || phone?.length > 15) {
+      setState((state) => ({
+        ...state,
+        errors: {
+          ...state.errors,
+          phone: "Please enter a valid phone number between 10 to 15 digits.",
+        },
+      }));
+    } else {
+      setState((state) => ({
+        ...state,
+        values: {
+          ...state.values,
+          phone: phone,
+        },
+        errors: {
+          ...state.errors,
+          phone: "",
+        },
+      }));
+    }
+  }, [phone]);
   const handleChange = (event) => {
     event.persist();
-    setState((state) => ({
-      ...state,
-      values: {
-        ...state.values,
-        [event.target.name]: event.target.value,
-      },
-      errors: {
-        ...state.errors,
-        [event.target.name]: "",
-      },
-    }));
+    const uppercaseRegex = /[A-Z]/;
+    const lowercaseRegex = /[a-z]/;
+    const digitRegex = /[0-9]/;
+    const specialCharRegex = /[!@#$%^&*()_+[\]{};':"\\|,.<>?]/;
+    const minLengthRegex = /^.{8,}$/;
+
+    if (
+      event.target.name === "password" ||
+      event.target.name === "password_confirmation"
+    ) {
+      const hasUppercase = uppercaseRegex.test(event.target.value);
+      const hasLowercase = lowercaseRegex.test(event.target.value);
+      const hasDigit = digitRegex.test(event.target.value);
+      const hasSpecialChar = specialCharRegex.test(event.target.value);
+      const minLength = minLengthRegex.test(event.target.value);
+      if (
+        hasUppercase &&
+        hasLowercase &&
+        hasDigit &&
+        hasSpecialChar &&
+        minLength
+      ) {
+        setPasswordErr(false);
+
+        setState((state) => ({
+          ...state,
+          values: {
+            ...state.values,
+            [event.target.name]: event.target.value,
+          },
+          errors: {
+            ...state.errors,
+            [event.target.name]: "",
+          },
+        }));
+      } else {
+        setPasswordErr(true);
+        setState((state) => ({
+          ...state,
+          values: {
+            ...state.values,
+            [event.target.name]: event.target.value,
+          },
+          errors: {
+            ...state.errors,
+            [event.target.name]:
+              "Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character",
+          },
+        }));
+      }
+    } else if (event.target.name === "phone") {
+      if (event.target.value.length >= 10 && event.target.value.length <= 15) {
+        setState((state) => ({
+          ...state,
+          values: {
+            ...state.values,
+            [event.target.name]: event.target.value,
+          },
+          errors: {
+            ...state.errors,
+            [event.target.name]: "",
+          },
+        }));
+      } else {
+        setState((state) => ({
+          ...state,
+          values: {
+            ...state.values,
+            [event.target.name]: event.target.value,
+          },
+          errors: {
+            ...state.errors,
+            [event.target.name]:
+              "Please enter a valid phone number between 10 to 15 digits.",
+          },
+        }));
+      }
+    } else {
+      setState((state) => ({
+        ...state,
+        values: {
+          ...state.values,
+          [event.target.name]: event.target.value,
+        },
+        errors: {
+          ...state.errors,
+          [event.target.name]: "",
+        },
+      }));
+    }
   };
   const handleOptChange = (optCodes) => {
     setState((state) => ({
@@ -188,14 +302,24 @@ const RegisterWithEmail = (props) => {
       });
   };
 
-  const handleSignUp = (event) => {
+  useEffect(() => {
+    setState((state) => ({
+      ...state,
+      values: {
+        ...state.values,
+        address: location && location.label,
+      },
+      isLoading: false,
+    }));
+  }, [location]);
+
+  const handleSignUp = async (event) => {
     event.preventDefault();
     setState((state) => ({
       ...state,
       isLoading: true,
     }));
-
-    axios({
+    await axios({
       method: "post",
       url: process.env.REACT_APP_API_BASE_URL + "/api/user/signup",
       data: state.values,
@@ -227,6 +351,113 @@ const RegisterWithEmail = (props) => {
   };
 
   const hasError = (field) => (state.errors[field] ? true : false);
+
+  useEffect(() => {
+    if (divGoogle.current) {
+      window.google?.accounts?.id?.initialize({
+        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+        callback: ({ credential }, error) => {
+          if (credential) {
+            setTokenData({ token: credential, provider: "google" });
+            handleSocialLogin({
+              provider: "google",
+              token: credential,
+            });
+          }
+        },
+      });
+
+      const r = window.google?.accounts?.id?.renderButton(divGoogle.current, {
+        type: "standard",
+        width: "200px",
+        theme: "filled_blue",
+        size: "large",
+        text: "signin_with",
+        logo_alignment: "left",
+        shape: "pill",
+      });
+
+      tokenClient.current = window.google?.accounts?.oauth2?.initTokenClient({
+        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+        scope: "https://www.googleapis.com/auth/contacts.readonly",
+        prompt: "select_account", // '' | 'none' | 'consent' | 'select_account'
+        callback: (data, error) => {
+          const { access_token } = data;
+          if (access_token) {
+            setTokenData({
+              token: access_token,
+              provider: "google",
+            });
+            handleSocialLogin({
+              provider: "google",
+              token: access_token,
+            });
+          }
+        }, // your function to handle the response after login. 'access_token' will be returned as property on the response
+      });
+    }
+  }, [divGoogle.current]);
+
+  const handleSocialLogin = async ({ provider, token }) => {
+    await axios({
+      method: "post",
+      url: `${HOST}/api/user/login/${provider}/callback`,
+      data: {
+        token,
+      },
+    })
+      .then(function ({ data }) {
+        setState((state) => ({
+          ...state,
+          socialLoading: false,
+          socialError: "",
+        }));
+        localStorage.setItem("userToken", data.data.auth_token);
+        localStorage.setItem("user_data", JSON.stringify(data.data.user));
+        if (provider === "facebook") {
+          window.FB?.logout();
+        }
+        if (provider === "google") {
+          window.google?.accounts?.id.disableAutoSelect();
+        }
+        gotoReturnUrl();
+      })
+      .catch(({ response }) => {
+        setState((state) => ({
+          ...state,
+          socialLoading: false,
+          socialError: response.data.message,
+        }));
+        if (provider === "facebook") {
+          window.FB?.logout();
+        }
+        if (provider === "google") {
+          window.google?.accounts?.id.disableAutoSelect();
+        }
+      });
+  };
+
+  const gotoReturnUrl = () => {
+    const searchParams = new URLSearchParams(location.search);
+    const returnUrl = searchParams.get("returnUrl");
+    if (returnUrl) {
+      const rUrl = new URL(decodeURIComponent(returnUrl));
+      history.push({
+        pathname: rUrl.pathname,
+        search: rUrl.search,
+      });
+    } else if (
+      history.action === "POP" ||
+      location?.state?.from == "forgot-password"
+    ) {
+      history.push("/dashboard");
+    } else {
+      history.goBack();
+    }
+  };
+
+  const [tokenData, setTokenData] = useState(null);
+  const tokenClient = useRef(null);
 
   return (
     <div className="login-sec d-flex align-items-center bg-gray-50">
@@ -277,6 +508,46 @@ const RegisterWithEmail = (props) => {
                               ""
                             )}
                           </button>
+                          <div className="other-login text-center mb-4">
+                            or continue with
+                          </div>
+                          <div className="d-flex justify-center items-center gap-4 flex-wrap">
+                            <button
+                              className="rounded-pill bg-gray-100 border text-[1.6rem] px-12 py-2 hover:bg-gray-50 d-flex items-center"
+                              onClick={() => {
+                                window.FB?.login();
+                              }}
+                            >
+                              <img
+                                src="/assets/img/facebook.svg"
+                                className="float-left"
+                              />
+                              &ensp; Facebook
+                            </button>
+                            <button
+                              className="rounded-[16px] bg-gray-100 border text-base px-16 py-3 hover:bg-gray-50 d-none"
+                              onClick={() => {
+                                tokenClient.current?.requestAccessToken();
+                              }}
+                            >
+                              <img
+                                src="/assets/img/google.svg"
+                                className="float-left"
+                              />
+                              &ensp; Google
+                            </button>
+                            <div
+                              id="google-button"
+                              ref={divGoogle}
+                              // id="g_id_onload"
+                              // data-client_id={
+                              //     process.env
+                              //         .REACT_APP_GOOGLE_CLIENT_ID
+                              // }
+                              // data-callback="handleCredentialResponse"
+                              // data-auto_prompt="false"
+                            ></div>
+                          </div>
                         </form>
 
                         {/* <div className="other-login text-center">
@@ -402,19 +673,29 @@ const RegisterWithEmail = (props) => {
                           </div>
                           <div className="col-md-6">
                             <div className="common-input mb-5">
-                              <label>Zip Code</label>
-                              <input
-                                type="text"
-                                placeholder="ZIP Code"
-                                name="zip_code"
-                                value={state.values.zip_code}
-                                onChange={handleChange}
+                              <label>Phone Number</label>
+                              <PhoneInput
+                                defaultCountry="NG"
+                                placeholder="Enter phone number"
+                                name="phone"
+                                value={state.values.phone}
+                                onChange={setPhone}
                               />
                               <p className="text-danger">
-                                {hasError("zip_code")
-                                  ? state.errors.zip_code
-                                  : ""}
+                                {hasError("phone") ? state.errors.phone : ""}
                               </p>
+                            </div>
+                          </div>
+                          <div className="col-md-12">
+                            <div className="common-input mb-5">
+                              <label>Address</label>
+                              <LocationInput
+                                isAddress={true}
+                                onChange={(v) => {
+                                  setLocation(v);
+                                }}
+                                placeholder="Enter address"
+                              />
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -451,7 +732,9 @@ const RegisterWithEmail = (props) => {
                             <button
                               type="submit"
                               className="fare-btn fare-btn-lg  fare-btn-primary w-100 my-3"
-                              disabled={state.isLoading || state?.success}
+                              disabled={
+                                state.isLoading || state?.success || passwordErr
+                              }
                             >
                               Submit{" "}
                               {state.isLoading ? (
@@ -493,4 +776,3 @@ const RegisterWithEmail = (props) => {
 };
 
 export default withRouter(RegisterWithEmail);
-

@@ -370,6 +370,7 @@ import { clsx } from "clsx";
 import CheckBoxButton from "../../../components/button.checkbox";
 import LocationInput from "../../../components/input.location";
 import { useLocation } from "react-router-dom";
+import { values } from "underscore";
 
 export const ProviderSettingSection: React.FC<
   React.PropsWithChildren<{ title: string; subTitle: string }>
@@ -391,6 +392,7 @@ type ServicesType = "Quotationbased" | "Hourlybased";
 export interface IProviderSettings {
   first_name: string;
   last_name: string;
+  phone: number;
   address: string;
   zip_code: {
     zipCode: number;
@@ -415,6 +417,8 @@ export default function ProviderSettings(props: IProviderSettingsProps) {
 
   const allCountry = useSelector((state: any) => state?.allCountryReducer);
   const [currency_symbol, setCurrencySymbol] = useState("₦");
+  const location = useLocation();
+  const [step, setStep] = useState(0);
 
   useEffect(() => {
     for (let index = 0; index < allCountry.countries.length; index++) {
@@ -435,16 +439,23 @@ export default function ProviderSettings(props: IProviderSettingsProps) {
     getFieldState,
     handleSubmit,
     trigger,
+    reset,
     formState: { errors },
   } = useForm<IProviderSettings>({
     mode: "onChange",
     defaultValues: props.setting,
   });
+  // useEffect(() => {
+  //   if (location.pathname !== "/provider/registration") {
+  //     reset();
+  //     setStep(1);
+  //   }
+  // }, [location.pathname]);
 
   const headerMenu = useSelector<RootState, IMenu[]>(
     (state) => state.headerMenuReducer
   );
-  const [step, setStep] = useState(0);
+
   const NameSection = (
     <ProviderSettingSection
       title="Complete your account settings to get started."
@@ -469,10 +480,32 @@ export default function ProviderSettings(props: IProviderSettingsProps) {
           error={errors.last_name && "Last Name is required"}
           style={{ fontWeight: "500", color: "gray" }}
         />
+        <CommonInput
+          {...register("phone", {
+            required: {
+              value: true,
+              message: "Phone number is required",
+            },
+            minLength: {
+              value: 10,
+              message:
+                "Please enter a valid phone number between 10 to 15 digits.",
+            },
+            maxLength: {
+              value: 15,
+              message:
+                "Please enter a valid phone number between 10 to 15 digits.",
+            },
+          })}
+          label="Phone Number"
+          placeholder="Enter your phone number"
+          error={errors.phone && errors.phone.message}
+          style={{ fontWeight: "500", color: "gray" }}
+        />
       </div>
     </ProviderSettingSection>
   );
-  const spendArray = [1, 100, 500, 1000];
+  const spendArray = [2000, 10999, 11000, 20999, 21000, 30999, 40000];
 
   const SpendSection = (
     <ProviderSettingSection
@@ -481,22 +514,24 @@ export default function ProviderSettings(props: IProviderSettingsProps) {
     >
       <div className="flex flex-col gap-4">
         {spendArray.map((minSpend, index) => {
-          const text =
-            `${currency_symbol}${minSpend} ` +
-            (index == spendArray.length - 1
-              ? `and above`
-              : `- ${currency_symbol}${spendArray[index + 1]}`);
-          return (
-            <RadioBoxButton
-              text={text}
-              shadow={false}
-              checked={text == getValues().spend_each_month}
-              onChange={() => {
-                setValue("spend_each_month", text);
-              }}
-              className="py-4 bg-primary-light border-none rounded-3xl"
-            />
-          );
+          if (index % 2 === 0) {
+            const text =
+              `${currency_symbol}${minSpend} ` +
+              (index == spendArray.length - 1
+                ? `and above`
+                : `- ${currency_symbol}${spendArray[index + 1]}`);
+            return (
+              <RadioBoxButton
+                text={text}
+                shadow={false}
+                checked={text == getValues().spend_each_month}
+                onChange={() => {
+                  setValue("spend_each_month", text);
+                }}
+                className="py-4 bg-primary-light border-none rounded-3xl"
+              />
+            );
+          }
         })}
         <CommonInput
           {...register("spend_each_month", {
@@ -548,29 +583,42 @@ export default function ProviderSettings(props: IProviderSettingsProps) {
   };
   const ServicesSection = (
     <ProviderSettingSection
-      title="Choose your service"
+      title="Your service"
       subTitle="Let’s help you find customers."
     >
       <div className="flex flex-col gap-4">
         {["Quotationbased", "Hourlybased"].map((role: ServicesType, index) => {
           return (
-            <RadioBoxButton
-              text={servicesNames[role]}
-              shadow={false}
-              checked={role == getValues().typeS}
-              onChange={() => {
-                setValue("typeS", role);
-              }}
-              className="py-4 bg-primary-light border-none rounded-3xl"
-            />
+            (getValues().type === "Business" && role === "Quotationbased" && (
+              <RadioBoxButton
+                text={servicesNames[role]}
+                shadow={false}
+                checked={role == getValues().typeS}
+                onChange={() => {
+                  setValue("typeS", role);
+                }}
+                className="py-4 bg-primary-light border-none rounded-3xl"
+              />
+            )) ||
+            (getValues().type === "Individual" && role === "Hourlybased" && (
+              <RadioBoxButton
+                text={servicesNames[role]}
+                shadow={false}
+                checked={role == getValues().typeS}
+                onChange={() => {
+                  setValue("typeS", role);
+                }}
+                className="py-4 bg-primary-light border-none rounded-3xl"
+              />
+            ))
           );
         })}
         <CommonInput
-          {...register("type", {
+          {...register("typeS", {
             required: true,
           })}
           type="hidden"
-          error={errors.type && "Select one of the values."}
+          error={errors.typeS && "Select the value."}
         />
       </div>
     </ProviderSettingSection>
@@ -685,13 +733,14 @@ export default function ProviderSettings(props: IProviderSettingsProps) {
   const ZipCodeSection = (
     <ProviderSettingSection title="Where do you work?" subTitle="">
       <div>
-        <label>Zip Code</label>
+        <label>Location</label>
         <LocationInput
-          placeholder="Enter your zip code"
+          {...register("zip_code", {
+            required: { value: true, message: "Location is required." },
+          })}
+          placeholder="Enter your location"
           onChange={(value) => {
-            console.log(getAddrDetail(value));
             setValue("zip_code", [...zipCode, getAddrDetail(value)]);
-
             refresh();
           }}
         />
@@ -718,7 +767,7 @@ export default function ProviderSettings(props: IProviderSettingsProps) {
           ))}
         </div>
         <p className="text-danger mt-2">
-          {!zipCode.length && "Zip code is required."}
+          {!zipCode.length && "Location is required."}
         </p>
       </div>
     </ProviderSettingSection>
@@ -732,23 +781,36 @@ export default function ProviderSettings(props: IProviderSettingsProps) {
     ZipCodeSection,
   ];
   const slideValidateKeys: (keyof IProviderSettings)[][] = [
-    ["first_name", "last_name"],
+    ["first_name", "last_name", "phone"],
     ["spend_each_month"],
     ["type"],
+    ["typeS"],
     ["services"],
     ["zip_code"],
   ];
 
   const onNext = async () => {
     if (await trigger(slideValidateKeys[step])) {
-      setStep((step) => Math.min(slides.length - 1, step + 1));
-      if (step == slides.length - 1) {
-        props.onComplete(getValues());
+      if (slideValidateKeys[step][0] == "services") {
+        if (selectedServices.some((s) => s.subServiceIds.length > 0)) {
+          setStep((step) => Math.min(slides.length - 1, step + 1));
+          if (step == slides.length - 1) {
+            props.onComplete(getValues());
+          }
+        } else {
+          setStep((step) => Math.min(slides.length - 1, step));
+        }
+      } else {
+        setStep((step) => Math.min(slides.length - 1, step + 1));
+        if (step == slides.length - 1) {
+          props.onComplete(getValues());
+        }
       }
     }
   };
   const onPrev = async () => {
     setStep((step) => Math.max(0, step - 1));
+    setValue(slideValidateKeys[step][0], "");
   };
   const handleForm = (value) => {};
   return (

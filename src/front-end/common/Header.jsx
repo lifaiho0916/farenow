@@ -49,7 +49,7 @@ const Header = () => {
       <div className="relative z-20">
         {header}
       </div>
-      {location.pathname === "/" ?
+      {location.pathname === "/ng" ?
         <HeaderHomePart />
         : null}
     </div>

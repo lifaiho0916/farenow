@@ -9,6 +9,7 @@ import { HOST } from "../../../constants";
 import { classNames } from "../../../helper/class-name";
 import React from "react";
 import { padNumber } from "../../../helper/utils";
+import { useSelector } from "react-redux";
 
 interface IProviderCardProps {
   list: IProvider[];
@@ -23,8 +24,11 @@ const ProviderCard: React.FC<IProviderCardProps> = ({
 }) => {
   const history = useHistory();
   const location = useLocation<any>();
-
+  const allCountry = useSelector((state: any) => state?.allCountryReducer);
   const showHourlyRate = (provider) => {
+    const country = allCountry?.countries.find(
+      (country) => country.id === provider.country_id
+    );
     {
       if (
         provider.provider_type == "Individual" &&
@@ -32,7 +36,10 @@ const ProviderCard: React.FC<IProviderCardProps> = ({
       ) {
         return (
           <div>
-            <b>${provider.provider_profile.hourly_rate}</b>
+            <b>
+              {country?.currency_symbol}
+              {provider.provider_profile.hourly_rate}
+            </b>
             <span className="text-secondary">/hr</span>
           </div>
         );
@@ -236,4 +243,3 @@ const ContinueBtn = (props: IContinueBtnProps) => {
   );
 };
 export default memo(ProviderCard);
-

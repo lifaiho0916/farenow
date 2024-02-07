@@ -39,20 +39,27 @@ const Breadcrumb = ({ data }) => {
   if (!(data?.length > 0)) return <></>;
   return (
     <nav aria-label="breadcrumb" className="overflow-hidden">
-      <ol className="flex gap-2 text-gray-400">
+      <ul className="w-fit flex gap-2 text-gray-400">
         {data.map((item, index) => {
           return (
             <>
-              <li key={index} className={clsx({ "text-gray-700 overflow-hidden text-ellipsis whitespace-nowrap": !item.to })}>
+              <li
+                key={index}
+                className={clsx({
+                  "text-gray-700 overflow-hidden text-ellipsis whitespace-nowrap":
+                    !item.to,
+                })}
+              >
                 {item.to ? <Link to={item.to}>{item.title}</Link> : item.title}
               </li>
               {index < data?.length - 1 && <span>/</span>}
             </>
           );
         })}
-      </ol>
+      </ul>
     </nav>
   );
 };
 
 export default Breadcrumb;
+

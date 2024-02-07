@@ -12,7 +12,7 @@ export default function SearchBarHeader(props: ISearchBarHeaderProps) {
       {
         <div className="">
           <HomeSearchBar
-            zipCode={Number(searchParams.get("zip_code")) || 0}
+            zipCode={searchParams.get("zipCode") || "0"}
             subServiceId={Number(searchParams.get("subService")) || 0}
             placeId={searchParams.get("place_id")}
           />
@@ -21,3 +21,4 @@ export default function SearchBarHeader(props: ISearchBarHeaderProps) {
     </BaseHeader>
   );
 }
+

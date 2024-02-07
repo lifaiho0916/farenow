@@ -5,6 +5,7 @@ import { WorkStatus } from "./WrokStatus";
 import { HOST } from "./../../../constants/index";
 import Rating from "../../../components/Rating";
 import { padNumber } from "../../../helper/utils";
+import { useSelector } from "react-redux";
 export interface IServiceHistoryItemProps {
   serviceRequest: IServiceRequest;
   handlePaymentClick: (payable: boolean) => void;
@@ -13,6 +14,7 @@ export interface IServiceHistoryItemProps {
 
 export default function ServiceHistoryItem(props: IServiceHistoryItemProps) {
   const history = useHistory();
+  const allCountry = useSelector((state: any) => state?.allCountryReducer);
   const { serviceRequest, handlePaymentClick, handleFeedbackClick } = props;
   let {
     paid_amount = "500",
@@ -25,6 +27,9 @@ export default function ServiceHistoryItem(props: IServiceHistoryItemProps) {
     is_completed,
     working_status,
   } = serviceRequest;
+  const country = allCountry?.countries.find(
+    (country) => country.id === provider.country_id
+  );
   return (
     <div>
       <div className="fare-card order-card d-flex gap-4 flex-column">
@@ -94,7 +99,7 @@ export default function ServiceHistoryItem(props: IServiceHistoryItemProps) {
                         } else if (paid_amount != null) {
                           return (
                             <div className="btn-price-serv mb-3 mt-3">
-                              {"$" + paid_amount}
+                              {country?.currency_symbol + paid_amount}
                             </div>
                           );
                         } else {
@@ -133,7 +138,7 @@ export default function ServiceHistoryItem(props: IServiceHistoryItemProps) {
             View Profile
           </Link>
           <Link
-            to={`service-detail/${serviceRequest.id}`}
+            to={`/service-detail/${serviceRequest.id}`}
             className="fare-btn fare-btn-primary"
           >
             View order

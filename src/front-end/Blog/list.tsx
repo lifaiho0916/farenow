@@ -1,7 +1,7 @@
 import * as React from "react";
 import BlogLayout from "./layout";
 import BlogThumbnail from "./thumbnail";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import axios from "axios";
 import { HOST } from "./../../constants/index";
 import Slider from "react-slick";
@@ -21,7 +21,7 @@ const fetchBlogs = async (params: {
   page: number;
 }) => {
   const res = await axios.get(
-    `${HOST}/api/blog?countru_id=${localStorage.getItem("country")}`,
+    `${HOST}/api/blog?country_id=${localStorage.getItem("country")}`,
     {
       params,
     }
@@ -71,8 +71,6 @@ export default function BlogList(props: IBlogListProps) {
     history.push(`/blog${params}`);
   };
 
-  console.log(`topCategoryBlogs ======>`, topCategoryBlogs);
-
   return (
     <>
       <BlogLayout>
@@ -112,9 +110,7 @@ export default function BlogList(props: IBlogListProps) {
               />
             </div>
           </div>
-          <div>
-            <BlogAside />
-          </div>
+          <div>{/* <BlogAside /> */}</div>
         </div>
       </BlogLayout>
 

@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { HOST } from "../../constants";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useSelector } from "react-redux";
+import { RootState } from "store";
 
 export interface IPopularServicesProps {
   services: IService[];
@@ -33,8 +35,15 @@ const makeArrowComponent =
 const NextArrowComponent = makeArrowComponent("right");
 const PrevArrowComponent = makeArrowComponent("left");
 export default function PopularServices(props: IPopularServicesProps) {
-  const { services } = props;
+  const services = useSelector((state: any) => state.headerMenuReducer);
+  const countryReducer = useSelector((state: any) => state.countryReducer);
   const [activeServiceIndex, setActiveServiceIndex] = React.useState<number>(0);
+  const country_id = useSelector(
+    (state: RootState) => state.countryReducer.countryId
+  );
+  const allCountry = useSelector(
+    (state: RootState) => state.allCountryReducer.countries
+  );
   const settings = {
     dots: false,
     infinite: true,
@@ -62,6 +71,9 @@ export default function PopularServices(props: IPopularServicesProps) {
     prevArrow: <PrevArrowComponent />,
     nextArrow: <NextArrowComponent />,
   };
+  const countryIso2 = allCountry
+    ?.find((item) => item.id == country_id)
+    ?.iso2?.toLowerCase();
   return (
     <div className="space-y-6 flex-col d-flex items-center">
       <h1 className="text-4xl text-primary-main">Popular Services</h1>
@@ -69,21 +81,23 @@ export default function PopularServices(props: IPopularServicesProps) {
         Explore our top services. All our services are designed with you in
         mind.
       </p>
-      <div className="bg-primary-light p-3 px-4 d-flex space-x-4 rounded-[2.4rem]">
-        {services.map((service, index) => (
-          <button
-            className={clsx([
-              "rounded-[1.6rem] px-4 py-2 text-base text-gray-600",
-              { "bg-primary-main text-white": activeServiceIndex == index },
-            ])}
-            key={service.id}
-            onClick={() => {
-              setActiveServiceIndex(index);
-            }}
-          >
-            {service.name}
-          </button>
-        ))}
+      <div className="bg-primary-light p-3 px-4 d-flex flex-wrap space-x-4 rounded-[2.4rem]">
+        {services?.length > 0
+          ? services.map((service, index) => (
+              <button
+                className={clsx([
+                  "rounded-[1.6rem] px-4 py-2 text-base text-gray-600",
+                  { "bg-primary-main text-white": activeServiceIndex == index },
+                ])}
+                key={service.id}
+                onClick={() => {
+                  setActiveServiceIndex(index);
+                }}
+              >
+                {service.name}
+              </button>
+            ))
+          : "Not found"}
       </div>
       <div className="w-100 px-12">
         <Slider {...settings}>
@@ -92,29 +106,26 @@ export default function PopularServices(props: IPopularServicesProps) {
               .at(activeServiceIndex)
               ?.sub_services?.map((subService, index) => {
                 const item = services?.at(activeServiceIndex);
-                {
-                  console.log(
-                    "subservices++++++++",
-                    services.at(activeServiceIndex)?.sub_services
-                  );
-                  console.log('_+_+_+_+_+_+_+_+_+_',item)
-                }
                 return (
                   item && (
                     <div className="p-3" key={item.id}>
                       <div
                         key={`${index}_${activeServiceIndex}`}
                         className="service-box h-[30rem] w-100 m-0"
-                        >
+                      >
                         <Link
                           //to={`/services/search?subService=${subService.id}`}
 
-                          to={`/${item.name
-                            .replace(" ", "-")
-                            .toLowerCase()}/${subService.name
-                            .replace(/[' ']/g, "-")
-                            .replace("/", "-")
-                            .toLowerCase()}`}
+                          to={
+                            subService.view_type === "standard"
+                              ? `/${countryIso2}/${item.name
+                                  .replace(" ", "-")
+                                  .toLowerCase()}/${subService.name
+                                  .replace(/[' ']/g, "-")
+                                  .replace("/", "-")
+                                  .toLowerCase()}`
+                              : `/service-providers?subService=${subService.id}&zipCode=${countryReducer.zipCode}&place_id=${countryReducer.placeId}&country_id=${countryReducer.countryId}`
+                          }
                         >
                           <img
                             src={
@@ -129,7 +140,6 @@ export default function PopularServices(props: IPopularServicesProps) {
                               e.currentTarget.src = "/assets/img/service1.jpg";
                             }}
                           />
-                          {console.log("_________ subservice image url", subService.image)}
                           <div className="absolute text-xl bottom-0 p-4 flex items-center justify-center text-center text-white w-100 leading-tight sub-service-name">
                             {subService.name}
                           </div>
@@ -144,4 +154,3 @@ export default function PopularServices(props: IPopularServicesProps) {
     </div>
   );
 }
-

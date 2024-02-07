@@ -14,6 +14,10 @@ export interface IProfileWorkHistoryProps {
 }
 export default function ProfileWorkHistory(props: IProfileWorkHistoryProps) {
   const { provider } = props;
+  const allCountry = useSelector((state: any) => state?.allCountryReducer);
+  const providerCountry = allCountry?.countries?.find(
+    (country) => country.id === provider.country_id
+  );
   const { error, message, data } = useSelector<
     RootState,
     DataResponse<IServiceRequest[]>
@@ -45,7 +49,7 @@ export default function ProfileWorkHistory(props: IProfileWorkHistoryProps) {
   useEffect(() => {
     dispatch(
       getServiceRequestList({
-        params: `provider_id=${provider.id}&type=ongoing&type=completed`,
+        params: `provider_id=${provider.id}`,
       })
     ).then(() => {
       setPageIndex([0, 0]);
@@ -56,7 +60,7 @@ export default function ProfileWorkHistory(props: IProfileWorkHistoryProps) {
     <div className="fare-card">
       <h1>Work History</h1>
       <ul className="fare-tabs nav nav-tabs nav-fill">
-        <li className="nav-item">
+        <li className="nav-item cursor-pointer">
           <a
             className={clsx("nav-link", { active: tabIndex == 0 })}
             onClick={() => setTabIndex(0)}
@@ -64,7 +68,7 @@ export default function ProfileWorkHistory(props: IProfileWorkHistoryProps) {
             Completed({padNumber(dataForTabs[0]?.length, 2)})
           </a>
         </li>
-        <li className="nav-item">
+        <li className="nav-item cursor-pointer">
           <a
             className={clsx("nav-link", { active: tabIndex == 1 })}
             onClick={() => setTabIndex(1)}
@@ -96,10 +100,16 @@ export default function ProfileWorkHistory(props: IProfileWorkHistoryProps) {
                     </div>
                     <div className="text-xs space-x-24">
                       <span>
-                        <b>${d.paid_amount || 0}</b>
+                        <b>
+                          {providerCountry.currency_symbol}
+                          {d.paid_amount || 0}
+                        </b>
                       </span>
                       <span>
-                        <b>${d.provider?.provider_profile?.hourly_rate || 0}</b>
+                        <b>
+                          {providerCountry.currency_symbol}
+                          {d.provider?.provider_profile?.hourly_rate || 0}
+                        </b>
                         /hr
                       </span>
                       <span>
@@ -137,3 +147,4 @@ export default function ProfileWorkHistory(props: IProfileWorkHistoryProps) {
     </div>
   );
 }
+

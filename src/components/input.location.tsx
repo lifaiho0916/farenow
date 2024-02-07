@@ -84,7 +84,6 @@ export default function LocationInput(props: ILocationInputProps) {
             value: value,
             onChange: (newValue: any) => {
               setValue(newValue);
-              console.log(newValue);
               props.onChange &&
                 props.onChange({
                   label: newValue.label,

@@ -27,7 +27,6 @@ export default function BlogThumbnail(props: IBlogThumbnailProps) {
     shadow = true,
     className = "",
   } = props;
-
   let height = {
     xs: 8,
     sm: 12,
@@ -42,21 +41,22 @@ export default function BlogThumbnail(props: IBlogThumbnailProps) {
   };
   const history = useHistory();
   const onClick = () => {
-    history.push(`/blog/${blog.slug}`);
-  }
+    history.push(`/blog-details/${blog.slug}`);
+  };
 
   const contents = React.useMemo(() => {
     const contents = blog.contents.map((c) => {
-      const converter = new QuillDeltaToHtmlConverter(JSON.parse(c.content)?.ops);
+      const converter = new QuillDeltaToHtmlConverter(
+        JSON.parse(c.content)?.ops
+      );
       const content = converter.convert();
       const dom = document.createElement("div");
       dom.innerHTML = content;
       return dom.innerText;
     });
     return contents;
-
   }, [blog.contents]);
-  
+
   return (
     <div
       className={clsx([
@@ -103,7 +103,8 @@ export default function BlogThumbnail(props: IBlogThumbnailProps) {
         {showInfo && (
           <div className="flex gap-4 text-gray-500">
             <span className="">
-              <i className="la la-user"></i>{blog.author}
+              <i className="la la-user"></i>
+              {blog.author}
             </span>
             <span>
               <i className="la la-clock"></i>
@@ -111,8 +112,13 @@ export default function BlogThumbnail(props: IBlogThumbnailProps) {
             </span>
           </div>
         )}
-        {showContent && <p className="text-ellipsis overflow-hidden content-thumb">{contents.join("\n").slice(0,300)}</p>}
+        {showContent && (
+          <p className="text-ellipsis overflow-hidden content-thumb">
+            {contents.join("\n").slice(0, 300)}
+          </p>
+        )}
       </div>
     </div>
   );
 }
+

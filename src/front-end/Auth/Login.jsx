@@ -42,13 +42,10 @@ const Login = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log("div Google", divGoogle);
     if (divGoogle.current) {
-      console.log(window.google.accounts.id);
       window.google?.accounts?.id?.initialize({
         client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
         callback: ({ credential }, error) => {
-          console.log("here", credential);
           if (credential) {
             setTokenData({ token: credential, provider: "google" });
             handleSocialLogin({
@@ -75,7 +72,6 @@ const Login = (props) => {
         prompt: "select_account", // '' | 'none' | 'consent' | 'select_account'
         callback: (data, error) => {
           const { access_token } = data;
-          console.log("here", data);
           if (access_token) {
             setTokenData({
               token: access_token,

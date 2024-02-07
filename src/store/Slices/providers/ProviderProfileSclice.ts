@@ -77,7 +77,7 @@ export const getProviderProfileByName = (id) => async (dispatch) => {
         `${process.env.REACT_APP_API_BASE_URL}/api/user/feedback`,
         {
           params: {
-            provider_id: profileData.data.id,
+            provider_id: profileData.data.provider.id,
           },
         }
       );
@@ -96,4 +96,3 @@ export const getProviderProfileByName = (id) => async (dispatch) => {
     dispatch(getProvider(error.response.data));
   }
 };
-

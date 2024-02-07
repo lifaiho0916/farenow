@@ -9,18 +9,18 @@ import * as _ from "lodash";
 import { GOOGLE_API } from "../../../constants";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import './search.css'
+import "./search.css";
 type SelectValue = {
-  value: number | string;
+  value: any;
   label: string;
-  zipCode?: number;
+  zipCode?: any;
 };
 export interface IHomeSearchBarProps {
   subServiceId?: number;
-  zipCode?: number;
+  zipCode?: string;
   placeId?: string;
   size?: "normal" | "large";
-  onChange?: (data: { query: string; zipCode: number }) => void;
+  onChange?: (data: { query: string; zipCode: string }) => void;
 }
 
 const searchStyle: StylesConfig = {
@@ -49,9 +49,14 @@ export default function HomeSearchBar(props: IHomeSearchBarProps) {
     zipCode: propZipCode = 0,
     placeId: propPlaceId = "",
   } = props;
-
   const history = useHistory();
 
+  const [zipCode, setZipCode] = useState<SelectValue>();
+  const [zipCodeInput, setZipCodeInput] = useState("");
+  const [userData, setUserData] = useState<any>({});
+  const countryId = useSelector(
+    (state: RootState) => state.countryReducer.countryId
+  );
   /**
    * Sub Services State
    */
@@ -74,27 +79,28 @@ export default function HomeSearchBar(props: IHomeSearchBarProps) {
   /**
    * Zip Code State
    */
+  // {
+  //   formatted_address: string;
+  //   place_id: string;
+  // }[]
   const loadZipCodeOptions = async (value: string | number) => {
     if (!value) return null;
     const resp = await axios({
       method: "get",
       url: `https://maps.googleapis.com/maps/api/geocode/json?address=${value}&key=${GOOGLE_API}`,
     });
-    const addresses = resp.data.results as {
-      formatted_address: string;
-      place_id: string;
-    }[];
+    const addresses = resp.data.results as any;
     return addresses.map((ad) => ({
       value: ad.place_id,
       label: ad.formatted_address,
-      zipCode: Number(value),
+      zipCode:
+        value == 0 ? value : addresses[0]?.address_components[0].long_name,
     }));
   };
 
-  const [zipCode, setZipCode] = useState<SelectValue>();
-  const [zipCodeInput, setZipCodeInput] = useState("");
-
   useEffect(() => {
+    const user = localStorage.getItem("user_data");
+    setUserData(JSON.parse(user));
     loadZipCodeOptions(propZipCode).then((options) => {
       if (!options) return;
       setZipCode(options.find((op) => op.value === propPlaceId));
@@ -102,18 +108,15 @@ export default function HomeSearchBar(props: IHomeSearchBarProps) {
   }, []);
 
   const onSearch = () => {
-    console.log(subService);
-    console.log(zipCode);
     if (!subService?.value || !zipCode?.value) return;
     history.push(
-      `/services/search?subService=${subService?.value}&place_id=${zipCode.value}&zip_code=${zipCode.zipCode}`
+      `/services/search?subService=${subService?.value}&place_id=${zipCode.value}&zipCode=${zipCode.zipCode}&country_id=${countryId}`
     );
   };
-
   const textSizeClsName = size == "normal" ? "text-[1.6rem]" : "text-sm";
   return (
     <>
-      <div className="rounded-[15px] bg-primary-light d-flex p-2 items-center border-blue-200 border-x border-y searchmobile" >
+      <div className="rounded-[24px] bg-primary-light d-flex p-2 items-center border-blue-200 border-x border-y searchmobile">
         <img
           src="/assets/img/search-normal.svg"
           className="ml-4 mb-1 w-[2.5rem]  h-[2.5rem]"
@@ -142,7 +145,7 @@ export default function HomeSearchBar(props: IHomeSearchBarProps) {
         <ReactAsyncSelect
           cacheOptions
           loadOptions={loadZipCodeOptions}
-          placeholder="Zip code"
+          placeholder="Zip code/City"
           className={clsx(["px-2 w-[15rem]", textSizeClsName])}
           styles={searchStyle}
           value={zipCode}
@@ -167,3 +170,4 @@ export default function HomeSearchBar(props: IHomeSearchBarProps) {
     </>
   );
 }
+

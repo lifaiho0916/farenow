@@ -55,6 +55,7 @@ export default function BookSubscriptionPlan(
               <div className="px-3 py-5">
                 <div className="m-auto  max-w-[30rem]">
                   <SubscriptionPlan
+                    provider={provider}
                     plan={plan}
                     key={plan.id}
                     active={selectedPlan === plan.id}
@@ -84,3 +85,4 @@ export default function BookSubscriptionPlan(
     </div>
   );
 }
+

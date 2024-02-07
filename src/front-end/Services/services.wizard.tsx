@@ -120,7 +120,6 @@ export default function ServiceWizard(props: IServiceWizardProps) {
     dispatch(setQuestionAnswers(questionAnswer));
     props.onComplete();
   };
-
   return (
     <div
       className={clsx([

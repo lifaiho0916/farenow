@@ -23,6 +23,10 @@ const Basic = ({
     isVisible: false,
   });
 
+  const providerRegistration = useSelector(
+    (state) => state?.registrationReducer?.signupProvider
+  );
+  const country_id = useSelector((state) => state.countryReducer.countryId);
   const isError = (name) => (basic.error[name] ? basic.error[name] : null);
   const isServerError = (name) => {
     if (
@@ -38,10 +42,25 @@ const Basic = ({
     handleProviderSignup({
       email: basic.email,
       password: basic.password,
+      country_id: country_id,
     });
-    handleStep(step + 1);
-    console.log(`handleStep(step + 1)`, handleStep(step + 1));
+    if (providerRegistration.error == true) {
+      return;
+    } else if (
+      providerRegistration.error == "" ||
+      providerRegistration.error == false
+    ) {
+      handleStep(step + 1);
+    }
   };
+  document.addEventListener("wheel", function (event) {
+    if (
+      document.activeElement.type === "number" &&
+      document.activeElement.classList.contains("noscroll")
+    ) {
+      document.activeElement.blur();
+    }
+  });
 
   useEffect(() => {
     window?.scrollTo(0, 0, "smooth");
@@ -54,7 +73,7 @@ const Basic = ({
       )}
       <div className="step-1">
         <div className="login-heading text-center text-4xl">
-          Set Up Your Business Profile
+          {/* Set Up Your Business Profile */}
         </div>
         <CommonInput
           label="Email Address"
@@ -113,7 +132,6 @@ const Otp = ({
   handleVerifyEmail,
   verifyOpt,
 }) => {
-  console.log("current step in otp is ", step);
   const { email = "" } = otpData;
   const hiddenEmail =
     email.substring(0, 2) + "****" + email.substring(email.lastIndexOf("@"));
@@ -121,6 +139,7 @@ const Otp = ({
     loading: false,
     message: `We have sent a verification code to your email at ${hiddenEmail}`,
   });
+
   const handleResendOtp = (e) => {
     e.preventDefault();
     setState({ loading: true, message: "" });
@@ -141,6 +160,13 @@ const Otp = ({
           loading: false,
         });
       });
+  };
+
+  const handleOtpVerify = () => {
+    handleVerifyEmail({
+      email: otpData?.email,
+      otp: otpData?.otp,
+    });
   };
 
   return (
@@ -170,15 +196,7 @@ const Otp = ({
           id="step-2"
           type="button"
           disabled={state.loading}
-          onClick={() =>
-            handleVerifyEmail(
-              {
-                email: otpData?.email,
-                otp: otpData?.otp,
-              },
-              handleStep(3)
-            )
-          }
+          onClick={handleOtpVerify}
         >
           {state.loading || verifyOpt?.loading ? (
             <>
@@ -839,7 +857,6 @@ const ProfileDetail = ({
     handleSubmit,
     formState: { errors },
   } = useForm();
-
   const handleImage = (image) => {
     handleProfile({
       image: image ? URL.createObjectURL(image) : "",
@@ -868,7 +885,7 @@ const ProfileDetail = ({
       form.append("image", profile.file);
     }
     form.append("type", providerType);
-    form.append("rourly_rate", data.rourly_rate);
+    form.append("hourly_rate", data.hourly_rate);
     form.append("street_address", data.street_address);
     form.append("suite_number", data.suite_number);
     form.append("zip_code", data.zip_code);
@@ -1026,16 +1043,20 @@ const ProfileDetail = ({
         <div className="common-input mb-4">
           <label htmlFor="name">Hourly rate</label>
           <input
-            type="text"
-            className={` ${errors?.hourly_rate ? "is-invalid" : ""}`}
+            type="number"
+            className={` ${errors?.hourly_rate ? "is-invalid" : ""} noscroll`}
             placeholder="Add hourly rate, e.g. 12"
-            {...register("hourly_rate", {
-              required: true,
-              pattern: /^[0-9]*$/,
-              onChange: (e) => {
-                handleProfile({ hourly_rate: e.target.value });
-              },
-            })}
+            {...register(
+              "hourly_rate",
+              { onWheel: (e) => e.currentTarget.blur() },
+              {
+                required: true,
+                pattern: /^[0-9]*$/,
+                onChange: (e) => {
+                  handleProfile({ hourly_rate: e.target.value });
+                },
+              }
+            )}
             defaultValue={profile?.hourly_rate}
           />
           {errors?.hourly_rate &&
@@ -1086,7 +1107,7 @@ const ProfileDetail = ({
             <strong className="text-danger">Suite number is required</strong>
           )}
         </div>
-        <div className="common-input mb-4">
+        {/* <div className="common-input mb-4">
           <input
             type="text"
             className={` ${errors?.zip_code ? "is-invalid" : ""}`}
@@ -1102,7 +1123,7 @@ const ProfileDetail = ({
           {errors?.zip_code && (
             <strong className="text-danger">Zip code is required</strong>
           )}
-        </div>
+        </div> */}
         <div className="common-input mb-4">
           <input
             type="text"
@@ -1206,4 +1227,3 @@ const ProfileDetail = ({
 };
 
 export { Basic, Otp, BasicInfo, SelectZipCode, ProviderType, ProfileDetail };
-

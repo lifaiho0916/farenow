@@ -14,11 +14,9 @@ import ghanaflag from "../../styles/images/ghanaflag.png";
 import nigeriaflag from "../../styles/images/nigeriaflag.png";
 import rwandaflag from "../../styles/images/rawandaflag.png";
 import southflag from "../../styles/images/southflag.png";
-import { changeCountry } from "../../store/Slices/countryslice/countryslice";
+import { changeCountryId } from "../../store/Slices/countryslice/countryslice";
 import { TfiWorld } from "react-icons/tfi";
-import { MdKeyboardArrowDown } from "react-icons/md";
 import "./header/footer.css";
-import { HomeHeader } from "./header/header.home";
 let myPages = {
   Articles: {
     name: "Articles",
@@ -59,8 +57,10 @@ const Footer = (props) => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const [countries, setCountries] = useState([]);
-  const [country, setCountry] = useState("");
+  const defaultCountryId = useSelector(
+    (state) => state.countryReducer.countryId
+  );
+  const [countryId, setCountryId] = useState(localStorage.getItem("country"));
 
   const ref = useRef(null);
   const emailRef = useRef(null);
@@ -71,30 +71,31 @@ const Footer = (props) => {
   const pages = useSelector((state) => state?.footerReducer?.pages);
   const headerMenu = useSelector((state) => state?.headerMenuReducer);
   const allCountry = useSelector((state) => state?.allCountryReducer);
+  const country_id = useSelector((state) => state.countryReducer.countryId);
+  const countryReducer = useSelector((state) => state.countryReducer);
 
-  const [DownloadModal, openDownload, closeDownload] = useModal("root");
+  const [DownloadModal, openDownload] = useModal("root");
   const downloadType = useRef("APP_STORE");
-
+  let allPages = [];
+  for (let index = 0; index < pages?.data?.length; index++) {
+    const element = pages.data[index];
+    const newElement = {
+      ...element,
+      slug: element?.name.toLowerCase().replace(/\s+/g, "-"),
+    };
+    allPages.push(newElement);
+  }
   const handleChange = (e) => {
-    setCountry(e.target.value);
+    setCountryId(e.target.value);
     localStorage.setItem("country", e.target.value);
+    dispatch(changeCountryId(e.target.value));
   };
 
-  useEffect(() => {
-    const defaultCountry = allCountry?.countries?.find(
-      (country) => country.is_default == true
-    );
-    if (defaultCountry) {
-      setCountry(defaultCountry.id);
-      localStorage.setItem("country", defaultCountry.id);
-    }
-  }, [allCountry.countries]);
+  const country = useSelector((state) => state.countryReducer.countryId);
 
   useEffect(() => {
-    dispatch(getPages());
-  }, []);
-
-  console.log("pagesakshs", pages);
+    dispatch(getPages(country));
+  }, [dispatch, country]);
 
   useEffect(() => {
     if (getLinks?.length > 0) {
@@ -104,27 +105,47 @@ const Footer = (props) => {
     }
   }, [getLinks]);
 
+  useEffect(() => {
+    setCountryId(defaultCountryId);
+  }, [defaultCountryId]);
+
+  const countryIso2 = allCountry.countries
+    ?.find((item) => item.id == country_id)
+    ?.iso2?.toLowerCase();
+  console.log(countryIso2, "ISO");
   const FooterServices = () => {
     let sub_services = [];
     headerMenu?.forEach((service) =>
       service?.sub_services?.forEach((sub_service, index) => {
+        if (sub_service.show_in_the_footer === 0) {
+          return;
+        }
         sub_services = [
           ...sub_services,
           { ...sub_service, service: service.name },
         ];
       })
     );
-
+    console.log(sub_services, "All sub service");
     return sub_services.map(
       (sub_service, index) =>
-        !!(index % 2 == 0) && (
+        !!(index % 2 === 0) && (
           <tr className="show-all" key={index}>
             <td
               className="col-6"
               key={`${sub_service.service_id}_${sub_service.id}`}
             >
               <Link
-                to={`/services/search?subService=${sub_service.id}`}
+                to={
+                  sub_service.view_type === "standard"
+                    ? `/${countryIso2}/${sub_service?.service
+                        ?.replace(" ", "-")
+                        .toLowerCase()}/${sub_service.name
+                        ?.replace(/[' ']/g, "-")
+                        ?.replace("/", "-")
+                        .toLowerCase()}`
+                    : `/service-providers?subService=${sub_service.id}&zipCode=${countryReducer.zipCode}&place_id=${countryReducer.placeId}&country_id=${countryReducer.countryId}`
+                }
                 className="link"
                 onClick={() => {
                   ref.current?.click();
@@ -141,9 +162,19 @@ const Footer = (props) => {
                 }`}
               >
                 <Link
-                  to={`/services/search?subService=${
-                    sub_services[index + 1].id
-                  }`}
+                  // to={`/services/search?subService=${
+                  //   sub_services[index + 1].id
+                  // }`}
+                  to={
+                    sub_service.view_type === "standard"
+                      ? `/${countryIso2}/${sub_service?.service
+                          ?.replace(" ", "-")
+                          .toLowerCase()}/${sub_service.name
+                          ?.replace(/[' ']/g, "-")
+                          ?.replace("/", "-")
+                          .toLowerCase()}`
+                      : `/service-providers?subService=${sub_service.id}&zipCode=${countryReducer.zipCode}&place_id=${countryReducer.placeId}&country_id=${countryReducer.countryId}`
+                  }
                   className="link"
                   onClick={() => {
                     ref.current?.click();
@@ -158,10 +189,8 @@ const Footer = (props) => {
     );
   };
 
-  const { selectcountry } = useSelector((state) => state.countryReducer);
-
   const FooterOtherLinks = () => {
-    if (state.modal?.type == "all") {
+    if (state.modal?.type === "all") {
       const otherLinks = state?.links?.filter(
         (link) => link.type == null && link.is_blog == false
       );
@@ -195,11 +224,11 @@ const Footer = (props) => {
           )
       );
     }
-    if (state?.modal?.type == "blog") {
+    if (state?.modal?.type === "blog") {
       const blogLinks = state?.links?.filter((link) => link?.is_blog);
       return blogLinks.map(
         (link, index) =>
-          !!(index % 2 == 0) && (
+          !!(index % 2 === 0) && (
             <tr className="show-all" key={index}>
               <td>
                 <a
@@ -251,6 +280,7 @@ const Footer = (props) => {
       }
     }
   };
+
   return (
     <>
       <DownloadModal>
@@ -289,7 +319,7 @@ const Footer = (props) => {
                     openDownloadDialog("APP_STORE");
                   }}
                 >
-                  <img src="/assets/img/download-app-store.svg" />
+                  <img src="/assets/img/download-app-store.svg" alt="" />
                 </button>
                 <button
                   href={GOOGLE_PLAY.user}
@@ -297,7 +327,7 @@ const Footer = (props) => {
                     openDownloadDialog("GOOGLE_PLAY");
                   }}
                 >
-                  <img src="/assets/img/download-google-play.svg" />
+                  <img src="/assets/img/download-google-play.svg" alt="" />
                 </button>
               </div>
             </div>
@@ -309,6 +339,10 @@ const Footer = (props) => {
                     let total = 0;
                     return headerMenu?.map((service) =>
                       service?.sub_services?.map((sub_service) => {
+                        console.log(sub_service.view_type);
+                        if (sub_service.show_in_the_footer === 0) {
+                          return;
+                        }
                         if (total < 8 && total != null) {
                           total++;
                           return (
@@ -317,12 +351,25 @@ const Footer = (props) => {
                               key={`${service.id}_${sub_service.id}`}
                             >
                               <Link
-                                to={`/services/${service.name.replace(
-                                  " ",
-                                  "-"
-                                )}/${sub_service.name
-                                  .replace(/[' ']/g, "-")
-                                  .replace("/", "-")}`}
+                                // to={`/${allCountry.countries
+                                //   .find((item) => item.id === defaultCountryId)
+                                //   .iso2.toLowerCase()}/${service.name.replace(
+                                //   " ",
+                                //   "-"
+                                // )}/${sub_service.name
+                                //   .replace(/[' ']/g, "-")
+                                //   .replace("/", "-")}`}
+
+                                to={
+                                  sub_service.view_type === "standard"
+                                    ? `/${countryIso2}/${service.name
+                                        .replace(" ", "-")
+                                        .toLowerCase()}/${sub_service.name
+                                        .replace(/[' ']/g, "-")
+                                        .replace("/", "-")
+                                        .toLowerCase()}`
+                                    : `/service-providers?subService=${sub_service.id}&zipCode=${countryReducer.zipCode}&place_id=${countryReducer.placeId}&country_id=${countryReducer.countryId}`
+                                }
                                 // to={`/services/${service.name.replace(
                                 //   " ",
                                 //   "-"
@@ -413,7 +460,7 @@ const Footer = (props) => {
                     let countLink = 0;
                     if (
                       link.type == null &&
-                      link.is_blog == false &&
+                      link.is_blog === false &&
                       countLink < 8
                     ) {
                       countLink = countLink + 1;
@@ -432,7 +479,7 @@ const Footer = (props) => {
                     }
                   })}
                   {state?.links?.filter(
-                    (link) => link.type == null && link.is_blog == false
+                    (link) => link.type == null && link.is_blog === false
                   ).length >= 8 && (
                     <li className="item">
                       <span
@@ -464,31 +511,30 @@ const Footer = (props) => {
                 <ul className="footer-link">
                   <div className="mb-4 font-bold text-xl">Support</div>
 
-                  {pages?.data?.map((page) => (
-                    <li
-                      key={page?.id}
-                      onClick={() => {
-                        window.scrollTo({
-                          top: 0,
-                          left: 0,
-                          behavior: "smooth",
-                        });
-                      }}
-                      className="item"
-                    >
-                      <Link className="link" to={`${myPages[page?.name]?.url}`}>
-                        {myPages[page?.name]?.name}
-                      </Link>
-
-                      {/* <a href="#">{page?.name}</a> */}
-                    </li>
-                  ))}
+                  {allPages &&
+                    allPages.map((page) => (
+                      <li
+                        key={page?.id}
+                        onClick={() => {
+                          window.scrollTo({
+                            top: 0,
+                            left: 0,
+                            behavior: "smooth",
+                          });
+                        }}
+                        className="item"
+                      >
+                        <Link className="link" to={`/page/${page?.slug}`}>
+                          {page?.name}
+                        </Link>
+                      </li>
+                    ))}
                 </ul>
               </div>
             </div>
           </div>
         </div>
-        <div className=" d-flex align-items-center gap-2 icon footer-country">
+        <div className="d-flex align-items-center gap-2 icon footer-country mt-2">
           <i style={{ fontSize: "2rem", fontWeight: "800" }}>
             <span>
               <TfiWorld />
@@ -497,10 +543,10 @@ const Footer = (props) => {
           <FormControl fullWidth size="small" className="mobc">
             <div className="dropdown">
               <Select
-                value={country}
+                value={countryId}
                 onChange={handleChange}
                 style={{ fontSize: "2rem", fontWeight: "500" }}
-                className="header-arrow"
+                className="header-arrow !w-full"
                 sx={{
                   boxShadow: "none",
                   ".MuiOutlinedInput-notchedOutline": { border: 0 },
@@ -512,6 +558,7 @@ const Footer = (props) => {
                     {
                       border: 0,
                     },
+                  width: 180,
                 }}
                 MenuProps={{
                   PaperProps: {
@@ -537,7 +584,7 @@ const Footer = (props) => {
                     <MenuItem
                       key={country.id}
                       value={country?.id}
-                      style={{ fontSize: "16px", display: "flex" }}
+                      style={{ fontSize: "16px", display: "flex !important" }}
                       component={Link}
                       to={`${
                         country.is_default ? "/" : country.iso2.toLowerCase()
@@ -546,61 +593,14 @@ const Footer = (props) => {
                         display: "block",
                       }}
                     >
-                      <h1>
-                        {country.emoji} {country.name}
-                      </h1>
+                      <div className="flex items-center">
+                        <h1>
+                          {country.emoji} {country.name}
+                        </h1>
+                      </div>
                     </MenuItem>
-                    // </div>
                   );
                 })}
-                {/* <img
-                  src={nigeriaflag}
-                  style={{ width: "20px", marginLeft: "5px" }}
-                />
-                <MenuItem
-                  value={"nigeria"}
-                  style={{ fontSize: "16px" }}
-                  component={Link}
-                  to="/"
-                >
-                  Nigeria
-                </MenuItem>
-                <img
-                  src={ghanaflag}
-                  style={{ width: "20px", marginLeft: "5px" }}
-                />
-                <MenuItem
-                  value={"gana"}
-                  style={{ fontSize: "16px" }}
-                  component={Link}
-                  to="/gh"
-                >
-                  Ghana
-                </MenuItem>
-                <img
-                  src={rwandaflag}
-                  style={{ width: "20px", marginLeft: "5px" }}
-                />{" "}
-                <MenuItem
-                  value={"rawanda"}
-                  style={{ fontSize: "16px" }}
-                  component={Link}
-                  to="/kenya"
-                >
-                  Kenya
-                </MenuItem>
-                <img
-                  src={southflag}
-                  style={{ width: "20px", marginLeft: "5px" }}
-                />
-                <MenuItem
-                  value={"southafrica"}
-                  style={{ fontSize: "16px" }}
-                  component={Link}
-                  to="/za"
-                >
-                  South Africa
-                </MenuItem> */}
               </Select>
             </div>
           </FormControl>
@@ -645,7 +645,7 @@ const Footer = (props) => {
                 <h1 className="text-xl text-white mb-4 font-bold">
                   Stay Connected
                 </h1>
-                <ul className="social d-flex">
+                <ul className="social d-flex justify-center items-center">
                   {state?.links?.map((link) => {
                     if (link.type != null) {
                       if (link.type == "FACEBOOK") {
@@ -661,7 +661,6 @@ const Footer = (props) => {
                                 alt="socail"
                               />
                             </a>
-                            {console.log(link.url)}
                           </li>
                         );
                       }
@@ -697,7 +696,7 @@ const Footer = (props) => {
                           </li>
                         );
                       }
-                      if (link.type == "WHATS_APP") {
+                      if (link.type === "WHATS_APP") {
                         return (
                           <li className="item twitter mr-4" key={link.id}>
                             <a href={link.url} target="_blank" rel="noreferrer">
@@ -776,7 +775,7 @@ const Footer = (props) => {
               </button>
             </div>
             <div className="modal-body">
-              {state?.modal?.type == "services" && (
+              {state?.modal?.type === "services" && (
                 <table className="table-borderless table rem-1-5">
                   <thead>
                     <tr>
@@ -791,7 +790,7 @@ const Footer = (props) => {
               )}
               <div className="row m-2 show-all">
                 {/* <div className="d-flex show-all align-items-center justify-content-between flex-wrap"> */}
-                {state?.modal?.type != "services" && (
+                {state?.modal?.type !== "services" && (
                   <table className="table-borderless table rem-1-5">
                     <tbody>
                       <FooterOtherLinks />

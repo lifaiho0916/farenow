@@ -2,15 +2,28 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const countryslice = createSlice({
   initialState: {
-    selectcountry: "nigeria",
+    currentCountry: "",
+    countryId: null,
+    zipCode: "",
+    placeId: "",
   },
   name: "country",
 
   reducers: {
     changeCountry: (state, { payload }) => {
-      state.selectcountry = payload;
+      state.currentCountry = payload;
+    },
+    changeCountryId: (state, { payload }) => {
+      state.countryId = payload;
+    },
+    changeZipCode: (state, { payload }) => {
+      state.zipCode = payload;
+    },
+    changePlaceId: (state, { payload }) => {
+      state.placeId = payload;
     },
   },
 });
-export const { changeCountry } = countryslice.actions;
+export const { changeCountry, changeCountryId, changeZipCode, changePlaceId } =
+  countryslice.actions;
 export default countryslice.reducer;

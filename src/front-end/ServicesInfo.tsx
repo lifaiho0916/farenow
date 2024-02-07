@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation, Redirect, useParams } from "react-router-dom";
 import { RootState } from "store";
@@ -19,13 +19,17 @@ export interface IServicesInfoProps {}
 export default function ServicesInfo(props: IServicesInfoProps) {
   // console.log("stname", stName);
   // let { service, subService,stName } = useParams<{ service: string, subService: string }>();
-  let { service, subService, stName } = useParams<{
+  let { iso, service, subService, stName } = useParams<{
+    iso: string;
     service: string;
     subService: string;
     stName: string;
   }>();
   const services = useSelector<RootState, IMenu[]>(
     (state) => state.headerMenuReducer
+  );
+  const allCountry = useSelector<RootState>(
+    (state) => state.allCountryReducer.countries
   );
   // console.log('services ===>', services)
   // console.log('subServices ====>', subService)
@@ -34,7 +38,6 @@ export default function ServicesInfo(props: IServicesInfoProps) {
   service = service.toLowerCase();
   // console.log("servicelnk ====>",service)
   subService = subService.toLowerCase();
-  // console.log('subServiceslnk ====>', subService)
 
   const matchingService = services.find(
     (s) => s.name.toLowerCase().replace(" ", "-") == service
@@ -57,16 +60,17 @@ export default function ServicesInfo(props: IServicesInfoProps) {
   // console.log(`matchingSubService =======>`, matchingSubService);
 
   const _location = useLocation();
-  console.log("my location obj ", _location);
   const searchParams = new URLSearchParams(_location.search);
   const subServiceId = matchingSubService?.id;
   const serviceId = matchingService?.id;
   const [placeId, setPlaceId] = React.useState(
     searchParams.get("place_id") || ""
   );
-  const zipCode = searchParams.get("zip_code") || "";
+  const zipCode = searchParams.get("zipCode") || "";
+  // const country_id = allCountry?.find(
+  //   (item) => iso === item.iso2.toLowerCase()
+  // );
   // alert(placeId);
-
   const history = useHistory();
   const dispatch = useDispatch();
   const serviceData = useSelector<RootState, ServiceState>(
@@ -77,20 +81,30 @@ export default function ServicesInfo(props: IServicesInfoProps) {
 
   const [locationData, setLocationData] = React.useState<ILocation>();
   const [stateName, setStateName] = React.useState("");
+  const [countryId, setCountryId] = useState("");
+
+  useEffect(() => {
+    if (Array.isArray(allCountry)) {
+      for (let index = 0; index < allCountry.length; index++) {
+        const element = allCountry[index];
+        if (element.iso2.toLowerCase() === iso) {
+          setCountryId(element.id);
+        }
+      }
+    }
+  }, [allCountry, iso]);
 
   const getPlaceId = async (stName) => {
     let city_name = stName; // State Name
-    let country_code = "US"; // Country Code
     let key = process.env.React_APP_GOOGLE_API; // Google Api Key
 
-    let query = `https://maps.googleapis.com/maps/api/geocode/json?address=${city_name}&components=country:${country_code}&location_type=GEOMETRIC_CENTER&key=${key}&sensor=false`;
+    let query = `https://maps.googleapis.com/maps/api/geocode/json?address=${city_name}}&location_type=GEOMETRIC_CENTER&key=${key}&sensor=false`;
     await axios({
       method: "get",
       url: query,
     })
       .then((response) => {
         let data = response.data;
-        console.log("success", data["results"][0]["place_id"]);
         setPlaceId(data["results"][0]["place_id"]);
       })
       .catch((error) => {
@@ -102,14 +116,14 @@ export default function ServicesInfo(props: IServicesInfoProps) {
   if (stName) getPlaceId(stName);
 
   const getProviders = () => {
+    console.log("From Service Info");
     let url = `/service-providers?subService=${subServiceId}`;
-    if (zipCode) url = url + `&zip_code=${zipCode}`;
+    if (zipCode) url = url + `&zipCode=${zipCode}`;
     if (placeId) url = url + `&place_id=${placeId}`;
+    if (countryId) url = url + `&country_id=${countryId}`;
     history.push(url);
   };
-
   React.useEffect(() => {
-    console.log("dispatch ready");
     dispatch(getServiceQuestion(subServiceId));
     window.scrollTo({
       top: 0,
@@ -117,8 +131,6 @@ export default function ServicesInfo(props: IServicesInfoProps) {
       behavior: "smooth",
     });
   }, [subServiceId]);
-
-  console.log(`statename`, stateName);
   const locationSection = (
     <div className={clsx(["rounded-[32px] bg-white p-16 text-center shadow"])}>
       <div className="max-w-[60rem] mx-auto my-12 space-y-16">
@@ -126,13 +138,8 @@ export default function ServicesInfo(props: IServicesInfoProps) {
         <LocationInput
           placeholder="Enter your location"
           onChange={(value) => {
-            console.log(`value ====>`, value);
             setLocationData({ placeId: value.value });
-            setStateName(
-              value["address_components"][0]["long_name"]
-                .toLowerCase()
-                .replace(" ", "-")
-            );
+            setStateName(value["address_components"][0]["long_name"]);
           }}
           defaultValue={zipCode}
         />
@@ -140,12 +147,10 @@ export default function ServicesInfo(props: IServicesInfoProps) {
           className="fare-btn fare-btn-primary fare-btn-lg"
           disabled={!locationData}
           onClick={() => {
-            console.log(
-              "path x",
-              `/${service}/${subService}/${stateName}?${_location.search}`
-            );
             history.push(
-              `/${service}/${subService}/${stateName}?${_location.search}`
+              `/${iso}/${service}/${subService}/${stateName
+                .toLowerCase()
+                .replace(" ", "-")}?${_location.search}&zipCode=${stateName}`
             );
           }}
         >
@@ -245,4 +250,3 @@ export default function ServicesInfo(props: IServicesInfoProps) {
     );
   return <Redirect to={"/404"} />;
 }
-

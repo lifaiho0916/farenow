@@ -13,7 +13,7 @@ import Login from "./front-end/Auth/Login";
 import { Cart } from "./front-end/Cart";
 import { GroceryStore } from "./front-end/GroceryStore";
 import { GroceryStorePage } from "./front-end/GroceryStorePage";
-// import { Index } from "./front-end/Index";
+import { Index } from "./front-end/Index";
 import { Page } from "./front-end/Page";
 import { Payment } from "./front-end/Payment";
 import { ProductDetail } from "./front-end/ProductDetail";
@@ -29,12 +29,15 @@ import ServicesSearchPage from "./front-end/ServicesSearch";
 import RegisterWithEmail from "./front-end/Auth/RegisterWithEmail";
 import ForgotPasswordWithEmail from "./front-end/Auth/ForgotPasswordWithEmail";
 import FAQ from "./front-end/FAQ";
-import BlogPage from "front-end/Blog";
+import BlogPage from "./front-end/Blog";
 import Page404 from "./front-end/404";
 import ServicesInfo from "./front-end/ServicesInfo";
 // import { AboutUs } from "./front-end/AboutUs";
 // import Footer from "./front-end/common/Footer";
-import { Index } from "./front-end/Index.jsx";
+// import { GanaIndex } from "./front-end/GanaIndex";
+// import { SouthIndex } from "./front-end/SouthIndex";
+// import { RawandaIndex } from "./front-end/RawandaIndex";
+import Pages from "./front-end/FarePages";
 import { GanaIndex } from "./front-end/GanaIndex";
 import { RawandaIndex } from "./front-end/RawandaIndex";
 import { SouthIndex } from "./front-end/SouthIndex";
@@ -54,12 +57,12 @@ const publicRoutes = [
   },
   {
     name: "Rwanda",
-    path: "/kenya",
+    path: "/ke",
     component: RawandaIndex,
     hash: "",
   },
   {
-    name: "South Africa",
+    name: "Rwanda",
     path: "/za",
     component: SouthIndex,
     hash: "",
@@ -166,15 +169,10 @@ const publicRoutes = [
   //   component: AboutUs,
   //   hash: "",
   // },
-  {
-    name: "Service Info",
-    path: "/:service/:subService",
-    component: ServicesInfo,
-  },
 
   {
     name: "Service Info",
-    path: "/:service/:subService/:stName",
+    path: "/:iso/:service/:subService/:stName",
     component: ServicesInfo,
   },
   {
@@ -200,12 +198,12 @@ const publicRoutes = [
     path: "/faq",
     component: FAQ,
   },
-  {
-    name: "Pages",
-    path: "/:name",
-    component: Page,
-    hash: "",
-  },
+  // {
+  //   name: "Pages",
+  //   path: "/:name",
+  //   component: Page,
+  //   hash: "",
+  // },
 
   {
     name: "Verification",
@@ -219,9 +217,20 @@ const publicRoutes = [
     component: BlogPage,
   },
   {
+    name: "Country",
+    path: "/:country",
+    component: Index,
+    hash: "",
+  },
+  {
     name: "404",
     path: "/404",
     component: Page404,
+  },
+  {
+    name: "Service Info",
+    path: "/:iso/:service/:subService",
+    component: ServicesInfo,
   },
 ];
 
@@ -272,11 +281,11 @@ const privateRoutes = [
 const Routes = () => {
   return (
     <Switch>
-      {publicRoutes.map(({ name, path, component, hash }, index) => (
-        <Route key={index} exact path={path} component={component} />
-      ))}
       {privateRoutes.map(({ name, path, component, hash }, index) => (
         <ProtectedRoute key={index} exact path={path} component={component} />
+      ))}
+      {publicRoutes.map(({ name, path, component, hash }, index) => (
+        <Route key={index} exact path={path} component={component} />
       ))}
       <Redirect to="/404" />
     </Switch>
@@ -340,4 +349,3 @@ export default Routes;
 //   <Route path='/page/:name' component={Page} />
 //   <Redirect to="/not-found" />
 // </Switch>
-

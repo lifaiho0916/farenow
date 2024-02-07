@@ -1,41 +1,39 @@
-
-@media only screen and (max-width:768px) and (min-width:600px) {
-    
-    .navbar-blogs{
-        width: 90% !important;
-      
-    }
-    .blog-cards{
-        width: 90% !important;
-    }
-    .card{
-        width: 90% !important;
-    }
-    .card-img-top{
-        width: 96% !important;
-    }
-    .blog-cards{
-        gap: 10px !important;
-    }
+.custom-carousel > ul:first-child li {
+  margin-bottom: 110px;
 }
-@media only screen and (max-width:599px) and (min-width:270px) {
-
-    .navbar-blogs{
-        width: 100% !important;
-        gap: 5px !important;
-    }
-    .nav-bloglinks{
-        display: flex;
-        gap: 12px !important;
-    }
-    .card{
-        width: 90% !important;
-    }
-    .card-img-top{
-        width: 96% !important;
-    }
-    .blog-cards{
-        gap: 10px !important;
-    }
+@media only screen and (max-width: 768px) and (min-width: 600px) {
+  .navbar-blogs {
+    width: 90% !important;
+  }
+  .blog-cards {
+    width: 90% !important;
+  }
+  .card {
+    width: 90% !important;
+  }
+  .card-img-top {
+    width: 96% !important;
+  }
+  .blog-cards {
+    gap: 10px !important;
+  }
 }
-
+@media only screen and (max-width: 599px) and (min-width: 270px) {
+  .navbar-blogs {
+    width: 100% !important;
+    gap: 5px !important;
+  }
+  .nav-bloglinks {
+    display: flex;
+    gap: 12px !important;
+  }
+  .card {
+    width: 90% !important;
+  }
+  .card-img-top {
+    width: 96% !important;
+  }
+  .blog-cards {
+    gap: 10px !important;
+  }
+}

@@ -69,175 +69,156 @@
   }
 }
 
-.nav{
-  background-color: #005ECB;
+.nav {
+  background-color: #005ecb;
 
-
-
-  .nav-data{
+  .nav-data {
     display: flex;
     justify-content: space-between;
     padding: 22px 0px 22px 0px;
     color: #fff;
     gap: 25px;
     margin-left: 20px;
-    @media only screen and (max-width: 1000px) and (min-width: 400px){
-        display: flex;
+    @media only screen and (max-width: 1000px) and (min-width: 400px) {
+      display: flex;
       flex-direction: column;
       gap: 10px;
       width: 100%;
-      h4{
-     
+      h4 {
         font-size: 20px;
         display: flex;
         justify-content: flex-start;
       }
-    
 
-      .divbtn1{
+      .divbtn1 {
         display: flex;
         justify-content: flex-start;
 
-        .btn{
+        .btn {
           background-color: transparent;
           font-size: 16px;
           color: #fff;
           width: 180px;
           border: 1px solid white;
           border-radius: 20px;
-          
         }
       }
-      .divbtn2{
+      .divbtn2 {
         display: flex;
         justify-content: flex-start;
 
-        .btn{
+        .btn {
           background-color: transparent;
           font-size: 16px;
           color: #fff;
           width: 180px;
           border: 1px solid white;
           border-radius: 20px;
-          
         }
       }
-      
     }
-    @media only screen and (max-width:399px) {
+    @media only screen and (max-width: 399px) {
       display: flex;
       flex-direction: column;
       gap: 5px;
       width: 100%;
       margin-left: 3px;
-      h4{
-     
+      h4 {
         font-size: 20px;
         display: flex;
         justify-content: flex-start;
       }
     }
-    h1{
+    h1 {
       font-size: 20px;
       font-weight: 400;
       font-family: sans-serif;
     }
-    .btn{
+    .btn {
       background-color: transparent;
       font-size: 16px;
       width: 180px;
       color: #fff;
       border: 1px solid white;
       border-radius: 20px;
-      
     }
   }
 }
-.south{
-  background-color: #FF9E45;
+.south {
+  background-color: #ff9e45;
 
-
-
-  .nav-data{
+  .nav-data {
     display: flex;
     justify-content: space-between;
     padding: 22px 0px 22px 0px;
     color: #fff;
     gap: 25px;
     margin-left: 20px;
-    @media only screen and (max-width: 1000px) and (min-width: 400px){
-        display: flex;
+    @media only screen and (max-width: 1000px) and (min-width: 400px) {
+      display: flex;
       flex-direction: column;
       gap: 10px;
       width: 100%;
-      h4{
-     
+      h4 {
         font-size: 20px;
         display: flex;
         justify-content: flex-start;
       }
-    
 
-      .divbtn1{
+      .divbtn1 {
         display: flex;
         justify-content: flex-start;
 
-        .btn{
+        .btn {
           background-color: transparent;
           font-size: 16px;
           color: #fff;
           width: 180px;
           border: 1px solid white;
           border-radius: 20px;
-          
         }
       }
-      .divbtn2{
+      .divbtn2 {
         display: flex;
         justify-content: flex-start;
 
-        .btn{
+        .btn {
           background-color: transparent;
           font-size: 16px;
           color: #fff;
           width: 180px;
           border: 1px solid white;
           border-radius: 20px;
-          
         }
       }
-      
     }
-    @media only screen and (max-width:399px) {
+    @media only screen and (max-width: 399px) {
       display: flex;
       flex-direction: column;
       gap: 5px;
       width: 100%;
       margin-left: 3px;
-      h4{
-     
+      h4 {
         font-size: 20px;
         display: flex;
         justify-content: flex-start;
       }
     }
-    h1{
+    h1 {
       font-size: 20px;
       font-weight: 400;
       font-family: sans-serif;
     }
-    .btn{
+    .btn {
       background-color: transparent;
       font-size: 16px;
       width: 180px;
       color: #fff;
       border: 1px solid white;
       border-radius: 20px;
-      
     }
   }
 }
-
 
 // .south{
 //   background-color: #FF9E45;
@@ -254,12 +235,11 @@
 //     gap: 10px;
 //     width: 100%;
 //     h4{
-   
+
 //       font-size: 20px;
 //       display: flex;
 //       justify-content: flex-start;
 //     }
-  
 
 //     .divbtn1{
 //       display: flex;
@@ -272,7 +252,7 @@
 //         width: 180px;
 //         border: 1px solid white;
 //         border-radius: 20px;
-        
+
 //       }
 //     }
 //     .divbtn2{
@@ -286,10 +266,10 @@
 //         width: 180px;
 //         border: 1px solid white;
 //         border-radius: 20px;
-        
+
 //       }
 //     }
-    
+
 //   }
 //     @media only screen and (max-width:399px) {
 //       display: flex;
@@ -298,7 +278,7 @@
 //       width: 100%;
 //       margin-left: 3px;
 //       h4{
-     
+
 //         font-size: 20px;
 //         display: flex;
 //         justify-content: flex-start;
@@ -312,13 +292,13 @@
 //       color: #fff;
 //       border: 1px solid white;
 //       border-radius: 20px;
-      
+
 //     }
 
 //   }
 // }
-.container .setimgmobile{
-  @media only screen and (max-width:988px){
+.container .setimgmobile {
+  @media only screen and (max-width: 988px) {
     margin-top: 60px;
   }
 }

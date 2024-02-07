@@ -30,12 +30,11 @@ const modalConfig = {
 export const ServiceProviders = (props) => {
   const history = useHistory();
   const location = useLocation<any>();
-
   const searchParams = new URLSearchParams(location.search);
 
   const subService = searchParams.get("subService");
   const placeId = searchParams.get("place_id");
-  const zipCode = searchParams.get("zip_code");
+  const zipCode = searchParams.get("zipCode");
   const questionAnswers = useSelector<RootState>((state) =>
     getQuestionAnswers(state.questionAnswers)
   );
@@ -145,8 +144,7 @@ export const ServiceProviders = (props) => {
     }
   }, [providerList, providerSchedule]);
 
-        console.log(`======= > providerList`, providerList);
-
+  console.log(`======= > providerList`, providerList);
 
   const handleContinueClick = (provider: IProvider) => {
     if (state.is_loggedin) {
@@ -233,6 +231,7 @@ export const ServiceProviders = (props) => {
   };
 
   const handleLoadMoreClick = (page) => {
+    console.log(page, "PAGE");
     getProviderList({
       search: !!location?.search && location.search,
       params: {
@@ -303,3 +302,4 @@ export const ServiceProviders = (props) => {
     </>
   );
 };
+

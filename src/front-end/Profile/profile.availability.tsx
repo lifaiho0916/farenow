@@ -19,7 +19,7 @@ export default function ProfileAvailability(props: IProfileAvailabilityProps) {
         <div>
           {days.length > 0 &&
             days.map((d, i) => (
-              <>
+              <span key={i}>
                 {i != 0 && <>,&ensp;</>}
                 <span
                   className="text-emerald-400 cursor-pointer"
@@ -27,7 +27,7 @@ export default function ProfileAvailability(props: IProfileAvailabilityProps) {
                 >
                   {d}
                 </span>
-              </>
+              </span>
             ))}
           {!days.length && (
             <span className="text-emerald-400">
@@ -51,3 +51,4 @@ export default function ProfileAvailability(props: IProfileAvailabilityProps) {
     </div>
   );
 }
+

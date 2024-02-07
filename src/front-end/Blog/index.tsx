@@ -23,7 +23,6 @@ export default function BlogPage(props: IBlogPageProps) {
     await dispatch(fetchCategories());
     await dispatch(fetchRecentBlogs());
     await dispatch(fetchPopularBlogs());
-    
   };
   useEffect(() => {
     initialize();
@@ -36,9 +35,10 @@ export default function BlogPage(props: IBlogPageProps) {
       <Route path="/blog" exact>
         <BlogList />
       </Route>
-      <Route path="/blog/:slug">
+      <Route path="/blog-details/:slug">
         <BlogDetail />
       </Route>
     </Switch>
   );
 }
+

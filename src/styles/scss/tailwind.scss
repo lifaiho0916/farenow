@@ -24,4 +24,17 @@
   .fare-btn-sm {
     @apply py-3 px-5 font-normal;
   }
+  .footer-state-list {
+    @apply text-[#848A87] font-semibold text-[16px] pt-6 pb-3;
+  }
+  .footer-state-list-mobile {
+    @apply text-[#848A87] font-semibold text-[16px] pt-10 py-1;
+  }
+  .footer-region-list {
+    @apply text-[#022022] font-semibold text-[10.5px] py-1.5;
+  }
+  .footer-region-list-mobile {
+    @apply text-[#022022] font-semibold text-[15px] py-1;
+  }
 }
+

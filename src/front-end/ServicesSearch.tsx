@@ -10,7 +10,7 @@ import ServiceWizard from "./Services/services.wizard";
 import Loading from "./common/Loading";
 import LocationInput from "components/input.location";
 import clsx from "clsx";
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet";
 export interface IServicesSearchPageProps {}
 
 export default function ServicesSearchPage(props: IServicesSearchPageProps) {
@@ -20,20 +20,19 @@ export default function ServicesSearchPage(props: IServicesSearchPageProps) {
   const service = useSelector<RootState, ServiceState>(
     (state) => state.service
   );
-  console.log(service);
   const searchParams = new URLSearchParams(_location.search);
   const subServiceId = searchParams.get("subService");
   const serviceId = searchParams.get("serviceId");
   const placeId = searchParams.get("place_id") || "";
-  const zipCode = searchParams.get("zip_code") || "";
-  
-
+  const zipCode = searchParams.get("zipCode") || "";
+  const country_id = searchParams.get("country_id") || "";
   const [location, setLocation] = React.useState<ILocation>();
 
   const getProviders = () => {
     let url = `/service-providers?subService=${subServiceId}`;
-    if (zipCode) url = url + `&zip_code=${zipCode}`;
+    if (zipCode) url = url + `&zipCode=${zipCode}`;
     if (placeId) url = url + `&place_id=${placeId}`;
+    if (country_id) url = url + `&country_id=${country_id}`;
     history.push(url);
   };
 
@@ -79,7 +78,7 @@ export default function ServicesSearchPage(props: IServicesSearchPageProps) {
         <title>Farenow - {service?.data?.name}</title>
         <meta name="description" content={service?.data.terms} />
         <meta property="og:title" content={service?.data.name} />
-        
+
         {service?.data?.service_contents.map((content) => (
           <meta property="og:description" content={content.description} />
         ))}

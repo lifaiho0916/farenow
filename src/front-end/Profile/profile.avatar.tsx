@@ -2,12 +2,17 @@ import * as React from "react";
 import { RatingWithLabel } from "../../components/Rating";
 import { HOST } from "../../constants";
 import { padNumber } from "../../helper/utils";
+import { useSelector } from "react-redux";
 
 export interface IProfileAvatarProps {
   provider: IProvider;
 }
 
 export default function ProfileAvatar({ provider }: IProfileAvatarProps) {
+  const allCountry = useSelector((state: any) => state?.allCountryReducer);
+  const providerCountry = allCountry?.countries?.find(
+    (country) => country.id === provider.country_id
+  );
   return (
     <div className="fare-card p-0 overflow-auto">
       <img src="/assets/img/profile_avatar_bg.png" className="" />
@@ -28,7 +33,7 @@ export default function ProfileAvatar({ provider }: IProfileAvatarProps) {
         <div className="text-base">
           {provider.account_type == "BASIC" &&
           provider?.provider_profile?.hourly_rate
-            ? `$${provider?.provider_profile.hourly_rate} hourly rate`
+            ? `${providerCountry?.currency_symbol}${provider?.provider_profile.hourly_rate} hourly rate`
             : "PREMIUM"}
         </div>
         <div className="text-gray-400">{`${provider?.provider_service_requests_count} Jobs Completed`}</div>
@@ -43,3 +48,4 @@ export default function ProfileAvatar({ provider }: IProfileAvatarProps) {
     </div>
   );
 }
+

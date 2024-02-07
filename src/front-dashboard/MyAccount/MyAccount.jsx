@@ -49,12 +49,31 @@ export const MyAccount = (props) => {
   const closeRef = useRef(null);
   const closeAddressModalRef = useRef(null);
 
+  // useEffect(() => {
+  //   if (localStorage.getItem("user_data")) {
+  //     let user = JSON.parse(localStorage.getItem("user_data"));
+  //     !!!profile?.data && getProfile(user.id);
+  //     !!!addressList?.data && getAddresses();
+  //     !!!paymentCard?.data && getPaymentCards();
+  //   } else {
+  //     localStorage.clear();
+  //   }
+  //   // getAddresses();
+  // }, []);
   useEffect(() => {
-    if (localStorage.getItem("user_data")) {
-      let user = JSON.parse(localStorage.getItem("user_data"));
-      !!!profile?.data && getProfile(user.id);
-      !!!addressList?.data && getAddresses();
-      !!!paymentCard?.data && getPaymentCards();
+    const user_data = localStorage.getItem("user_data");
+    if (user_data) {
+      const user = JSON.parse(user_data);
+
+      if (!profile?.data) {
+        getProfile(user.id);
+      }
+      if (addressList?.data.length === 0) {
+        getAddresses();
+      }
+      if (!paymentCard?.data) {
+        getPaymentCards();
+      }
     } else {
       localStorage.clear();
     }
@@ -260,6 +279,7 @@ export const MyAccount = (props) => {
               fontSize: "1.5rem",
               boxShadow: "0px 0px 10px #e5e5e5",
               marginTop: "2rem",
+              marginBottom: "2rem",
             }}
           >
             <div
@@ -942,3 +962,4 @@ export const MyAccount = (props) => {
     </MapLoadedApiContext.Consumer>
   );
 };
+

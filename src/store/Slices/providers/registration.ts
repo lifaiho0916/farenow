@@ -72,14 +72,17 @@ export const providerSignup = (data) => async (dispatch) => {
         let data = response.data;
         data.loading = false;
         dispatch(signupProvider(response.data));
+        return response?.data;
       })
       .catch((error) => {
         //handle error
+        console.log("Handle error 1");
         let data = error.response.data;
         data.loading = false;
         dispatch(signupProvider(error.response.data));
       });
   } catch (error) {
+    console.log("Handle error 2");
     dispatch(
       signupProvider({
         error: true,
@@ -229,3 +232,4 @@ export const postProfileDetail = (data) => async (dispatch) => {
     );
   }
 };
+

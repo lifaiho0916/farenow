@@ -1,17 +1,26 @@
 import * as React from "react";
 import { clsx } from "clsx";
+import { useSelector } from "react-redux";
 
 export interface ISubscriptionPlanProps {
   active?: boolean;
   onSelect?: () => void;
   onNext?: () => void;
   plan: IProviderPlan;
+  provider: IProviderBase;
 }
 
 export default function SubscriptionPlan(props: ISubscriptionPlanProps) {
-  const { active, onSelect, onNext, plan } = props;
+  const { provider, active, onSelect, onNext, plan } = props;
   const fields: (keyof IProviderPlan)[] = ["type", "duration"];
   const fieldsDisplay = ["Type", "Duration"];
+  const allCountry = useSelector((state: any) => state?.allCountryReducer);
+  const amount =
+    Number(plan?.duration) * Number(provider?.provider_profile?.hourly_rate);
+  const discountPrice = amount * (Number(plan?.off) / 100);
+  const countrySymbol = allCountry?.countries?.find(
+    (country: any) => country?.id === provider?.country_id
+  )?.currency_symbol;
   return (
     <div
       onClick={() => {
@@ -39,13 +48,11 @@ export default function SubscriptionPlan(props: ISubscriptionPlanProps) {
           <div>
             <p className="text-base font-medium">{plan.title}</p>
             <p className="text-sm font-medium">
+              {countrySymbol}
               <span className={plan.off > 0 && "line-through mr-2"}>
-                ${Number(plan.price).toFixed(2)}
+                {amount}
               </span>
-              {plan.off > 0 &&
-                `$${(((100 - plan.off) / 100) * Number(plan.price)).toFixed(
-                  2
-                )}`}
+              {amount - discountPrice}
               <small className="text-gray-300">/hour</small>
             </p>
           </div>
@@ -76,3 +83,4 @@ export default function SubscriptionPlan(props: ISubscriptionPlanProps) {
     </div>
   );
 }
+

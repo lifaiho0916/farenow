@@ -2,6 +2,7 @@ interface IProviderBase {
   id: number;
   first_name: string;
   last_name: string;
+  country_id: number;
   image: string;
   rating: null | number;
   provider_type: "Business" | "Individual";

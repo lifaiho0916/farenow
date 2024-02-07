@@ -1,10 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import {
-  Link,
-  useHistory,
-  useLocation,
-  useRouteMatch,
-} from "react-router-dom";
+import { Link, useHistory, useLocation, useRouteMatch } from "react-router-dom";
 import axios from "axios";
 import { Chat } from "../../Chat/Chat";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,6 +9,7 @@ import { pageLinks } from "../../../store/Slices/footer";
 import _ from "lodash";
 import { useModal } from "react-hooks-use-modal";
 import clsx from "clsx";
+
 import { setShow } from "../../../store/Slices/HeaderDrownDownSlice";
 
 export const BaseHeader = (props) => {
@@ -42,7 +38,7 @@ export const BaseHeader = (props) => {
   const [Modal, openChat, closeChat, isChatOpen] = useModal("root", {
     focusTrapOptions: { clickOutsideDeactivates: false },
   });
-  const countryId = localStorage.getItem("country");
+  const countryId = useSelector((state) => state.countryReducer.countryId);
   useEffect(() => {
     if (localStorage.getItem("userToken")) {
       setState((state) => ({
@@ -68,9 +64,9 @@ export const BaseHeader = (props) => {
       })
       .catch((error) => {
         //handle error
-        // console.log(error.response);
+        dispatch(headerMenu([]));
       });
-  }, [countryId]);
+  }, [countryId, dispatch]);
 
   useEffect(() => {
     if (localStorage.getItem("userToken")) {
@@ -93,12 +89,10 @@ export const BaseHeader = (props) => {
   }, [notification?.fcmMessageId]);
 
   const handleLogout = () => {
-
     if (window.FB) {
       window.FB.getLoginStatus(function (response) {
         if (response.status === "connected") {
-          window.FB.logout(function (response) {
-          });
+          window.FB.logout(function (response) { });
         }
       });
     }
@@ -106,8 +100,7 @@ export const BaseHeader = (props) => {
     if (window.gapi && window.gapi.auth2) {
       const auth2 = window.gapi.auth2.getAuthInstance();
       if (auth2) {
-        auth2.signOut().then(function () {
-        });
+        auth2.signOut().then(function () { });
       }
     }
 
@@ -119,7 +112,6 @@ export const BaseHeader = (props) => {
     }));
     history.push("/");
   };
-
 
   const mySearch = ({ target: { value } }) => {
     if (value) {
@@ -164,6 +156,9 @@ export const BaseHeader = (props) => {
 
   const headerLogo = (
     <div className="header-logo">
+      {/**
+       * Brand Logo
+       */}
       <Link
         to={(location) => ({
           ...location,
@@ -171,7 +166,7 @@ export const BaseHeader = (props) => {
           hash: "",
         })}
         onClick={(e) => {
-          if (location?.pathname == "/") {
+          if (location?.pathname === "/") {
             e.preventDefault();
           }
         }}
@@ -181,6 +176,10 @@ export const BaseHeader = (props) => {
           alt=""
           width={200}
           className="img-fluid"
+        // style={{
+        //     height: "15vh",
+        //     width: "auto",
+        // }}
         />
       </Link>
     </div>
@@ -202,6 +201,7 @@ export const BaseHeader = (props) => {
       >
         <img
           src="/assets/img/message.svg"
+          alt=""
           className="img-fluid w-[4.8rem] h-[4.8rem]"
         />
       </div>
@@ -228,6 +228,7 @@ export const BaseHeader = (props) => {
             {/* <span className="user-name-farenow">Notification</span> */}
             <img
               src="/assets/img/notification.svg"
+              alt=""
               className="img-fluid w-[4.8rem] h-[4.8rem]"
             />
           </div>
@@ -298,6 +299,7 @@ export const BaseHeader = (props) => {
       </div>
       <div className="dropdown">
         <div
+          // className="btn btn-secondary dropdown-toggle"
           className="link"
           id="dropdownMenuLink"
           data-toggle="dropdown"
@@ -313,6 +315,7 @@ export const BaseHeader = (props) => {
                 ? process.env.REACT_APP_API_BASE_URL + user_data.image
                 : "/assets/img/user.svg"
             }
+            alt=""
             className="img-fluid user-avatar w-[4.8rem] h-[4.8rem]"
           />
         </div>
@@ -482,4 +485,3 @@ export const BaseHeader = (props) => {
     </header>
   );
 };
-

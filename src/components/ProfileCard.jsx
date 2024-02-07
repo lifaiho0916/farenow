@@ -105,3 +105,4 @@ const ProfileCard = ({ profile }) => {
 };
 
 export default memo(ProfileCard);
+
