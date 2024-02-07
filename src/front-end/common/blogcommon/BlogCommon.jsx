@@ -173,40 +173,48 @@ const BlogCommon = () => {
             })}
         </Carousel>
       </div> */}
-      <div className="w-[95%] md:w-[60%] mx-auto grid grid-cols-12 gap-8 py-12">
+      <div className="w-[95%] md:w-[80%] mx-auto grid grid-cols-12 gap-8 py-12">
         {blogs &&
-          blogs.slice(0, 4).map((blog, index) => {
-            return (
-              <div
-                className={`bg-white ${index === 0 ? "col-span-12" : "col-span-12 md:col-span-4"
-                  }`}
-              >
-                <div className="grid grid-cols-12">
-                  <div
-                    className={`${index === 0 ? "col-span-12  md:col-span-8" : "col-span-12"
-                      }`}
-                  >
-                    <img
-                      src={
-                        blog?.featured_image ? blog?.featured_image : noImage
-                      }
-                      className={`w-full aspect-auto ${index === 0
-                        ? "h-[255px] md:h-[325px]"
-                        : "h-[160px] md:h-[200px] "
-                        }`}
-                      alt="..."
-                    />
-                  </div>
-                  <div
-                    className={`${index === 0
-                      ? "col-span-12 md:col-span-4 flex flex-col justify-center px-6 py-5 md:py-0 md:px-[40px]"
-                      : "col-span-12 px-6 py-5"
-                      }`}
-                  >
-                    <p className="text-base font-semibold">
-                      {blog?.title.slice(0, 50)}
-                    </p>
-                    {index === 0 && (
+          <>
+            <div className="col-span-12 md:col-span-6 bg-[#EAEAEA] rounded-[10px]">
+              <img
+                src={
+                  blogs[0]?.featured_image ? blogs[0]?.featured_image : noImage
+                }
+                className="w-full aspect-auto"
+                alt="..."
+              />
+              <div className="p-12">
+                <h3>{blogs[0]?.title}</h3>
+                <p
+                  ref={ref}
+                  className={`card-text mt-4 blog-card blog-card-text`}
+                  dangerouslySetInnerHTML={{
+                    __html: quillToHTML(
+                      blogs[0]?.contents[0]?.content &&
+                      blogs[0]?.contents[0]?.content
+                    ),
+                  }}
+                  style={{ fontSize: "16px", color: "#747474" }}
+                ></p>
+                <button className={`mt-4 text-primary text-left`} onClick={() => handleReadMore(blogs[0]?.slug)}>READ MORE</button>
+              </div>
+            </div>
+            <div className="col-span-12 md:col-span-6">
+              {blogs.slice(1, 4).map((blog, index) => {
+                return (
+                  <div className="grid grid-cols-12">
+                    <div className={`col-span-12 md:col-span-6 ${index !== 2 && "mb-4"}`}>
+                      <img
+                        src={
+                          blog?.featured_image ? blog?.featured_image : noImage
+                        }
+                        className="w-full aspect-auto rounded-[10px]"
+                        alt="..."
+                      />
+                    </div>
+                    <div className="col-span-12 md:col-span-6 ml-3 p-3">
+                      <h3>{blog?.title}</h3>
                       <p
                         ref={ref}
                         className={`card-text mt-4 blog-card blog-card-text`}
@@ -216,23 +224,18 @@ const BlogCommon = () => {
                             blog?.contents[0]?.content
                           ),
                         }}
-                        style={{ fontSize: "16px", color: "#555555" }}
+                        style={{ fontSize: "16px", color: "#747474" }}
                       ></p>
-                    )}
-                    <button
-                      onClick={() => handleReadMore(blog.slug)}
-                      className={`text-primary text-left`}
-                    >
-                      Read More
-                    </button>
+                      <button className={`mt-4 text-primary text-left`} onClick={() => handleReadMore(blog?.slug)}>READ MORE</button>
+                    </div>
                   </div>
-                </div>
-                {/* {index + 1} */}
-              </div>
-            );
-          })}
+                );
+              })}
+            </div>
+          </>
+        }
       </div>
-    </div>
+    </div >
   );
 };
 

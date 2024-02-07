@@ -795,7 +795,7 @@ export const Index = (props) => {
         <DownloadDialog type={downloadType.current} />
       </DownloadModal>
 
-      <StateListFooter />
+      {/* <StateListFooter /> */}
     </div>
   );
 };
