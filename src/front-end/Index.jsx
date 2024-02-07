@@ -35,6 +35,12 @@ import appliactionMockupImg from "../assets/application_mockup_vol.png"
 import DealwithImg from "../assets/Mask group.png"
 import PartnerImg from "../assets/Partners.png";
 import FiveStarImg from "../assets/Home-screen-pana.png"
+import downloadImage1 from "../assets/Rectangle 4120.png";
+import downloadImage2 from "../assets/Rectangle 4121.png";
+import downloadImage3 from "../assets/Rectangle 4122.png";
+import downloadImage4 from "../assets/Rectangle 4118.png";
+import downloadImage5 from "../assets/Rectangle 4123.png";
+import downloadImage6 from "../assets/Rectangle 4117.png";
 import { SERVICES } from "../constants";
 import ServiceBtn from "./common/ServiceBtn";
 
@@ -344,7 +350,7 @@ export const Index = (props) => {
         </div>
       )} */}
 
-      <section className="py-5">
+      <section className="py-12 my-6">
         <div className="container flex flex-col items-center justify-between lg:flex-row">
           <div className="flex justify-center items-center mb-5">
             <div className="container">
@@ -373,10 +379,10 @@ export const Index = (props) => {
 
       <section>
         <div
-          className="h-fit bg-cover flex flex-col justify-center items-center py-[100px]"
+          className="h-fit bg-cover flex flex-col justify-center items-center py-12"
           style={{ backgroundImage: "url('/assets/img/service-bg.png')" }}
         >
-          <h1 className="text-white text-3xl sm:text-4xl text-center tracking-widest leading-snug uppercase max-w-[1050px] mb-5">
+          <h1 className="text-white text-3xl sm:text-4xl text-center tracking-widest leading-snug uppercase max-w-[1050px] mb-5 pt-12 mt-12">
             Our technology is build for
             every daily life business owner to go
             further and faster
@@ -386,7 +392,7 @@ export const Index = (props) => {
               <ServiceBtn value={service} key={service} />
             )}
           </div>
-          <div className="flex mt-5 w-[320px]">
+          <div className="flex mt-5 w-[320px] mb-12 pb-12">
             <ServiceBtn value="See how it works" />
           </div>
         </div>
@@ -403,32 +409,34 @@ export const Index = (props) => {
         </div>
       </section>
 
-      <section className="py-12">
-        <div className="mb-20">
-          <h1 className="text-4xl uppercase font-bold text-center">Deal with <span className="text-[#0068E1]">Professionals</span></h1>
-          <h6 className="text-sm text-center mt-1">For getting best services, check out professional's profile</h6>
-        </div>
-        <div className="container flex flex-col items-center justify-between lg:flex-row">
-          <div className="d-flex align-items-center justify-content-center relative">
-            <div className="w-[60%] h-[90%] border-[#298CFF] border-dashed border-2 rounded-[15px] absolute right-3 top-1"></div>
-            <img
-              src={DealwithImg}
-              className="img-fluid w-[90%] mt-5 z-10"
-            />
+      <section className="py-12 my-6">
+        <div className="py-12 my-6">
+          <div className="mb-20">
+            <h1 className="text-4xl uppercase font-bold text-center">Deal with <span className="text-[#0068E1]">Professionals</span></h1>
+            <h6 className="text-sm text-center mt-1">For getting best services, check out professional's profile</h6>
           </div>
-          <div className="flex justify-center items-center max-w-[100%] lg:max-w-[50%]">
-            <div className="container">
-              <div className="m-5">
-                <h2 className="text-3xl uppercase text-black font-bold">
-                  Vetted <span className="text-[#0068E1]">BackGround - checked</span> Professionals
-                </h2>
-                <h5 className="leading-normal text-sm text-[#747474] mt-2">Cleaning & handyman tasks booked and paid for directly through the farenow platform are performed by experienced, background-checked professionals who are highly rated by customers like you.</h5>
-              </div>
-              <div className="m-5">
-                <h2 className="text-3xl uppercase text-black font-bold">
-                  Your <span className="text-[#0068E1]">happiness</span>, Guaranteed
-                </h2>
-                <h5 className="leading-normal text-sm text-[#747474] mt-2">Your happiness is our goal. If you are not happy, we will work to make it right. Our friendly customer service agents are available 24 hours a day, 7 days a week. The Farenow Happiness Guarantee only applies when you book and pay for service directly through the Farenow platform.</h5>
+          <div className="container flex flex-col items-center justify-between lg:flex-row">
+            <div className="d-flex align-items-center justify-content-center relative">
+              <div className="w-[60%] h-[90%] border-[#298CFF] border-dashed border-2 rounded-[15px] absolute right-3 top-1"></div>
+              <img
+                src={DealwithImg}
+                className="img-fluid w-[90%] mt-5 z-10"
+              />
+            </div>
+            <div className="flex justify-center items-center max-w-[100%] lg:max-w-[50%]">
+              <div className="container">
+                <div className="m-5">
+                  <h2 className="text-3xl uppercase text-black font-bold">
+                    Vetted <span className="text-[#0068E1]">BackGround - checked</span> Professionals
+                  </h2>
+                  <h5 className="leading-normal text-sm text-[#747474] mt-2">Cleaning & handyman tasks booked and paid for directly through the farenow platform are performed by experienced, background-checked professionals who are highly rated by customers like you.</h5>
+                </div>
+                <div className="m-5">
+                  <h2 className="text-3xl uppercase text-black font-bold">
+                    Your <span className="text-[#0068E1]">happiness</span>, Guaranteed
+                  </h2>
+                  <h5 className="leading-normal text-sm text-[#747474] mt-2">Your happiness is our goal. If you are not happy, we will work to make it right. Our friendly customer service agents are available 24 hours a day, 7 days a week. The Farenow Happiness Guarantee only applies when you book and pay for service directly through the Farenow platform.</h5>
+                </div>
               </div>
             </div>
           </div>
@@ -494,22 +502,16 @@ export const Index = (props) => {
         </div>
       </section> */}
       {/* <index /> */}
-      <section className="download-apps pad-y bg-primary-dark">
+
+      <section className="download-apps bg-gradient-to-r from-[#0050AC] from-10% via-[#001A38] via-20% to-[#001A38] to-95% pt-12">
         <div className="container">
-          <div className="d-flex flex-wrap space-x-22 sm:space-x-10 align-items-center flex-lg-nowrap mobileside">
-            <img
-              src="/assets/img/mobile-app.png"
-              className="img-fluid w-[54rem] "
-              alt=""
-            />
-            <div className="text-white" style={{ marginTop: "20px" }}>
-              <h1 className="text-white text-5xl font-bold">
-                Download the Farenow App
+          <div className="d-flex flex-wrap space-x-22 sm:space-x-10 flex-lg-nowrap mobileside pt-12 relative">
+            <div className="text-white max-w-[100%] lg:max-w-[42%]" style={{ marginTop: "20px" }}>
+              <h1 className="text-white text-5xl font-bold tracking-tight">
+                DOWNLOAD THE FRENOW APPLICATION
               </h1>
-              <p className="text-base py-16 pr-[85px]">
-                Book and manage appointments, message your professional, view
-                professional profiles and ratings, and see the real-time
-                location of your professional, among many other features.
+              <p className="text-base py-16 pr-[85px] text-white">
+                Book and manage appointments, message your pback-layerrofessional, view professional profiles and ratings, see real-time location of your professional and so much more.
               </p>
               <div>
                 <button
@@ -541,10 +543,50 @@ export const Index = (props) => {
                 </button>
               </div>
             </div>
+            <div className="flex">
+              <div className="flex items-end mx-3">
+                <img
+                  src={downloadImage1}
+                  className="img-fluid"
+                  alt=""
+                />
+              </div>
+              <div className="flex items-end mx-3">
+                <img
+                  src={downloadImage2}
+                  className="img-fluid"
+                  alt=""
+                />
+              </div>
+              <div className="flex flex-col justify-end mx-3">
+                <img
+                  src={downloadImage4}
+                  className="img-fluid mb-3"
+                  alt=""
+                />
+                <img
+                  src={downloadImage3}
+                  className="img-fluid mt-3"
+                  alt=""
+                />
+              </div>
+              <div className="flex flex-col justify-end mx-3">
+                <img
+                  src={downloadImage6}
+                  className="img-fluid mb-3"
+                  alt=""
+                />
+                <img
+                  src={downloadImage5}
+                  className="img-fluid mt-3"
+                  alt=""
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
-      
+
       {/* 
       <section className="shop-for-home pad-y">
         <div className="container">
@@ -640,7 +682,7 @@ export const Index = (props) => {
           </div>
         </div>
       </section> */}
-        <section className="our-partners-sec pad-y mt-10">
+      <section className="our-partners-sec pad-y">
         <div className="container">
           <div className="row">
             <div className="col-md-12">

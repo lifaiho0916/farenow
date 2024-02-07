@@ -173,7 +173,7 @@ const BlogCommon = () => {
             })}
         </Carousel>
       </div> */}
-      <div className="w-[95%] md:w-[60%] mx-auto grid grid-cols-12 gap-8 pb-8">
+      <div className="w-[95%] md:w-[60%] mx-auto grid grid-cols-12 gap-8 py-12">
         {blogs &&
           blogs.slice(0, 4).map((blog, index) => {
             return (
