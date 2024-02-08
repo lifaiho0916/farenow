@@ -10,7 +10,7 @@ const ServiceBtn = ({ value }) => {
             onMouseLeave={() => setHover(false)}
         >
             <span
-                className="text-base uppercase tracking-widest"
+                className="text-base uppercase tracking-widest font-albert-sans"
                 style={{
                     color: hover ? 'black' : 'white'
                 }}

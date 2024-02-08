@@ -64,7 +64,7 @@ const BlogCommon = () => {
       <div className="flex justify-center mt-5 mb-3">
         <img src={BlogImg} className="w-[80%] lg:w-auto" />
       </div>
-      <h3 className="text-base text-dark max-w-[650px] text-center mx-auto">
+      <h3 className="text-base text-dark max-w-[650px] text-center mx-auto font-albert-sans">
         Learn more about us and our services by reading our blogs
       </h3>
       {/* <div className="flex gap-20 w-[80%] mx-auto my-20 py-10 rounded-[20px]  border bg-white navbar-blogs ">

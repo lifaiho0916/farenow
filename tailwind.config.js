@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
-  
+
   theme: {
     fontSize: {
       xs: "1.4rem",
@@ -14,7 +14,11 @@ module.exports = {
       "4xl": "4.8rem",
       "5xl": "6.0rem",
     },
- 
+    fontFamily: {
+      'gobold-lowplus': ['Gobold Lowplus', 'sans-serif'],
+      'albert-sans': ['Albert Sans', 'sans-serif'],
+      'rubik': ['Rubik', 'sans-serif']
+    },
     extend: {
       colors: {
         primary: {
@@ -27,7 +31,7 @@ module.exports = {
 
       screens: {
         xl: "1240px",
-        sm:"600px"
+        sm: "600px"
       },
     },
   },

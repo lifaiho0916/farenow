@@ -23,10 +23,10 @@ const HeaderHomePart = () => {
             <div className="col-12">
                 <div className="banner-sec flex flex-col items-center justify-between lg:flex-row">
                     <div className="banner-text mb-5 mb-md-0 w-100">
-                        <div className="font-bold text-5xl tracking-[-2px] leading-tight uppercase text-[#FCFCFC]">
-                            Find Trusted services for every need
+                        <div className="text-5xl leading-tight text-[#FCFCFC] font-gobold-lowplus">
+                            FIND TRUSTED SERVICES FOR EVERY NEED
                         </div>
-                        <div className="text-xl md:text-sm text-white mt-6">
+                        <div className="text-xl md:text-sm text-white mt-6 font-albert-sans">
                             Whether it's a special event, a daily commute, or a unique celebration, FareNow connects you with a network of reliable service providers. Explore a wide range of services that cater to your needs and exceed your expectations.
                         </div>
                         <div className="my-5">
@@ -34,13 +34,13 @@ const HeaderHomePart = () => {
                         </div>
                         <div className='flex mb-10 items-center'>
                             <AvatarGroup>
-                                <Avatar alt="Remy Sharp" sx={{ width: 35, height: 35 }} src="/assets/img/boss1.jpg" />
-                                <Avatar alt="Travis Howard" sx={{ width: 35, height: 35 }} src="/assets/img/boss2.jpg"  />
-                                <Avatar alt="Agnes Walker" sx={{ width: 35, height: 35 }} src="/assets/img/boss3.jpg" />
-                                <Avatar alt="Trevor Henderson" sx={{ width: 35, height: 35 }} src="/assets/img/boss1.jpg" />
-                                <Avatar alt="Trevor Henderson" sx={{ width: 35, height: 35 }} src="/assets/img/boss1.jpg" />
+                                <Avatar alt="Remy Sharp" sx={{ width: 30, height: 30 }} src="/assets/img/boss1.jpg" />
+                                <Avatar alt="Travis Howard" sx={{ width: 30, height: 30 }} src="/assets/img/boss2.jpg" />
+                                <Avatar alt="Agnes Walker" sx={{ width: 30, height: 30 }} src="/assets/img/boss3.jpg" />
+                                <Avatar alt="Trevor Henderson" sx={{ width: 30, height: 30 }} src="/assets/img/boss1.jpg" />
+                                <Avatar alt="Trevor Henderson" sx={{ width: 30, height: 30 }} src="/assets/img/boss1.jpg" />
                             </AvatarGroup>
-                            <h6 className="text-xl text-white uppercase ml-3">50k+ Happy Customers</h6>
+                            <h6 className="text-xl md:text-sm text-white ml-3 font-albert-sans">50K+ HAPPY CUSTOMERS</h6>
                         </div>
                         <div>
                             <button

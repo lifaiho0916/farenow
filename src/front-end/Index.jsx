@@ -354,17 +354,17 @@ export const Index = (props) => {
         <div className="container flex flex-col items-center justify-between lg:flex-row">
           <div className="flex justify-center items-center mb-5">
             <div className="container">
-              <h3 className="text-2xl leading-normal tracking-widest uppercase  text-black">
-                Easy to Use technology
+              <h3 className="text-2xl leading-normal tracking-widest text-black font-albert-sans">
+                EASY To USE TECHNOLOGY
               </h3>
-              <h1 className="text-5xl tracking-wide uppercase font-bold text-black my-4 max-w-[700px]">
-                Get Everything For Your Business Needs
+              <h1 className="text-5xl tracking-wide font-bold text-black my-4 max-w-[700px] font-albert-sans">
+                GET EVERYTHING FOR YOUR BUSINESS NEEDS
               </h1>
-              <h6 className="text-black text-sx">
+              <h6 className="text-black text-sx font-albert-sans">
                 A Booking Platform for Your Daily Needs.
               </h6>
-              <button className="uppercase bg-gradient-to-r from-[#002A5A] to-[#005BC5] px-5 py-4 rounded-[10px] text-white hover:opacity-75 mt-5">
-                <span className="text-sm leading-loose">Explore our Platform</span>
+              <button className="bg-gradient-to-r from-[#002A5A] to-[#005BC5] px-5 py-4 rounded-[10px] text-white hover:opacity-75 mt-5">
+                <span className="text-sm leading-loose font-albert-sans">EXPLORE OUR PLATFORM</span>
               </button>
             </div>
           </div>
@@ -382,10 +382,10 @@ export const Index = (props) => {
           className="h-fit bg-cover flex flex-col justify-center items-center py-12"
           style={{ backgroundImage: "url('/assets/img/service-bg.png')" }}
         >
-          <h1 className="text-white text-3xl sm:text-4xl text-center tracking-widest leading-snug uppercase max-w-[1050px] mb-5 pt-12 mt-12">
-            Our technology is build for
-            every daily life business owner to go
-            further and faster
+          <h1 className="text-white text-3xl sm:text-4xl text-center tracking-widest leading-snug max-w-[1050px] mb-3 pt-12 mt-12 font-gobold-lowplus">
+            OUR TECHNOLOGY IS BUILD FOR
+            EVERY DAILY LIFE BUSINESS OWNER TO GO
+            FURTHER AND FASTER
           </h1>
           <div className="flex flex-wrap max-w-[1100px] m-5 p-4">
             {SERVICES.map((service) =>
@@ -412,8 +412,8 @@ export const Index = (props) => {
       <section className="py-12 my-6">
         <div className="py-12 my-6">
           <div className="mb-20">
-            <h1 className="text-4xl uppercase font-bold text-center">Deal with <span className="text-[#0068E1]">Professionals</span></h1>
-            <h6 className="text-sm text-center mt-1">For getting best services, check out professional's profile</h6>
+            <h1 className="text-4xl font-bold text-center font-rubik">DEAL WITH <span className="text-[#0068E1]">PROFESSIONALS</span></h1>
+            <h6 className="text-sm text-center mt-1 font-albert-sans">For getting best services, check out professional's profile</h6>
           </div>
           <div className="container flex flex-col items-center justify-between lg:flex-row">
             <div className="d-flex align-items-center justify-content-center relative">
@@ -426,16 +426,16 @@ export const Index = (props) => {
             <div className="flex justify-center items-center max-w-[100%] lg:max-w-[50%]">
               <div className="container">
                 <div className="m-5">
-                  <h2 className="text-3xl uppercase text-black font-bold">
-                    Vetted <span className="text-[#0068E1]">BackGround - checked</span> Professionals
+                  <h2 className="text-3xl text-black tracking-wide font-gobold-lowplus">
+                    VETTED <span className="text-[#0068E1]">BACKGROUND - CHECKED</span> PROFESSIONALS
                   </h2>
-                  <h5 className="leading-normal text-sm text-[#747474] mt-2">Cleaning & handyman tasks booked and paid for directly through the farenow platform are performed by experienced, background-checked professionals who are highly rated by customers like you.</h5>
+                  <h5 className="leading-normal text-sm text-[#747474] mt-2 font-albert-sans">Cleaning & handyman tasks booked and paid for directly through the farenow platform are performed by experienced, background-checked professionals who are highly rated by customers like you.</h5>
                 </div>
                 <div className="m-5">
-                  <h2 className="text-3xl uppercase text-black font-bold">
-                    Your <span className="text-[#0068E1]">happiness</span>, Guaranteed
+                  <h2 className="text-3xl uppercase text-black tracking-wide font-gobold-lowplus">
+                    YOUR <span className="text-[#0068E1]">HAPPINESS</span>, GUARANTEED
                   </h2>
-                  <h5 className="leading-normal text-sm text-[#747474] mt-2">Your happiness is our goal. If you are not happy, we will work to make it right. Our friendly customer service agents are available 24 hours a day, 7 days a week. The Farenow Happiness Guarantee only applies when you book and pay for service directly through the Farenow platform.</h5>
+                  <h5 className="leading-normal text-sm text-[#747474] mt-2 font-albert-sans">Your happiness is our goal. If you are not happy, we will work to make it right. Our friendly customer service agents are available 24 hours a day, 7 days a week. The Farenow Happiness Guarantee only applies when you book and pay for service directly through the Farenow platform.</h5>
                 </div>
               </div>
             </div>
@@ -507,10 +507,10 @@ export const Index = (props) => {
         <div className="container">
           <div className="d-flex flex-wrap space-x-22 sm:space-x-10 flex-lg-nowrap mobileside pt-12 relative">
             <div className="text-white max-w-[100%] lg:max-w-[42%]" style={{ marginTop: "20px" }}>
-              <h1 className="text-white text-5xl font-bold tracking-tight">
+              <h1 className="text-white text-5xl font-bold tracking-tight font-goblod-lowplus">
                 DOWNLOAD THE FRENOW APPLICATION
               </h1>
-              <p className="text-base py-16 pr-[85px] text-white">
+              <p className="text-base py-16 pr-[85px] text-white font-albert-sans">
                 Book and manage appointments, message your pback-layerrofessional, view professional profiles and ratings, see real-time location of your professional and so much more.
               </p>
               <div>
@@ -690,11 +690,11 @@ export const Index = (props) => {
                 <div className="flex justify-center mb-3">
                   <img src={PartnerImg} className="w-[80%] lg:w-auto" />
                 </div>
-                <h3 className="text-base text-dark max-w-[650px] text-center mx-auto">
+                <h3 className="text-base text-dark max-w-[650px] text-center mx-auto font-albert-sans">
                   Farenow works with partners who want to provide their customers, tenants, or employees easy access to quality home services at affordable prices.
                 </h3>
-                <button className="uppercase bg-gradient-to-r from-[#002A5A] to-[#005BC5] px-5 py-3 rounded-[10px] text-white hover:opacity-75 mt-5">
-                  <span className="text-sm leading-loose">Be our partner</span>
+                <button className="bg-gradient-to-r from-[#002A5A] to-[#005BC5] px-5 py-3 rounded-[10px] text-white hover:opacity-75 mt-5">
+                  <span className="text-sm leading-loose font-albert-sans">BE OUR PARTNER</span>
                 </button>
               </div>
             </div>
@@ -723,14 +723,14 @@ export const Index = (props) => {
         <div className="container flex flex-col items-center justify-between lg:flex-row">
           <div className="flex justify-center items-center mb-5 max-w-[100%] lg:max-w-[50%]">
             <div className="container">
-              <h1 className="text-5xl uppercase font-bold text-black my-4">
-                Are You a <span className="text-white bg-[#0068E1] rounded-xl">Five Star</span> Professional?
+              <h1 className="text-5xl font-bold text-black my-4 font-goblod-lowplus">
+                ARE YOU A <span className="text-white bg-[#0068E1] rounded-xl">FIVE STAR</span> PROFESSIONAL?
               </h1>
-              <h6 className="text-black text-sx text-[#747474] leading-normal">
+              <h6 className="text-black text-sx text-[#747474] leading-normal font-albert-sans">
                 From cleaners to handymen to smart home installers, Farenow is always looking for service professionals who are experts in their trade and provide great service to their customers. The best home service professionals use Farenow for the great pay and flexible scheduling.
               </h6>
-              <button className="uppercase bg-gradient-to-r from-[#002A5A] to-[#005BC5] px-5 py-4 rounded-[10px] text-white hover:opacity-75 mt-5">
-                <span className="text-sm leading-loose">Become a farenow pro</span>
+              <button className="bg-gradient-to-r from-[#002A5A] to-[#005BC5] px-5 py-4 rounded-[10px] text-white hover:opacity-75 mt-5">
+                <span className="text-sm leading-loose font-albert-sans">BECOME A FARENOW PRO</span>
               </button>
             </div>
           </div>
