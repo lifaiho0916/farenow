@@ -34,6 +34,7 @@ import ReactPlayer from 'react-player'
 import appliactionMockupImg from "../assets/application_mockup_vol.png"
 import DealwithImg from "../assets/Mask group.png"
 import PartnerImg from "../assets/Partners.png";
+import PopularImage from "../assets/popularServices.png";
 import FiveStarImg from "../assets/Home-screen-pana.png"
 import downloadImage1 from "../assets/Rectangle 4120.png";
 import downloadImage2 from "../assets/Rectangle 4121.png";
@@ -41,6 +42,14 @@ import downloadImage3 from "../assets/Rectangle 4122.png";
 import downloadImage4 from "../assets/Rectangle 4118.png";
 import downloadImage5 from "../assets/Rectangle 4123.png";
 import downloadImage6 from "../assets/Rectangle 4117.png";
+import serviceImage1 from "../assets/service1.png";
+import serviceImage2 from "../assets/service2.png";
+import serviceImage3 from "../assets/service3.png";
+import serviceImage4 from "../assets/service4.png";
+import serviceImage5 from "../assets/service5.png";
+import serviceImage6 from "../assets/service6.png";
+import serviceImage7 from "../assets/service7.png";
+import serviceImage8 from "../assets/service8.png";
 import { SERVICES } from "../constants";
 import ServiceBtn from "./common/ServiceBtn";
 
@@ -398,16 +407,72 @@ export const Index = (props) => {
         </div>
       </section>
 
-      <section className="py-32 bg-gray-50" id={"popular-services"}>
+      <section className="py-32">
         <div className="container">
-          <PopularServices services={headerMenu} />
+          <div className="flex justify-center mb-3 mt-5">
+            <img src={PopularImage} className="w-[80%] lg:w-auto" />
+          </div>
+          <h3 className="text-base text-dark text-center mx-auto font-albert-sans my-3">
+            Explore our top services. All our services are designed with you in mind.
+          </h3>
+          <div className="flex flex-wrap justify-evenly mt-5 max-w-[1420px] pt-5">
+            <div className="relative w-[345px] h-[360px] m-2">
+              <img src={serviceImage1} className="object-cover w-[345px] h-[360px]" />
+              <h3 className="absolute bottom-[20px] left-[20px] text-white font-albert-sans">
+                ACCOUNTING & FINANCE
+              </h3>
+            </div>
+            <div className="relative w-[345px] h-[360px] m-2">
+              <img src={serviceImage2} className="object-cover w-[345px] h-[360px]" />
+              <h3 className="absolute bottom-[20px] left-[20px] text-white font-albert-sans">
+                BUSINESS
+              </h3>
+            </div>
+            <div className="relative w-[345px] h-[360px] m-2">
+              <img src={serviceImage3} className="object-cover w-[345px] h-[360px]" />
+              <h3 className="absolute bottom-[20px] left-[20px] text-white font-albert-sans">
+                CENTRL AIR CONDITIONING
+              </h3>
+            </div>
+            <div className="relative w-[345px] h-[360px] m-2">
+              <img src={serviceImage4} className="object-cover w-[345px] h-[360px]" />
+              <h3 className="absolute bottom-[20px] left-[20px] text-white font-albert-sans">
+                CLEANING SERVICES
+              </h3>
+            </div>
+            <div className="relative w-[345px] h-[360px] m-2">
+              <img src={serviceImage5} className="object-cover w-[345px] h-[360px]" />
+              <h3 className="absolute bottom-[20px] left-[20px] text-white font-albert-sans">
+                ELECTRICAL SERVICES
+              </h3>
+            </div>
+            <div className="relative w-[345px] h-[360px] m-2">
+              <img src={serviceImage6} className="object-cover w-[345px] h-[360px]" />
+              <h3 className="absolute bottom-[20px] left-[20px] text-white font-albert-sans">
+                EVENT ORGANIZE
+              </h3>
+            </div>
+            <div className="relative w-[345px] h-[360px] m-2">
+              <img src={serviceImage7} className="object-cover w-[345px] h-[360px]" />
+              <h3 className="absolute bottom-[20px] left-[20px] text-white font-albert-sans">
+                PROGRMMING & TECH
+              </h3>
+            </div>
+            <div className="relative w-[345px] h-[360px] m-2">
+              <img src={serviceImage8} className="object-cover w-[345px] h-[360px]" />
+              <h3 className="absolute bottom-[20px] left-[20px] text-white font-albert-sans">
+                LIFESTYLE
+              </h3>
+            </div>
+          </div>
+          {/* <PopularServices services={headerMenu} /> */}
         </div>
       </section>
-      <section className="pb-32 bg-gray-50">
+      {/* <section className="pb-32 bg-gray-50">
         <div className="container">
           <PopularProjects projects={projects} />
         </div>
-      </section>
+      </section> */}
 
       <section className="py-12 my-6">
         <div className="py-12 my-6">
