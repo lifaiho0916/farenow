@@ -703,7 +703,7 @@ export const Index = (props) => {
                 <div className="absolute border-[#298CFF] border-dashed border-2 top-0 w-[40%] h-[45%] rounded-[10px] left-0"></div>
                 <div className="absolute border-[#298CFF] border-dashed border-2 bottom-0 w-[40%] h-[45%] rounded-[10px] right-0"></div>
                 <ReactPlayer
-                  url={'/assets/video/video.mp4'}
+                  url={'https://youtube.com/@Fare-Now?si=IeJZF7chogCV4a2J'}
                   width={'100%'}
                   height={'auto'}
                   controls

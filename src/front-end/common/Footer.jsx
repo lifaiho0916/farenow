@@ -575,8 +575,9 @@ const Footer = (props) => {
                 </div>
               </div>
               <div className="row mt-5 pt-2 sm:pt-4">
+                <div className="col-md-1"></div>
                 <div className="col-md-6">
-                  <div className="d-flex align-items-center md:justify-center">
+                  <div className="d-flex">
                     <ul className="footer-link">
                       <div className="font-bold text-2xl text-white">PAGES</div>
                       <li className="item">
@@ -664,42 +665,41 @@ const Footer = (props) => {
                     </ul>
                   </div>
                 </div>
-                <div className="col-md-6">
-                  <div className="d-flex align-items-center md:justify-center">
-                    <ul className="footer-link">
-                      <div className="font-bold text-xl text-2xl text-white">SUPPORT</div>
+                <div className="col-md-5">
+                  <ul className="footer-link">
+                    <div className="font-bold text-xl text-2xl text-white">SUPPORT</div>
 
-                      {allPages &&
-                        allPages.map((page) => (
-                          <li
-                            key={page?.id}
-                            onClick={() => {
-                              window.scrollTo({
-                                top: 0,
-                                left: 0,
-                                behavior: "smooth",
-                              });
-                            }}
-                            className="item"
-                          >
-                            <Link className="link text-white" to={`/page/${page?.slug}`}>
-                              {page?.name}
-                            </Link>
-                          </li>
-                        ))}
-                    </ul>
-                  </div>
+                    {allPages &&
+                      allPages.map((page) => (
+                        <li
+                          key={page?.id}
+                          onClick={() => {
+                            window.scrollTo({
+                              top: 0,
+                              left: 0,
+                              behavior: "smooth",
+                            });
+                          }}
+                          className="item"
+                        >
+                          <Link className="link text-white" to={`/page/${page?.slug}`}>
+                            {page?.name}
+                          </Link>
+                        </li>
+                      ))}
+                  </ul>
                 </div>
               </div>
               <div className="row mt-3">
-                <div className="flex flex-col justify-center items-center m-auto">
+                <div className="col-md-1"></div>
+                <div className="col-md-10">
                   <h1 className="text-3xl text-white font-medium">
                     LETS KEEP YOU UPDATED
                   </h1>
-                  <p className="text-base py-8 pr-3 text-white text-center">
+                  <p className="text-base py-8 pr-3 text-white">
                     Subscribe to our newsletter to get feeds, offers and promos.
                   </p>
-                  <div className="rounded-full bg-primary-light d-flex p-3 items-center">
+                  <div className="rounded-full bg-primary-light d-flex p-3 items-center w-[90%]">
                     <i className="fa fa-envelope-o text-sm mx-3"></i>
                     <input
                       className="text-sm border-none bg-transparent outline-none w-100 p-2"
