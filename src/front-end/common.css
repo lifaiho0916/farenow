@@ -3,3 +3,9 @@
     width: 76% !important;
 }
 } */
+
+.react-player {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16/9;
+}

@@ -173,7 +173,7 @@ const BlogCommon = () => {
             })}
         </Carousel>
       </div> */}
-      <div className="w-[950%] md:w-[90%] mx-auto grid grid-cols-12 gap-8 py-12">
+      <div className="w-[90%] mx-auto grid grid-cols-12 gap-8 py-12">
         {blogs &&
           <>
             <div className="col-span-12 md:col-span-6 bg-[#EAEAEA] rounded-[10px]">

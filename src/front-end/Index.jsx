@@ -770,7 +770,6 @@ export const Index = (props) => {
                 <ReactPlayer
                   url={'https://www.youtube.com/shorts/IJPjZMd6aaI'}
                   className="react-player"
-                  width="100%"
                   controls
                   style={{
                     borderRadius: 20,
