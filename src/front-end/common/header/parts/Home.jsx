@@ -18,7 +18,7 @@ const HeaderHomePart = () => {
         openDownload();
     };
 
-    return <div className="container px-12">
+    return <div className="container px-12 max-w-[1280px]">
         <div className="row">
             <div className="col-12">
                 <div className="banner-sec flex flex-col items-center justify-between lg:flex-row">

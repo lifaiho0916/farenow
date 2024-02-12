@@ -360,7 +360,7 @@ export const Index = (props) => {
       )} */}
 
       <section className="py-12 my-6">
-        <div className="container flex flex-col items-center justify-between lg:flex-row">
+        <div className="container flex flex-col items-center justify-between lg:flex-row max-w-[1300px]">
           <div className="flex justify-center items-center mb-5">
             <div className="container">
               <h3 className="text-2xl leading-normal tracking-widest text-black font-albert-sans">
@@ -408,58 +408,58 @@ export const Index = (props) => {
       </section>
 
       <section className="py-32">
-        <div className="container">
+        <div className="container max-w-[1300px]">
           <div className="flex justify-center mb-3 mt-5">
             <img src={PopularImage} className="w-[80%] lg:w-auto" />
           </div>
           <h3 className="text-base text-dark text-center mx-auto font-albert-sans my-3">
             Explore our top services. All our services are designed with you in mind.
           </h3>
-          <div className="flex flex-wrap justify-evenly mt-5 max-w-[1420px] pt-5">
-            <div className="relative w-[345px] h-[360px] m-2">
-              <img src={serviceImage1} className="object-cover w-[345px] h-[360px]" />
+          <div className="flex flex-wrap justify-evenly mt-5 max-w-[1320px] pt-5">
+            <div className="relative w-[305px] h-[315px] m-2">
+              <img src={serviceImage1} className="object-cover w-[305px] h-[315px]" />
               <h3 className="absolute bottom-[20px] left-[20px] text-white font-albert-sans">
                 ACCOUNTING & FINANCE
               </h3>
             </div>
-            <div className="relative w-[345px] h-[360px] m-2">
-              <img src={serviceImage2} className="object-cover w-[345px] h-[360px]" />
+            <div className="relative w-[305px] h-[315px] m-2">
+              <img src={serviceImage2} className="object-cover w-[305px] h-[315px]" />
               <h3 className="absolute bottom-[20px] left-[20px] text-white font-albert-sans">
                 BUSINESS
               </h3>
             </div>
-            <div className="relative w-[345px] h-[360px] m-2">
-              <img src={serviceImage3} className="object-cover w-[345px] h-[360px]" />
+            <div className="relative w-[305px] h-[315px] m-2">
+              <img src={serviceImage3} className="object-cover w-[305px] h-[315px]" />
               <h3 className="absolute bottom-[20px] left-[20px] text-white font-albert-sans">
                 CENTRL AIR CONDITIONING
               </h3>
             </div>
-            <div className="relative w-[345px] h-[360px] m-2">
-              <img src={serviceImage4} className="object-cover w-[345px] h-[360px]" />
+            <div className="relative w-[305px] h-[315px] m-2">
+              <img src={serviceImage4} className="object-cover w-[305px] h-[315px]" />
               <h3 className="absolute bottom-[20px] left-[20px] text-white font-albert-sans">
                 CLEANING SERVICES
               </h3>
             </div>
-            <div className="relative w-[345px] h-[360px] m-2">
-              <img src={serviceImage5} className="object-cover w-[345px] h-[360px]" />
+            <div className="relative w-[305px] h-[315px] m-2">
+              <img src={serviceImage5} className="object-cover w-[305px] h-[315px]" />
               <h3 className="absolute bottom-[20px] left-[20px] text-white font-albert-sans">
                 ELECTRICAL SERVICES
               </h3>
             </div>
-            <div className="relative w-[345px] h-[360px] m-2">
-              <img src={serviceImage6} className="object-cover w-[345px] h-[360px]" />
+            <div className="relative w-[305px] h-[315px] m-2">
+              <img src={serviceImage6} className="object-cover w-[305px] h-[315px]" />
               <h3 className="absolute bottom-[20px] left-[20px] text-white font-albert-sans">
                 EVENT ORGANIZE
               </h3>
             </div>
-            <div className="relative w-[345px] h-[360px] m-2">
-              <img src={serviceImage7} className="object-cover w-[345px] h-[360px]" />
+            <div className="relative w-[305px] h-[315px] m-2">
+              <img src={serviceImage7} className="object-cover w-[305px] h-[315px]" />
               <h3 className="absolute bottom-[20px] left-[20px] text-white font-albert-sans">
                 PROGRMMING & TECH
               </h3>
             </div>
-            <div className="relative w-[345px] h-[360px] m-2">
-              <img src={serviceImage8} className="object-cover w-[345px] h-[360px]" />
+            <div className="relative w-[305px] h-[315px] m-2">
+              <img src={serviceImage8} className="object-cover w-[305px] h-[315px]" />
               <h3 className="absolute bottom-[20px] left-[20px] text-white font-albert-sans">
                 LIFESTYLE
               </h3>
@@ -475,7 +475,7 @@ export const Index = (props) => {
       </section> */}
 
       <section className="py-12 my-6">
-        <div className="py-12 my-6">
+        <div className="py-12 my-6 max-w-[1280px] mx-auto">
           <div className="mb-20">
             <h1 className="text-4xl font-bold text-center font-rubik">DEAL WITH <span className="text-[#0068E1]">PROFESSIONALS</span></h1>
             <h6 className="text-sm text-center mt-1 font-albert-sans">For getting best services, check out professional's profile</h6>
@@ -569,13 +569,13 @@ export const Index = (props) => {
       {/* <index /> */}
 
       <section className="download-apps bg-gradient-to-r from-[#0050AC] from-10% via-[#001A38] via-20% to-[#001A38] to-95% pt-12">
-        <div className="container">
+        <div className="container max-w-[1280px]">
           <div className="d-flex flex-wrap space-x-22 sm:space-x-10 flex-lg-nowrap mobileside pt-12 relative">
             <div className="text-white max-w-[100%] lg:max-w-[42%]" style={{ marginTop: "20px" }}>
-              <h1 className="text-white text-5xl font-bold tracking-tight font-goblod-lowplus">
+              <h1 className="text-white text-4xl font-bold tracking-tight font-goblod-lowplus">
                 DOWNLOAD THE FRENOW APPLICATION
               </h1>
-              <p className="text-base py-16 pr-[85px] text-white font-albert-sans">
+              <p className="text-sm py-16 pr-[85px] text-white font-albert-sans">
                 Book and manage appointments, message your pback-layerrofessional, view professional profiles and ratings, see real-time location of your professional and so much more.
               </p>
               <div>
@@ -748,7 +748,7 @@ export const Index = (props) => {
         </div>
       </section> */}
       <section className="our-partners-sec pad-y">
-        <div className="container">
+        <div className="container max-w-[1280px]">
           <div className="row">
             <div className="col-md-12">
               <div className="mb-16 text-center">
@@ -768,14 +768,14 @@ export const Index = (props) => {
                 <div className="absolute border-[#298CFF] border-dashed border-2 top-0 w-[40%] h-[45%] rounded-[10px] left-0"></div>
                 <div className="absolute border-[#298CFF] border-dashed border-2 bottom-0 w-[40%] h-[45%] rounded-[10px] right-0"></div>
                 <ReactPlayer
-                  url={'https://youtube.com/@Fare-Now?si=IeJZF7chogCV4a2J'}
-                  width={'100%'}
-                  height={'auto'}
+                  url={'https://www.youtube.com/shorts/IJPjZMd6aaI'}
+                  className="react-player"
+                  width="100%"
                   controls
                   style={{
                     borderRadius: 20,
                     overflow: 'hidden',
-                    zIndex: 10
+                    zIndex: 10,
                   }}
                 />
               </div>
@@ -785,10 +785,10 @@ export const Index = (props) => {
       </section>
 
       <section className="py-5 bg-[#F8FBFF]">
-        <div className="container flex flex-col items-center justify-between lg:flex-row">
+        <div className="container flex flex-col items-center justify-between lg:flex-row max-w-[1280px]">
           <div className="flex justify-center items-center mb-5 max-w-[100%] lg:max-w-[50%]">
             <div className="container">
-              <h1 className="text-5xl font-bold text-black my-4 font-goblod-lowplus">
+              <h1 className="text-4xl font-bold text-black my-4 font-goblod-lowplus">
                 ARE YOU A <span className="text-white bg-[#0068E1] rounded-xl">FIVE STAR</span> PROFESSIONAL?
               </h1>
               <h6 className="text-black text-sx text-[#747474] leading-normal font-albert-sans">

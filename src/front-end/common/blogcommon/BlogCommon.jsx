@@ -60,7 +60,7 @@ const BlogCommon = () => {
   };
 
   return (
-    <div className="bg-white mt-5 pt-5">
+    <div className="bg-white mt-5 pt-5 max-w-[1280px] mx-auto">
       <div className="flex justify-center mt-5 mb-3">
         <img src={BlogImg} className="w-[80%] lg:w-auto" />
       </div>
@@ -173,7 +173,7 @@ const BlogCommon = () => {
             })}
         </Carousel>
       </div> */}
-      <div className="w-[95%] md:w-[80%] mx-auto grid grid-cols-12 gap-8 py-12">
+      <div className="w-[950%] md:w-[90%] mx-auto grid grid-cols-12 gap-8 py-12">
         {blogs &&
           <>
             <div className="col-span-12 md:col-span-6 bg-[#EAEAEA] rounded-[10px]">
